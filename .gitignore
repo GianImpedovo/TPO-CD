@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+# 121 MB: supera el límite de GitHub; se baja con src/descargar_datos.py
+data/raw/evyth_microdatos.csv
+# Material de la cátedra (PDF de clases, consigna y notebook de la Clase 4)
+/*.pdf
+/Clase 4 - *.ipynb
