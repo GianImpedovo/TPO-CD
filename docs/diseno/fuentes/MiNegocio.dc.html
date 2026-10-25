@@ -57,6 +57,14 @@ summary{cursor:pointer}
         </sc-for>
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span id="l-esc" style="font-size: 13px; font-weight: 700; color: var(--muted)">Escenario económico</span>
+          <div role="group" aria-labelledby="l-esc" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--chip); border-radius: 12px">
+            <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
+              <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
+            </sc-for>
+          </div>
+        </div>
         <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px">
           <label for="f-hotel" style="font-size: 13px; font-weight: 700; color: var(--muted)">Hotel</label>
           <select id="f-hotel" value="{{fHotel}}" onChange="{{setHotel}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif">
@@ -136,7 +144,7 @@ summary{cursor:pointer}
             </div>
           </div>
         </div>
-        <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">La proyección por región depende de la temporada y la conectividad aérea; los escenarios económicos aplican al total país. Margen de error habitual: {{errores}}.</p>
+        <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">Cada región responde distinto a la economía. Margen de error habitual: {{errores}}.</p>
       </div>
       <div style="flex: 1 1 200px; max-width: 260px; display: flex; flex-direction: column; gap: 10px">
         <dc-import name="MapaArgentina" datos="{{mapa}}" hint-size="100%,500px"></dc-import>
@@ -246,7 +254,7 @@ class Component extends DCLogic {
     var cadena = 'andina', region = 'todas';
     try { cadena = window.localStorage.getItem('pt_cadena') || 'andina'; } catch (e) {}
     try { var r = window.localStorage.getItem('pt_region'); if (r) region = r; } catch (e) {}
-    this.state = { cadena: cadena, mes: 0, hotel: 'todos', region: region, sens: 0.5, tope: 25, abierto: null, precios: {} };
+    this.state = { cadena: cadena, mes: 0, hotel: 'todos', region: region, sens: 0.5, tope: 25, abierto: null, precios: {}, esc: 'Base' };
   }
   renderVals() {
     var self = this, st = this.state;
@@ -254,15 +262,15 @@ class Component extends DCLogic {
     var MES_C = ['Nov', 'Dic', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'];
     var DIAS = [30, 31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31];
     // Viajeros proyectados por región (RF regional, nov-2026 a oct-2027) y desvío contra lo normal del mes (%)
-    var REG = {
-      'Buenos Aires': { v: [182600,174900,322200,247300,168400,113600,71700,86200,110600,95000,115500,128700], dv: [-0.2,-11.8,-6.6,-13.7,-14.0,-12.1,-21.3,-6.4,-2.4,-7.8,-14.6,-15.5], err: '10,3' },
-      'CABA': { v: [200400,152100,120200,128400,163100,149900,142000,145100,200600,154200,160300,173300], dv: [-1.9,-11.3,-17.2,-14.3,-9.5,-10.3,-17.9,-13.0,-3.2,-13.4,-11.5,-7.6], err: '7,9' },
-      'Cuyo': { v: [114100,80400,113400,101900,100400,92000,81900,84600,139500,103700,100800,101400], dv: [3.1,-9.3,-6.4,-10.1,-12.5,-11.9,-19.6,-20.7,-7.1,-8.9,-15.3,-11.3], err: '10,8' },
-      'Córdoba': { v: [232900,198300,286900,311400,213600,167600,134300,161600,244100,192300,186100,207200], dv: [15.1,17.1,6.9,20.2,13.3,12.7,0.3,8.2,14.2,20.5,8.9,7.2], err: '8,2' },
-      'Litoral': { v: [201100,178800,232500,212500,207900,184600,171100,171800,229200,185000,183700,208300], dv: [-0.3,4.5,7.6,1.5,5.3,1.2,-7.2,-7.9,1.7,-4.7,-9.0,-3.3], err: '8,8' },
-      'Norte': { v: [154600,106600,135600,132300,145000,150100,139000,155100,268900,160000,167100,168700], dv: [6.7,-1.5,-3.6,-7.2,-0.9,0.6,-12.9,-11.3,-0.8,-10.8,-6.5,-1.7], err: '8,9' },
-      'Patagonia': { v: [271500,222800,324100,269200,229100,195000,136500,163300,259500,237500,240300,249500], dv: [10.7,-5.9,-4.2,-4.7,-10.0,-8.0,-16.5,-7.1,3.0,-1.9,-4.4,-2.2], err: '8,8' }
+    var ERR = { 'Buenos Aires': '10,5', 'CABA': '7,4', 'Cuyo': '10,9', 'Córdoba': '8,4', 'Litoral': '7,7', 'Norte': '9,1', 'Patagonia': '9,1' };
+    var REGE = {
+      Base: {'Buenos Aires':{v:[185800,184400,327700,252900,182200,120000,85100,90000,114400,101500,119700,135100],dv:[-0.1,0.5,-0.7,-1.3,1.5,-1.8,-1.4,0.8,-0.7,0.2,0.7,-1.9]},'CABA':{v:[211000,168000,129700,139500,180400,165900,166600,159800,212000,173300,181100,192600],dv:[1.5,3.4,2.3,3.2,2.6,1.3,-0.6,1.5,1.7,1.5,2.3,2.6]},'Cuyo':{v:[112800,80900,116300,106100,106900,97300,97000,88000,143100,111000,108400,104600],dv:[1.3,1.0,2.3,2.3,3.1,0.8,0.8,2.3,2.5,3.1,4.0,3.0]},'Córdoba':{v:[222400,186500,275500,289200,204600,159600,143900,151800,227100,184600,176600,192900],dv:[2.1,4.3,4.4,3.1,4.6,2.3,1.9,3.2,2.4,2.2,2.2,3.0]},'Litoral':{v:[201600,184300,231300,212100,212700,188100,192100,172300,229400,192100,192400,214700],dv:[-0.4,2.2,-0.1,-2.1,-0.7,-2.5,-2.4,-1.2,-1.7,-1.3,0.3,-0.6]},'Norte':{v:[153800,108900,139100,136700,149200,156500,157700,158100,270900,170700,178200,173100],dv:[2.0,4.3,1.9,2.5,3.2,1.1,0.8,2.8,2.3,2.5,3.8,2.7]},'Patagonia':{v:[270900,226100,335700,283200,243100,206600,157100,165800,259700,249900,250600,252400],dv:[2.3,4.3,1.9,2.2,2.7,1.6,0.6,3.1,3.7,2.9,2.6,3.0]}},
+      Optimista: {'Buenos Aires':{v:[194900,199400,360100,286200,204600,142300,93900,98400,128200,114700,134800,152200],dv:[4.8,8.7,9.1,11.6,13.9,16.4,8.8,10.2,11.3,13.2,13.4,10.4]},'CABA':{v:[220300,181400,140900,150000,199800,191100,185100,177500,236000,193700,200300,206600],dv:[5.9,11.6,11.1,11.0,13.6,16.7,10.5,12.7,13.2,13.4,13.1,10.0]},'Cuyo':{v:[116200,87700,123200,111700,112900,108500,103400,92900,149600,116600,112400,110100],dv:[4.4,9.6,8.4,7.7,8.9,12.4,7.5,8.1,7.1,8.3,7.9,8.4]},'Córdoba':{v:[230700,197900,289300,317400,221500,180600,155000,164400,250200,207100,199200,208600],dv:[5.9,10.7,9.7,13.1,13.3,15.7,9.7,11.7,12.8,14.6,15.3,11.3]},'Litoral':{v:[213800,199300,265400,255600,251600,230800,224700,198400,267200,219800,214900,235900],dv:[5.6,10.5,14.6,18.0,17.5,19.7,14.1,13.8,14.5,12.9,12.1,9.1]},'Norte':{v:[158600,114800,152000,150000,166200,182700,171700,170100,296900,185400,190000,185500],dv:[5.2,9.9,11.3,12.5,15.0,18.0,9.8,10.6,12.1,11.3,10.7,10.1]},'Patagonia':{v:[276800,236000,357100,303700,268700,234500,170400,177700,276900,271200,276100,268500],dv:[4.5,8.9,8.4,9.6,13.5,15.4,9.2,10.5,10.6,11.7,13.0,9.5]}},
+      Pesimista: {'Buenos Aires':{v:[179700,174000,312600,238400,167900,113600,79700,85100,108000,95400,112600,129100],dv:[-3.4,-5.2,-5.3,-7.0,-6.5,-7.1,-7.7,-4.7,-6.2,-5.9,-5.2,-6.3]},'CABA':{v:[202300,154300,120800,128700,166000,154400,153300,147200,195900,160700,167400,178400],dv:[-2.7,-5.0,-4.8,-4.8,-5.6,-5.7,-8.5,-6.5,-6.0,-5.9,-5.4,-5.0]},'Cuyo':{v:[108700,76000,108400,97400,96900,90100,88600,80500,133400,102100,99200,96700],dv:[-2.4,-5.1,-4.6,-6.1,-6.6,-6.6,-8.0,-6.4,-4.5,-5.2,-4.8,-4.8]},'Córdoba':{v:[217000,177300,261200,272000,187600,151200,136800,141300,215700,176000,168900,185200],dv:[-0.4,-0.8,-1.0,-3.1,-4.0,-3.1,-3.2,-3.9,-2.7,-2.6,-2.2,-1.1]},'Litoral':{v:[196700,173000,219400,204800,202000,181700,181600,164200,219300,183500,181200,205900],dv:[-2.8,-4.0,-5.3,-5.4,-5.7,-5.8,-7.8,-5.8,-6.1,-5.7,-5.5,-4.7]},'Norte':{v:[147900,101300,131000,125000,135200,145200,146500,148000,254600,160500,166300,163100],dv:[-1.9,-3.0,-4.1,-6.3,-6.5,-6.2,-6.4,-3.8,-3.9,-3.7,-3.1,-3.2]},'Patagonia':{v:[261300,211900,320100,261500,222600,192400,147700,156700,244000,236700,239100,240400],dv:[-1.4,-2.3,-2.8,-5.7,-6.0,-5.4,-5.4,-2.6,-2.6,-2.5,-2.1,-1.9]}}
     };
+    var esc = REGE[st.esc] ? st.esc : 'Base';
+    var REG = {};
+    Object.keys(REGE[esc]).forEach(function (r) { REG[r] = { v: REGE[esc][r].v, dv: REGE[esc][r].dv, err: ERR[r] }; });
     // Cadenas ficticias de demostración (data/cadenas_demo.json)
     var CAD = {
       andina: { nombre: 'Cadena Andina', ini: 'CA', hoteles: [
@@ -384,6 +392,11 @@ class Component extends DCLogic {
         var on = i === m;
         return { corto: c + ' ' + MES_L[i].slice(-2), ini: c, pressed: on ? 'true' : 'false', pick: function () { self.setState({ mes: i }); },
           estilo: 'flex: none; min-height: 44px; min-width: 64px; padding: 0 12px; border-radius: 10px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; border: 1px solid ' + (on ? 'var(--accent)' : 'var(--line)') + '; background: ' + (on ? 'var(--accent)' : 'var(--card)') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+      }),
+      escenarios: ['Optimista', 'Base', 'Pesimista'].map(function (n) {
+        var on = n === esc;
+        return { nombre: n, pressed: on ? 'true' : 'false', pick: function () { self.setState({ esc: n }); },
+          estilo: 'min-height: 36px; padding: 0 14px; border: 0; border-radius: 9px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; background: ' + (on ? 'var(--accent)' : 'transparent') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
       }),
       opHoteles: [{ v: 'todos', t: 'Todos los hoteles' }].concat(cad.hoteles.map(function (h) { return { v: h.id, t: h.nombre }; })),
       opRegiones: [{ v: 'todas', t: 'Todas mis regiones' }].concat(regionesCadena.map(function (r) { return { v: r, t: r }; })),

@@ -42,9 +42,19 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
   </nav>
 
   <main style="flex: 999 1 560px; min-width: 0; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
-    <header style="display: flex; flex-direction: column; gap: 6px">
-      <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Próximos 12 meses · nov 2026 – oct 2027</span>
-      <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Adónde va a viajar la gente?</h1>
+    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Próximos 12 meses · nov 2026 – oct 2027</span>
+        <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Adónde va a viajar la gente?</h1>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end">
+        <div role="group" aria-label="Escenario económico" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; background: var(--chip); border-radius: 12px">
+          <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
+          </sc-for>
+        </div>
+        <span style="font-size: 12px; color: var(--muted)">Cada región responde distinto a la economía</span>
+      </div>
     </header>
 
     <section aria-labelledby="t-mapa" style="background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; gap: 32px">
@@ -53,7 +63,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
         <sc-if value="{{tip.show}}" hint-placeholder-val="{{false}}">
           <div style="{{tip.pos}}">
             <span style="font-family: 'Archivo', sans-serif; font-size: 18px; font-weight: 800">{{tip.nombre}}</span>
-            <span style="font-size: 13px; opacity: 0.85">{{tip.frase}}</span>
+            <span style="font-size: 13px; opacity: 0.85">{{tip.frase}} · escenario {{tip.esc}}</span>
             <div style="display: grid; grid-template-columns: auto auto; gap: 4px 14px; font-size: 13px; margin-top: 6px">
               <span style="opacity: 0.8">Próximos 12 meses</span><span style="font-weight: 800; text-align: right">{{tip.total}}</span>
               <span style="opacity: 0.8">Verano 2027</span><span style="font-weight: 800; text-align: right">{{tip.verano}}</span>
@@ -105,11 +115,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
           <h2 id="t-curva" style="margin: 0; font-size: 22px; font-weight: 800">Todo el país, mes a mes</h2>
           <span style="font-size: 14px; color: var(--muted)">Cómo cambia el total si la economía mejora o empeora</span>
         </div>
-        <div role="group" aria-label="Escenario económico" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; background: var(--chip); border-radius: 12px">
-          <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
-            <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
-          </sc-for>
-        </div>
+        <span style="{{k.estiloEsc}}">Escenario {{k.esc}}</span>
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: center">
         <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 6px">
@@ -162,15 +168,12 @@ class Component extends DCLogic {
     var CAD = { andina: { ini: 'CA', nombre: 'Cadena Andina', detalle: '4 hoteles · datos ficticios' }, pampa: { ini: 'GP', nombre: 'Grupo Pampa Hoteles', detalle: '2 hoteles · datos ficticios' } };
 
     // RF regional: nov-2026 a oct-2027 (total, verano 2027, mes pico, variación contra los 12 meses previos)
-    var R = {
-      'Buenos Aires': { t: 1817000, ver: 569000, pico: 1, v: -0.5 },
-      'CABA': { t: 1890000, ver: 249000, pico: 7, v: 1.3 },
-      'Cuyo': { t: 1214000, ver: 215000, pico: 7, v: 0.0 },
-      'Córdoba': { t: 2536000, ver: 598000, pico: 2, v: 3.3 },
-      'Litoral': { t: 2367000, ver: 445000, pico: 1, v: 0.5 },
-      'Norte': { t: 1883000, ver: 268000, pico: 7, v: 1.8 },
-      'Patagonia': { t: 2798000, ver: 593000, pico: 1, v: 1.6 }
+    var RE = {
+      Base: { 'Buenos Aires': { t: 1899000, ver: 581000, pico: 1, v: -0.2 }, 'CABA': { t: 2080000, ver: 269000, pico: 7, v: 1.3 }, 'Cuyo': { t: 1272000, ver: 222000, pico: 7, v: 1.0 }, 'Córdoba': { t: 2415000, ver: 565000, pico: 2, v: 1.4 }, 'Litoral': { t: 2423000, ver: 443000, pico: 1, v: -0.2 }, 'Norte': { t: 1953000, ver: 276000, pico: 7, v: 1.2 }, 'Patagonia': { t: 2901000, ver: 619000, pico: 1, v: 1.2 } },
+      Optimista: { 'Buenos Aires': { t: 2110000, ver: 646000, pico: 1, v: 6.0 }, 'CABA': { t: 2283000, ver: 291000, pico: 7, v: 6.7 }, 'Cuyo': { t: 1345000, ver: 235000, pico: 7, v: 4.4 }, 'Córdoba': { t: 2622000, ver: 607000, pico: 2, v: 6.5 }, 'Litoral': { t: 2777000, ver: 521000, pico: 7, v: 7.2 }, 'Norte': { t: 2124000, ver: 302000, pico: 7, v: 6.3 }, 'Patagonia': { t: 3117000, ver: 661000, pico: 1, v: 5.6 } },
+      Pesimista: { 'Buenos Aires': { t: 1796000, ver: 551000, pico: 1, v: -3.1 }, 'CABA': { t: 1930000, ver: 250000, pico: 11, v: -2.7 }, 'Cuyo': { t: 1178000, ver: 206000, pico: 7, v: -3.0 }, 'Córdoba': { t: 2290000, ver: 533000, pico: 2, v: -1.3 }, 'Litoral': { t: 2313000, ver: 424000, pico: 1, v: -2.6 }, 'Norte': { t: 1825000, ver: 256000, pico: 7, v: -2.3 }, 'Patagonia': { t: 2734000, ver: 582000, pico: 1, v: -1.8 } }
     };
+    var R = RE[st.esc];
     var BINS = [
       { max: 1500000, color: '#DCEAFE', texto: '< 1,5 M' },
       { max: 2000000, color: '#93BBFA', texto: '1,5–2 M' },
@@ -183,7 +186,7 @@ class Component extends DCLogic {
     Object.keys(R).forEach(function (r) {
       var d = R[r];
       var frase = d.v >= 1 ? 'Viene creciendo frente al año anterior' : d.v <= -1 ? 'Viene un poco por debajo del año anterior' : 'Parecido al año anterior';
-      info[r] = { nombre: r, total: mil(d.t), verano: mil(d.ver), pico: MESES[d.pico - 1].charAt(0).toUpperCase() + MESES[d.pico - 1].slice(1), var: pct(d.v), frase: frase };
+      info[r] = { nombre: r, total: mil(d.t), verano: mil(d.ver), pico: MESES[d.pico - 1].charAt(0).toUpperCase() + MESES[d.pico - 1].slice(1), var: pct(d.v), frase: frase, esc: st.esc.toLowerCase() };
       colores[r] = colorDe(d.t);
     });
     var sel = info[st.sel] ? st.sel : 'Patagonia';
@@ -246,7 +249,8 @@ class Component extends DCLogic {
       banda: banda(s, 33, 45, 0.06), banda2: banda(s, 45, 59, 0.12),
       colorEsc: 'stroke: ' + colorVar,
       hoy: X(33.8).toFixed(1), xReal: X(11).toFixed(1), xPuente: X(27.5).toFixed(1), xPron: X(39.5).toFixed(1), xTend: X(52).toFixed(1),
-      k: { total: mil(total), frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(Math.round(dv)) + ' % frente a los 12 meses anteriores',
+      k: { total: mil(total), esc: st.esc.toLowerCase(),
+        estiloEsc: 'padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; background: var(--chip); color: ' + colorVar, frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(Math.round(dv)) + ' % frente a los 12 meses anteriores',
         estiloVar: 'align-self: flex-start; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; background: var(--chip); color: ' + colorVar }
     };
   }
