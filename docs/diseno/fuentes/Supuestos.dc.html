@@ -46,7 +46,7 @@ input[type=range]{accent-color:var(--accent)}
     <header style="display: flex; flex-direction: column; gap: 6px; max-width: 720px">
       <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Todo el país · próximos 12 meses</span>
       <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Y si la economía cambia?</h1>
-      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--muted)">Elegí un escenario o mové los controles. Aplica al total país: la proyección por región depende de la temporada y la conectividad aérea.</p>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--muted)">Elegí un escenario o mové los controles. Aplica al total país y a cada región: cada región responde distinto a la economía.</p>
     </header>
 
     <section aria-label="Escenarios" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 14px">
@@ -119,9 +119,9 @@ class Component extends DCLogic {
     var CAD = { andina: { ini: 'CA', nombre: 'Cadena Andina', detalle: '4 hoteles · datos ficticios' }, pampa: { ini: 'GP', nombre: 'Grupo Pampa Hoteles', detalle: '2 hoteles · datos ficticios' } };
     // src/modelos.py ESCENARIOS y resultado nacional nov-2026 a oct-2027
     var ESC = {
-      Optimista: { v: { sal: 5, inf: 20, des: -0.5, tcr: 0, emae: 4 }, total: '15,9 M', frase: 'Crece 4 % frente al año anterior', txt: 'Sueldos que rinden más y economía creciendo', tipo: 'arriba' },
-      Base: { v: { sal: 0, inf: 30, des: 0, tcr: 0, emae: 2 }, total: '15,3 M', frase: 'Crece 2 % frente al año anterior', txt: 'Todo sigue más o menos como hoy', tipo: 'plano' },
-      Pesimista: { v: { sal: -10, inf: 80, des: 1.5, tcr: 15, emae: -3 }, total: '13,7 M', frase: 'Cae 4 % frente al año anterior', txt: 'Sueldos que alcanzan menos e inflación alta', tipo: 'abajo' }
+      Optimista: { v: { sal: 5, inf: 20, des: -0.5, tcr: 0, emae: 4 }, total: '15,9 M', frase: 'Crece 7,7 % frente a los últimos 12 meses', txt: 'Sueldos que rinden más y economía creciendo', tipo: 'arriba' },
+      Base: { v: { sal: 0, inf: 30, des: 0, tcr: 0, emae: 2 }, total: '15,0 M', frase: 'Crece 1,6 % frente a los últimos 12 meses', txt: 'Todo sigue más o menos como hoy', tipo: 'plano' },
+      Pesimista: { v: { sal: -10, inf: 80, des: 1.5, tcr: 15, emae: -3 }, total: '13,7 M', frase: 'Cae 6,8 % frente a los últimos 12 meses', txt: 'Sueldos que alcanzan menos e inflación alta', tipo: 'abajo' }
     };
     var actual = null;
     Object.keys(ESC).forEach(function (n) { var v = ESC[n].v; if (v.sal === st.sal && v.inf === st.inf && v.des === st.des && v.tcr === st.tcr && v.emae === st.emae) actual = n; });

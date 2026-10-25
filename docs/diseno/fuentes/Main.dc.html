@@ -145,7 +145,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
           </svg>
         </div>
       </div>
-      <p style="margin: 0; font-size: 13px; color: var(--muted)">Los picos son enero (verano) y julio (vacaciones de invierno). La franja muestra el margen habitual (± 6 %); más allá de octubre 2027 es solo tendencia.</p>
+      <p style="margin: 0; font-size: 13px; color: var(--muted)">Los picos son enero (verano) y julio (vacaciones de invierno). La franja muestra el margen habitual (± 5,9 %); más allá de octubre 2027 es solo tendencia.</p>
     </section>
   </main>
 </div>
@@ -204,9 +204,9 @@ class Component extends DCLogic {
     // Serie nacional: real ene-2024..nov-2025, luego modelo nacional por escenario (dic-2025..dic-2028)
     var H = [1482828,1358641,1224165,980909,871390,973632,1341532,1097696,1164397,1268423,1264323,1106419,1531958,1403042,1250236,1089542,1000810,968940,1433612,1164506,1180520,1244191,1341549];
     var P = {
-      Optimista: [1151186,1591609,1459286,1306262,1139347,1046266,1012067,1493799,1213159,1228644,1293445,1396424,1197765,1653583,1517784,1364799,1191429,1093786,1057114,1556513,1263844,1278730,1344648,1453543,1246228,1717970,1578628,1425958,1245892,1143465,1104167,1621859,1316647,1330858,1397879,1512999,1296652],
-      Base: [1129904,1562383,1432477,1279873,1114411,1025924,995021,1469209,1189278,1202026,1265681,1367621,1153887,1593412,1462529,1310212,1139847,1051668,1021803,1505689,1214577,1223923,1287541,1394200,1178380,1625057,1493211,1341270,1165863,1078058,1049307,1543075,1240414,1246219,1309779,1421296,1203392],
-      Pesimista: [1072663,1463039,1339923,1194274,1040992,959978,931627,1381546,1123179,1139819,1204710,1299734,1039936,1397221,1279643,1140816,994606,920813,895751,1331372,1083319,1100521,1166481,1259223,1008208,1334364,1222075,1089752,950287,883245,861257,1283019,1044874,1062578,1129466,1219974,977448]
+      Optimista: [1142988,1592179,1461737,1307735,1141820,1047218,1011121,1488042,1207356,1221940,1284846,1386290,1180767,1654766,1522887,1367878,1196607,1095778,1055138,1544539,1251783,1264814,1326830,1432522,1219794,1719815,1586595,1430786,1254022,1146589,1101071,1603181,1297845,1309192,1370185,1480297,1260110],
+      Base: [1118051,1543106,1412841,1261125,1095996,1008817,982259,1452537,1175748,1188168,1250683,1351876,1129805,1554336,1422709,1272108,1102488,1016887,995761,1471711,1187099,1195865,1257208,1362282,1141682,1565647,1432646,1283188,1109018,1025023,1009448,1491139,1198559,1203612,1263768,1372768,1153685],
+      Pesimista: [1073813,1469533,1345638,1198841,1044613,963409,934377,1384335,1125108,1141740,1205425,1301469,1042168,1409652,1290583,1149559,1001538,927406,901046,1336753,1087043,1104234,1167866,1262587,1011456,1352210,1237780,1102303,960238,892748,868905,1290805,1050266,1067960,1131478,1224866,981648]
     };
     var X = function (i) { return 40 + i * (950 / 59); };
     var Y = function (v) { return 20 + (1800000 - v) / 1000000 * 280; };
@@ -217,7 +217,7 @@ class Component extends DCLogic {
     var s = serie(st.esc);
     var otras = ['Optimista', 'Base', 'Pesimista'].filter(function (n) { return n !== st.esc; });
     var total = 0; for (var i = 34; i <= 45; i++) total += s[i];
-    var prev = 0; for (var j = 22; j <= 33; j++) prev += s[j];
+    var prev = 14715325; // últimos 12 meses reales (dic-2024 a nov-2025)
     var dv = (total / prev - 1) * 100;
     var colorVar = { Optimista: 'var(--opt)', Base: 'var(--ink)', Pesimista: 'var(--pes)' }[st.esc];
 
@@ -246,11 +246,11 @@ class Component extends DCLogic {
         real: tramo(s, 0, 22), puente: tramo(s, 22, 33), pron: tramo(s, 33, 45), tend: tramo(s, 45, 59),
         otra1: tramo(serie(otras[0]), 33, 59), otra2: tramo(serie(otras[1]), 33, 59)
       },
-      banda: banda(s, 33, 45, 0.06), banda2: banda(s, 45, 59, 0.12),
+      banda: banda(s, 33, 45, 0.059), banda2: banda(s, 45, 59, 0.12),
       colorEsc: 'stroke: ' + colorVar,
       hoy: X(33.8).toFixed(1), xReal: X(11).toFixed(1), xPuente: X(27.5).toFixed(1), xPron: X(39.5).toFixed(1), xTend: X(52).toFixed(1),
       k: { total: mil(total), esc: st.esc.toLowerCase(),
-        estiloEsc: 'padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; background: var(--chip); color: ' + colorVar, frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(Math.round(dv)) + ' % frente a los 12 meses anteriores',
+        estiloEsc: 'padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; background: var(--chip); color: ' + colorVar, frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(dv).toFixed(1).replace('.', ',') + ' % frente a los últimos 12 meses reales',
         estiloVar: 'align-self: flex-start; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; background: var(--chip); color: ' + colorVar }
     };
   }
