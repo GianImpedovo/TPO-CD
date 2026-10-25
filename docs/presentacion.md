@@ -46,16 +46,16 @@ Las imágenes salen de los notebooks y ya están en `docs/img/`.
 - **Qué decir:** «Somos el equipo de datos de la cadena. Cada verano decidimos precios, personal, cupos y promociones mirando el verano anterior. Hoy les mostramos cómo anticipar cuántos viajeros vamos a tener según cómo venga la economía.»
 - **Imagen:** ninguna (portada).
 
-### Diapositiva 2 — «Para el verano 2027 esperamos unos 3,06 millones de viajeros; si la economía empeora, 2,68 millones»
+### Diapositiva 2 — «Para el verano 2027 esperamos unos 2,98 millones de viajeros; si la economía empeora, 2,70 millones»
 - **Contenido:** los tres escenarios de enero + febrero 2027 (viajeros residentes en hoteles y parahoteles de todo el país):
 
   | Escenario | Viajeros enero + febrero 2027 |
   |---|---|
-  | Optimista | ≈ 3,17 millones |
-  | Base | ≈ 3,06 millones |
-  | Pesimista | ≈ 2,68 millones |
+  | Optimista | ≈ 3,18 millones |
+  | Base | ≈ 2,98 millones |
+  | Pesimista | ≈ 2,70 millones |
 
-- **Qué decir:** «Esta es la conclusión. En el escenario base, el verano 2027 tiene alrededor de 3,06 millones de viajeros residentes en hoteles. Si el salario real cae y la inflación se acelera, son unos 380 mil viajeros menos: un 12 % por debajo del escenario base. Esa diferencia es la que hay que tener planificada antes de fijar tarifas y contratar temporada.»
+- **Qué decir:** «Esta es la conclusión. En el escenario base, el verano 2027 tiene alrededor de 2,98 millones de viajeros residentes en hoteles. Si el salario real cae y la inflación se acelera, son unos 280 mil viajeros menos: un 9 % por debajo del escenario base. Esa diferencia es la que hay que tener planificada antes de fijar tarifas y contratar temporada.»
 - **Imagen:** `docs/img/proyeccion_escenarios.png`.
 
 ### Diapositiva 3 — «El problema: cada verano se planifica mirando el anterior»
@@ -108,22 +108,22 @@ Las imágenes salen de los notebooks y ya están en `docs/img/`.
 - **Qué decir:** «Primero intentamos predecir directamente la cantidad de viajeros, y el modelo perdía contra la regla de "mismo mes del año pasado". Aprendimos algo: esa regla ya captura muy bien la temporada. Entonces le preguntamos al modelo solo lo que la regla no sabe: si este año la economía empuja para arriba o para abajo respecto del año pasado.»
 - **Imagen:** esquema simple con la fórmula (puede armarse en la diapositiva).
 
-### Diapositiva 9 — «Random Forest se equivoca un 6 % en promedio y le gana a la regla actual»
+### Diapositiva 9 — «Random Forest se equivoca un 5,9 % en promedio y le gana a la regla actual»
 - **Contenido:** error promedio (MAPE) de cada modelo en la prueba año por año:
 
   | Modelo | Error promedio |
   |---|---|
-  | Random Forest (elegido) | 6,0 % |
+  | Random Forest (elegido, con restricciones de sentido) | 5,9 % |
   | Regla «mismo mes del año anterior» | 6,3 % |
   | Gradient Boosting | 6,3 % |
   | Árbol de decisión | 6,6 % |
   | Regresión lineal | 8,9 % |
 
-- **Qué decir:** «Probamos cinco modelos como si estuviéramos en el pasado: para cada año, el modelo solo vio los años anteriores y tuvo que adivinar ese año. Nunca le mostramos el futuro. El Random Forest se equivoca en promedio un 6 % en la cantidad de viajeros del mes. Elegimos ese porque es el más preciso y porque promedia cientos de árboles, así que es más estable que un árbol solo.»
+- **Qué decir:** «Probamos cinco modelos como si estuviéramos en el pasado: para cada año, el modelo solo vio los años anteriores y tuvo que adivinar ese año. Nunca le mostramos el futuro. El Random Forest se equivoca en promedio un 5,9 % en la cantidad de viajeros del mes. Elegimos ese porque es el más preciso y porque promedia cientos de árboles, así que es más estable que un árbol solo. Además le exigimos que respete el sentido esperado: más salario o más actividad nunca restan viajeros; más inflación o más desempleo nunca suman.»
 - **Imagen:** `docs/img/mape_por_modelo.png`.
 
 ### Diapositiva 10 — «Donde más aporta es en los años de crisis»
-- **Contenido:** error por año, Random Forest contra la regla actual: 2018 → 3,5 % contra 5,2 %; 2019 → 2,6 % contra 4,0 %; 2024 → 14,4 % contra 14,8 %; 2025 → 3,8 % contra 4,8 %. Excepción: 2023 → 7,9 % contra 5,7 %.
+- **Contenido:** error por año, Random Forest contra la regla actual: 2018 → 3,0 % contra 5,2 %; 2019 → 3,2 % contra 4,0 %; 2024 → 13,3 % contra 14,8 %; 2025 → 4,3 % contra 4,8 %. Excepción: 2023 → 7,2 % contra 5,7 %.
 - **Qué decir:** «En 2018 y 2019, con devaluación y caída del salario, el modelo le erró bastante menos que la regla. En 2023 perdió: ese año el programa PreViaje subsidió viajes y empujó la demanda por encima de lo que explicaba la economía. El modelo no conoce los subsidios; es una limitación que decimos con claridad.»
 - **Imagen:** `docs/img/real_vs_modelo_2023_2025.png`.
 
@@ -144,7 +144,7 @@ Las imágenes salen de los notebooks y ya están en `docs/img/`.
 
 ### Diapositiva 12 — Demostración en vivo de la app (sin diapositiva: pantalla de la app)
 - **Contenido:** `streamlit run app/app.py`, ya abierta antes de empezar.
-  1. Pestaña **Proyección de demanda**: mostrar el escenario base, cambiar a pesimista y mover el control de actividad económica (es el que más pesa: de +2 % a −3 % baja el verano ≈ 8 %); el número del verano cambia en el momento. No usar el de salario real solo para la demo: por sí solo casi no mueve la proyección (ver preguntas).
+  1. Pestaña **Proyección de demanda**: mostrar el escenario base, cambiar a pesimista y mover el control de actividad económica (es el que más pesa: de +2 % a −3 % baja el verano ≈ 5 %); el número del verano cambia en el momento. No usar el de salario real solo para la demo: por sí solo casi no mueve la proyección (ver preguntas).
   2. Pestaña **¿Qué turistas van a hotel?**: elegir un perfil (por ejemplo, viaje de trabajo en avión) y ver la probabilidad de hotel.
   3. Mencionar que la pestaña **Cómo funciona** explica el modelo en palabras simples.
 - **Qué decir:** «Esto es lo que se lleva la gerencia: elige un escenario o mueve las variables y ve cuántos viajeros esperar. Funciona en una computadora sin internet.»
@@ -157,13 +157,13 @@ Las imágenes salen de los notebooks y ya están en `docs/img/`.
 **Integrante 6.** Cierra respondiendo la hipótesis.
 
 ### Diapositiva 13 — «Sí: el contexto económico permite anticipar el verano con un rango concreto»
-- **Contenido:** la hipótesis y la respuesta. El escenario base da ≈ 3,06 millones de viajeros en enero + febrero 2027, el pesimista ≈ 2,68 millones y el optimista ≈ 3,17 millones. El modelo se equivoca menos que la regla actual, sobre todo en años de crisis.
+- **Contenido:** la hipótesis y la respuesta. El escenario base da ≈ 2,98 millones de viajeros en enero + febrero 2027, el pesimista ≈ 2,70 millones y el optimista ≈ 3,18 millones. El modelo se equivoca menos que la regla actual, sobre todo en años de crisis.
 - **Qué decir:** «Volvemos a la hipótesis: la demanda de verano se puede anticipar a partir de la economía de los hogares. Lo comprobamos probando el modelo contra años que no conocía. Y el valor no es un número exacto, es el rango: sabemos cuánto puede bajar la demanda si la economía empeora.»
 - **Imagen:** `docs/img/proyeccion_escenarios.png` (la misma de la diapositiva 2, para cerrar el círculo).
 
 ### Diapositiva 14 — «Qué hacer con esto»
 - **Contenido:** recomendaciones (análisis prescriptivo):
-  1. **Planificar sobre el escenario base y tener listo el pesimista:** contratar personal de temporada y negociar cupos para ≈ 3,06 millones, con un plan de ajuste si los indicadores de salario e inflación se acercan al escenario pesimista (≈ 12 % menos de demanda).
+  1. **Planificar sobre el escenario base y tener listo el pesimista:** contratar personal de temporada y negociar cupos para ≈ 2,98 millones, con un plan de ajuste si los indicadores de salario e inflación se acercan al escenario pesimista (≈ 9 % menos de demanda).
   2. **Revisar la proyección cada mes** con los últimos datos de salario e inflación, usando la app.
   3. **Apuntar las promociones** a los segmentos que más eligen hotel: viajeros por trabajo, turistas que llegan en avión y hogares de ingresos altos; para el turista que viaja en auto o visita familiares, ofertas de precio.
   4. **Ajustar a mano cuando haya subsidios** como PreViaje: el modelo no los ve.
@@ -177,7 +177,7 @@ Las imágenes salen de los notebooks y ya están en `docs/img/`.
 Respuestas cortas, en lenguaje de negocio. Cualquier integrante debería poder contestarlas; el responsable natural está entre paréntesis.
 
 **¿Por qué Random Forest y no otro modelo? (Rol 4)**
-Porque fue el de menor error en la prueba año por año (6,0 %) y el único que le ganó con claridad a la regla actual. Promedia cientos de árboles, así que es más estable que un árbol solo. Gradient Boosting quedó empatado con la regla, y la regresión lineal falló mucho en 2023 (27 % de error).
+Porque fue el de menor error en la prueba año por año (5,9 %) y el único que le ganó con claridad a la regla actual. Promedia cientos de árboles, así que es más estable que un árbol solo. Gradient Boosting quedó empatado con la regla, y la regresión lineal falló mucho en 2023 (27 % de error).
 
 **¿Por qué excluyeron la pandemia? (Rol 3)**
 Porque de marzo de 2020 a diciembre de 2021 la demanda no dependió de la economía sino de las restricciones: en abril y mayo de 2020 los hoteles estuvieron cerrados. Si el modelo aprendiera de esos meses, confundiría un cierre con una crisis. También se excluye 2022 para entrenar, porque su comparación con el año anterior se hace contra meses de pandemia.
@@ -186,7 +186,7 @@ Porque de marzo de 2020 a diciembre de 2021 la demanda no dependió de la econom
 Lo intentamos primero y el modelo perdía contra la regla «mismo mes del año pasado». Esa regla ya captura la temporada y la tendencia. Además, los modelos de árboles no pueden proyectar valores fuera de lo que vieron. Predecir la variación respecto del año anterior le deja al modelo solo la parte que depende de la economía.
 
 **¿Qué pasó con PreViaje en 2023? (Rol 4)**
-Fue un subsidio que devolvía parte del gasto en turismo y empujó la demanda por encima de lo que explicaba la economía. El modelo no tiene una variable de subsidios, por eso en 2023 se equivocó más que la regla (7,9 % contra 5,7 %). Es una limitación conocida: ante programas así, el número del modelo es un piso y hay que ajustarlo.
+Fue un subsidio que devolvía parte del gasto en turismo y empujó la demanda por encima de lo que explicaba la economía. El modelo no tiene una variable de subsidios, por eso en 2023 se equivocó más que la regla (7,2 % contra 5,7 %). Es una limitación conocida: ante programas así, el número del modelo es un piso y hay que ajustarlo.
 
 **¿Qué tan confiables son las fuentes? (Rol 2)**
 Son todas oficiales: INDEC, Ministerio de Turismo (datos.yvera.gob.ar), BCRA y el portal datos.gob.ar. Documentamos los límites: la EOH mide hoteles y parahoteles (no alquileres temporarios ni casas de familiares), los datos de 2025 son provisorios y la EVyTH llega hasta mediados de 2024. Cada fuente y su advertencia están en `data/FUENTES.md`.
@@ -194,8 +194,8 @@ Son todas oficiales: INDEC, Ministerio de Turismo (datos.yvera.gob.ar), BCRA y e
 **¿Cómo resolvieron la inflación de 2007 a 2015? (Rol 2)**
 El IPC del INDEC de esos años estuvo intervenido y subestimaba la inflación. Usamos el IPC de la provincia de San Luis, que es el reemplazo habitual, hasta diciembre de 2016, y desde ahí el IPC Nacional del INDEC. Los unimos para que coincidan en el punto de empalme.
 
-**¿Por qué el error de 2024 es tan alto, 14 %? (Rol 4)**
-2024 tuvo una caída fuerte y rápida del salario real a comienzos de año. Todos los modelos y la regla actual se equivocaron en torno al 14–15 %; aun así, el Random Forest fue algo mejor (14,4 % contra 14,8 %).
+**¿Por qué el error de 2024 es tan alto, 13 %? (Rol 4)**
+2024 tuvo una caída fuerte y rápida del salario real a comienzos de año. Todos los modelos y la regla actual se equivocaron entre 13 % y 15 %; aun así, el Random Forest fue algo mejor (13,3 % contra 14,8 %).
 
 **¿Qué supuestos tiene cada escenario? (Rol 6)**
 Base: salario real sin cambios, inflación del 30 % anual, desempleo estable, actividad +2 %. Optimista: salario real +5 %, inflación 20 %, actividad +4 %. Pesimista: salario real −10 %, inflación 80 %, desempleo +1,5 puntos, tipo de cambio real +15 %, actividad −3 %. En la app se pueden mover a mano.
@@ -204,7 +204,7 @@ Base: salario real sin cambios, inflación del 30 % anual, desempleo estable, ac
 No. El modelo encuentra que se mueven juntos y lo usa para anticipar; no prueba causalidad. Para planificar alcanza con que la relación se mantenga.
 
 **¿Por qué si bajo solo el salario real la proyección casi no cambia? (Rol 4)**
-Porque el salario real se mueve junto con la actividad, el desempleo y el dólar: en la historia nunca cayó solo. El modelo aprendió el paquete, y la información del salario ya está en las otras variables (lo muestra la importancia por permutación). Por separado, para el verano 2027: actividad de +2 % a −3 % → ≈ −8 %; desempleo +1,5 puntos → ≈ −5 %; inflación de 30 % a 80 % → ≈ −5 %; salario −10 % solo → ≈ 0 %. Todo junto (escenario pesimista) → −12 %. El riesgo para el negocio es que empeore todo a la vez.
+Porque el salario real se mueve junto con la actividad, el desempleo y el dólar: en la historia nunca cayó solo. El modelo aprendió el paquete, y la información del salario ya está en las otras variables (lo muestra la importancia por permutación). Por separado, para el verano 2027: actividad de +2 % a −3 % → ≈ −5 %; desempleo +1,5 puntos → ≈ −4 %; inflación de 30 % a 80 % → ≈ −1 %; tipo de cambio real +15 % → ≈ −1 %; salario −10 % solo → ≈ −1 %. Todo junto (escenario pesimista) → −9 %. El riesgo para el negocio es que empeore todo a la vez.
 
 ---
 
@@ -216,7 +216,7 @@ Porque el salario real se mueve junto con la actividad, el desempleo y el dólar
 - [ ] Imágenes de `docs/img/` generadas y con los nombres que figuran en este guion (verificar uno por uno).
 - [ ] App probada **con el wifi apagado**: abre, cambia de escenario y muestra el perfil de hotel. Dejarla abierta antes de empezar.
 - [ ] Plan B: capturas de la app y gráficos clave pegados en las diapositivas, y las diapositivas exportadas a PDF en un pendrive.
-- [ ] Números de las diapositivas iguales a los de los notebooks (3,06 / 3,17 / 2,68 millones; 6,0 % contra 6,3 %; AUC 0,78).
+- [ ] Números de las diapositivas iguales a los de los notebooks (2,98 / 3,18 / 2,70 millones; 5,9 % contra 6,3 %; AUC 0,78).
 - [ ] Ortografía revisada en todas las diapositivas (tildes, signos de apertura ¿ ¡, mayúsculas).
 - [ ] Gráficos legibles desde el fondo del aula: letra grande, título con la conclusión, ejes con unidades.
 - [ ] Ensayo completo con reloj: cada rol dentro de su tiempo y total por debajo de 14 minutos.

@@ -117,7 +117,7 @@ def pagina_demanda():
                  help="Error promedio mes a mes al predecir años que el modelo no vio (2014–2019 y 2023–2025).")
         st.plotly_chart(grafico_demanda(real, proyeccion, error, nombre), width="stretch")
         st.caption(f"La franja celeste es el rango ± {porcentaje(error)}: el error promedio que tuvo el modelo al "
-                   "predecir años pasados. No es un máximo garantizado; en 2024 el error fue mayor (≈ 14 %).")
+                   "predecir años pasados. No es un máximo garantizado; en 2024 el error fue mayor (≈ 13 %).")
 
     st.markdown("#### Viajeros en verano (enero + febrero), por año")
     tabla = pd.concat([

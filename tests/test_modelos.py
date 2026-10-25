@@ -84,3 +84,12 @@ def test_restricciones_de_monotonia_alineadas_con_el_pipeline():
     assert cst["remainder__salario_real_var"] == 1 and cst["remainder__inflacion_log"] == -1
     assert cst["remainder__emae_interanual"] == 1
     assert all(v == 0 for c, v in cst.items() if c.startswith("region__"))
+
+
+def test_escenarios_nacionales_ordenados_en_la_ventana():
+    df = modelos.cargar_mensual()
+    rf = modelos.cargar("demanda_rf.joblib")
+    proy = {e: modelos.proyectar(rf, df, "2027-10-01", **modelos.ESCENARIOS[e]).loc["2026-11":]
+            for e in ["Pesimista", "Base", "Optimista"]}
+    assert (proy["Pesimista"] <= proy["Base"]).all() and (proy["Base"] <= proy["Optimista"]).all()
+    assert list(rf.monotonic_cst) == [0, 1, -1, -1, 0, 1]  # mes, salario, inflación, desocupación, dólar, EMAE

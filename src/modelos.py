@@ -34,6 +34,9 @@ NOMBRES = {
     "tipo_cambio_real_var": "Variación del tipo de cambio real (%)",
     "emae_interanual": "Actividad económica, var. interanual (%)",
 }
+# signo esperado del efecto de cada variable macro sobre la demanda (0 = sin restricción: mes, tipo de cambio real,
+# región, vuelos). Lo usan los Random Forest nacional y regional (monotonic_cst).
+MONOTONIA = {"salario_real_var": 1, "emae_interanual": 1, "inflacion_log": -1, "desocupacion_var": -1}
 ANIOS_BACKTEST = [2014, 2015, 2016, 2017, 2018, 2019, 2023, 2024, 2025]
 SEMILLA = 42
 
@@ -80,6 +83,7 @@ def modelos_demanda(depth_arbol=4):
         "Regresión lineal": lineal,
         "Árbol de decisión": DecisionTreeRegressor(max_depth=depth_arbol, min_samples_leaf=5, random_state=SEMILLA),
         "Random Forest": RandomForestRegressor(n_estimators=500, min_samples_leaf=3, oob_score=True,
+                                               monotonic_cst=[MONOTONIA.get(f, 0) for f in FEATURES],
                                                random_state=SEMILLA),
         "Gradient Boosting": GradientBoostingRegressor(n_estimators=1000, learning_rate=0.03, max_depth=3,
                                                        subsample=0.8, validation_fraction=0.2,
@@ -192,10 +196,6 @@ def features_region(g):
     ultimo = g.gasto_usd_var.last_valid_index()
     g.loc[ultimo:, "gasto_usd_var"] = g.gasto_usd_var.loc[ultimo]
     return g
-
-
-# signo esperado del efecto de cada variable macro sobre la demanda (0 = sin restricción)
-MONOTONIA = {"salario_real_var": 1, "emae_interanual": 1, "inflacion_log": -1, "desocupacion_var": -1}
 
 
 def restricciones(features, n_regiones=len(REGIONES)):

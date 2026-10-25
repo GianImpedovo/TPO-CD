@@ -1,9 +1,9 @@
 variable,mape,queda
-(base de Tina),9.561380989033669,True
+(base de Tina),9.561380989033667,True
 salario_real_var,9.382285908985219,True
 inflacion_log,9.281653036463577,True
 desocupacion_var,9.371039157305123,False
-tipo_cambio_real_var,10.248106826527387,False
+tipo_cambio_real_var,10.248106826527385,False
 emae_interanual,9.010121370584232,True
 gasto_usd_var,9.014702567403123,False
 "bloque macro (salario_real_var, inflacion_log, desocupacion_var, tipo_cambio_real_var, emae_interanual)",9.109628140865759,False
