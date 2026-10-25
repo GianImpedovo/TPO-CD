@@ -163,8 +163,8 @@ function pintarRegion() {
   link.href = conCadena('negocio.html', D.cadena.id, tiene ? { region: sel.nombre } : {});
   link.onclick = () => { if (tiene) guardar('pt_region', sel.nombre); };
   for (const b of $('esc-region').children) b.setAttribute('aria-pressed', String(b.textContent === st.escRegion));
-  $('nota-region').hidden = D.afectan || !sel.resp.nota_escenarios;
-  $('nota-region').textContent = D.afectan ? '' : (sel.resp.nota_escenarios || '');
+  $('nota-region').hidden = !sel.resp.nota_escenarios;
+  $('nota-region').textContent = sel.resp.nota_escenarios || '';
 
   const orden = Object.values(D.info).sort((a, b) => b.total - a.total);
   $('chips').replaceChildren(...orden.map((i) => {

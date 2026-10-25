@@ -53,9 +53,10 @@ async function cargar() {
     $('ventana').textContent = `próximos 12 meses (${ventanaTexto(hist.ventana_pronostico)})`;
     const afectan = unaRegion.escenarios_afectan_region === true;
     $('bajada').textContent = afectan
-      ? 'Elegí un escenario o mové los controles. Cambia el total país y también la proyección por región.'
+      ? 'Elegí un escenario o mové los controles. Aplica al total país y a cada región: cada región responde distinto a la economía.'
       : 'Elegí un escenario o mové los controles. Aplica al total país: en las vistas por región los escenarios no cambian los números.';
-    $('nota-det').hidden = afectan || !unaRegion.nota_escenarios;
+    $('nota-titulo').textContent = afectan ? '¿Cómo afecta a cada región?' : '¿Por qué no cambia la proyección por región?';
+    $('nota-det').hidden = !unaRegion.nota_escenarios;
     $('nota').textContent = unaRegion.nota_escenarios || '';
     $('link-panel').href = conCadena('panel.html', cadena.id);
     estado($('estado'), null);

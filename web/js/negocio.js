@@ -218,7 +218,7 @@ function pintarCalendario(regs, fechas, desvio) {
   const errores = regs.map((r) => `${r} ± ${coma(C.demanda[r].mape_backtest)} %`).join(' · ');
   const P = C.precios;
   const nota = P.escenarios_afectan_region === true
-    ? `Proyección por región con el escenario ${st.escenario}.` : `En esta vista los escenarios económicos no cambian los números. ${P.nota_escenarios || ''}`;
+    ? `Proyección por región con el escenario ${st.escenario}. ${P.nota_escenarios || ''}` : `En esta vista los escenarios económicos no cambian los números. ${P.nota_escenarios || ''}`;
   $('nota-demanda').textContent = `${nota} Margen de error habitual: ${errores}.`;
 }
 
