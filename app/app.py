@@ -13,9 +13,9 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import modelos  # noqa: E402
+import regiones  # noqa: E402
 
-REGIONES = {1: "Ciudad de Buenos Aires", 2: "Partidos del GBA", 3: "Provincia de Buenos Aires (resto)",
-            4: "Centro", 5: "Litoral", 6: "Norte", 7: "Cuyo", 8: "Patagonia"}
+REGIONES = {codigo: region for region, codigo in regiones.CODIGO_REGION.items()}  # las 7 de la EOH
 GRUPOS = {1: "1 o 2 personas", 2: "3 o 4 personas", 3: "5 o más personas"}
 MOTIVOS = {1: "Esparcimiento", 2: "Visita a familiares/amigos", 3: "Trabajo", 4: "Estudios", 5: "Salud",
            6: "Religioso", 7: "Compras", 8: "Otros", 99: "Ns/Nr"}
@@ -166,8 +166,8 @@ def pagina_hotel():
         c1, c2, c3, c4 = st.columns(4)
         viaje = {
             "quintil": c1.selectbox("Quintil de ingreso del hogar", QUINTILES, index=2, format_func=QUINTILES.get),
-            "region_origen": c2.selectbox("Región de origen", REGIONES, format_func=REGIONES.get),
-            "region_destino": c3.selectbox("Región de destino", REGIONES, index=2, format_func=REGIONES.get),
+            "region_origen": c2.selectbox("Región de origen", REGIONES, index=1, format_func=REGIONES.get),
+            "region_destino": c3.selectbox("Región de destino", REGIONES, index=0, format_func=REGIONES.get),
             "trimestre": c4.selectbox("Trimestre del viaje", TRIMESTRES, format_func=TRIMESTRES.get),
             "noches": c1.number_input("Noches", 1, 60, 5),
             "tamanio_grupo": c2.selectbox("Tamaño del grupo", GRUPOS, format_func=GRUPOS.get),

@@ -30,6 +30,15 @@ ARCHIVOS = {
     "evyth_turistas_quintil_trimestral.csv":
         f"{YVERA}/945e10f1-eee7-48a2-b0ef-8aff11df8814/resource/1c9e99b6-e5aa-44e5-80cb-52c01d8295a5/download/"
         "tur_int_turistas_residentes_quintil_serie.csv",
+    # modelo por región (notebook de Tina)
+    "evyth_gasto_promedio_destino_trimestral.csv":
+        f"{YVERA}/945e10f1-eee7-48a2-b0ef-8aff11df8814/resource/9e4c5e37-fea0-4028-ac0f-53bd60cca9a9/download/"
+        "tur_int_turistas_residentes_gasto_promedio_trim_destino_serie.csv",
+    "anac_vuelos_asientos_pasajeros_diario.csv":
+        f"{YVERA}/c0e7bc3d-553c-405c-8b32-79282b28ffd5/resource/03b4176f-a065-450a-b411-101d2a884720/download/"
+        "vuelos_asientos_pasajeros.csv",
+    "bcra_tipos_de_cambio_historicos_diario.csv":
+        "https://infra.datos.gob.ar/catalog/sspm/dataset/175/distribution/175.1/download/tipos-de-cambio-historicos.csv",
 }
 
 # API de Series de Tiempo (datos.gob.ar): archivo -> (ids, parámetros extra)

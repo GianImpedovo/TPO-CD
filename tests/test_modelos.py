@@ -38,3 +38,30 @@ def test_utilizables_excluye_pandemia_y_su_anio_siguiente():
 def test_total_verano_suma_enero_y_febrero():
     s = pd.Series([1.0, 2.0, 3.0], index=pd.to_datetime(["2027-01-01", "2027-02-01", "2027-03-01"]))
     assert modelos.total_verano(s).loc[2027] == 3.0
+
+
+def test_region_utilizables_excluye_pandemia_y_tiene_todas_las_regiones():
+    df = modelos.cargar_region()
+    u = modelos.utilizables(df)
+    assert not u.index.isin(pd.date_range("2020-03-01", "2022-12-01", freq="MS")).any()
+    assert sorted(u.region.unique()) == sorted(modelos.REGIONES)
+    assert u.var_viajeros.notna().all()
+
+
+def test_vuelos_rezagados_un_anio_por_region():
+    df = modelos.cargar_region()
+    d = df[df.region == "Norte"]
+    assert d.loc["2019-05-01", "pasajeros_var_l12"] == d.loc["2018-05-01", "pasajeros_var"]
+
+
+def test_proyectar_region_usa_vuelos_observados_y_despues_el_supuesto():
+    df = modelos.cargar_region()
+    d = df[df.region == "CABA"]
+    fechas = pd.date_range(d.index.max() + pd.DateOffset(months=1), periods=24, freq="MS")
+    X = modelos.x_futuro_region(d, fechas, modelos.FEATURES_REGION, vuelos_var=-7)
+    assert X.pasajeros_var_l12.iloc[0] == d.pasajeros_var.loc[fechas[0] - pd.DateOffset(years=1)]
+    assert X.pasajeros_var_l12.iloc[-1] == -7
+    fijo = VariacionFija(10)
+    fijo.feature_names_in_ = modelos.FEATURES_REGION
+    proy = modelos.proyectar_region(fijo, df, "CABA", hasta=fechas[11])
+    assert proy.iloc[0] == d[modelos.TARGET].loc[fechas[0] - pd.DateOffset(years=1)] * 1.1

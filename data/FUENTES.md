@@ -2,6 +2,23 @@
 
 Verificado el 2026-10-22: cada archivo se descargó en `data/raw/` y se revisaron columnas y rango.
 
+**Actualización 2026-10-25 (hasta dónde llega cada serie).** Se volvieron a bajar y comparar todas las fuentes; no hay datos nuevos respecto de lo que ya estaba en `data/raw/`:
+
+| Serie | Último dato |
+|---|---|
+| EOH viajeros, país y región (CSV yvera; CKAN actualizado por última vez 2026-03-18) | **2025-11** |
+| EOH en la API: `457.1_*` / `eoh_viajeros_*` | 2025-11 / 2025-08 |
+| EOH en INDEC (página de informes técnicos) | no se pudo leer en forma automática (la página se arma con JavaScript); se toma la API y yvera |
+| IPC Nacional / IPC San Luis | 2026-08 / 2026-06 |
+| Índice de salarios | 2026-07 |
+| EMAE | 2026-07 |
+| Desocupación (EPH) | 2026-T2 |
+| Tipo de cambio A3500 (API mensual / BCRA diario) | 2026-08 / 2026-10-04 |
+| Vuelos ANAC | 2026-07-31 |
+| Gasto EVyTH por región | 2024-T2 |
+
+Con la EOH en 2025-11 y hoy en 2026-10-25, quedan **11 meses puente** (2025-12 → 2026-10) antes de la ventana de pronóstico (2026-11 → 2027-10).
+
 API de Series de Tiempo (datos.gob.ar), forma general:
 `https://apis.datos.gob.ar/series/api/series/?ids=<ID1>,<ID2>&format=csv&limit=5000`
 (series diarias pasadas a mensual: `&collapse=month&collapse_aggregation=avg`).
@@ -105,3 +122,52 @@ https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&forma
 - **Pobreza:** hay **NaN desde 2007-S2 hasta 2016-S1** (INDEC no publicó). La fecha de cada dato es el inicio del semestre: 2026-07-01 corresponde al 1er semestre publicado más reciente. Conviene revisarlo contra el informe de INDEC antes de usarlo.
 - **Tipo de cambio:** es el oficial mayorista, sin brecha con el paralelo. Los cepos de 2011–2015 y 2019–2025 hacen que no represente el costo real de viajar al exterior.
 - La frecuencia mensual de la EOH se alinea directo con IPC, salarios, tipo de cambio y EMAE. Desocupación (trimestral) y pobreza (semestral) hay que llevarlas a mensual, repitiendo el valor o interpolando.
+
+---
+
+## 4. Fuentes del modelo por región (notebook de Tina, `notebooks/00_tina_datamart.ipynb`)
+
+Verificado el 2026-10-25. Las tres coinciden byte a byte con los CSV que trajo Tina; quedó una sola copia en `raw/`. El EOH por región que usa ella es el mismo archivo que el 1b.
+
+### 4a. Gasto promedio de turistas residentes por región de destino (EVyTH)
+- URL: https://datos.yvera.gob.ar/dataset/945e10f1-eee7-48a2-b0ef-8aff11df8814/resource/9e4c5e37-fea0-4028-ac0f-53bd60cca9a9/download/tur_int_turistas_residentes_gasto_promedio_trim_destino_serie.csv
+- Archivo: `raw/evyth_gasto_promedio_destino_trimestral.csv`
+- Rango: **2012-T1 → 2024-T2**, trimestral, sin NaN. Pesos corrientes por turista.
+- Columnas: `indice_tiempo`, `region_destino` (CABA, Cuyo, Córdoba, Litoral, Norte, PBA - Partidos del GBA, PBA - Resto, Patagonia), `gasto_promedio`.
+- Las dos PBA se promedian en "Buenos Aires" para coincidir con la EOH (como hace Tina). Se pasa a USD dividiendo por el A3500 mensual (4c).
+
+### 4b. Conectividad aérea: vuelos, asientos y pasajeros por día (ANAC)
+- URL: https://datos.yvera.gob.ar/dataset/c0e7bc3d-553c-405c-8b32-79282b28ffd5/resource/03b4176f-a065-450a-b411-101d2a884720/download/vuelos_asientos_pasajeros.csv
+- Archivo: `raw/anac_vuelos_asientos_pasajeros_diario.csv`
+- Rango: **2017-01-01 → 2026-07-31**, diario. Columnas: `indice_tiempo`, `clasificacion_vuelo` (Cabotaje / Internacional), `pasajeros`, `asientos`, `vuelos`.
+- Es total país (no viene por región). **Se usa solo `clasificacion_vuelo == "Cabotaje"`** (el notebook original sumaba también los internacionales). Mensual completo en `processed/vuelos_mensual.csv` (llega más lejos que la EOH y se usa para los meses pronosticados).
+- Catálogo: https://datos.yvera.gob.ar/api/3/action/package_show?id=conectividad-aerea (tiene también `rutas_por_mes.csv`, por ruta).
+
+### 4c. Tipos de cambio históricos (BCRA, dataset SSPM 175)
+- URL: https://infra.datos.gob.ar/catalog/sspm/dataset/175/distribution/175.1/download/tipos-de-cambio-historicos.csv
+- Ficha: https://datos.gob.ar/dataset/sspm-tipos-cambio-historicos (paquete `23a81762-d15e-5b40-be16-e535e2687f5c`).
+- Archivo: `raw/bcra_tipos_de_cambio_historicos_diario.csv`
+- Rango: 1970-01-05 → 2026-10-04, diario. La columna usada, `dolar_referencia_com_3500` (A3500), va de **2002-03-04 → 2026-10-04**.
+- Su promedio mensual coincide con `api_tipo_cambio_a3500_promedio_mensual.csv` (diferencia máxima 0,33 %).
+
+---
+
+## 5. Regiones: qué provincias forman cada una
+
+Fuente: INDEC, *Encuesta de Ocupación Hotelera. Aspectos metodológicos* (Metodología N.º 34, mayo 2020), punto 2.1.1, https://www.indec.gob.ar/ftp/cuadros/economia/eoh_aspectos_metodologicos.pdf. Las regiones siguen el PFETS y CABA es una región aparte. El documento lista las localidades de la muestra de cada región; la provincia sale de cada localidad. La ficha técnica de yvera (`raw/eoh_ficha_tecnica.pdf`) no trae este detalle.
+
+| Región | Provincias (localidades EOH que lo confirman) |
+|---|---|
+| CABA | Ciudad Autónoma de Buenos Aires |
+| Buenos Aires | Buenos Aires (Mar del Plata, Bahía Blanca, Pinamar, Tandil, Villa Gesell) |
+| Córdoba | Córdoba |
+| Cuyo | Mendoza, San Juan, San Luis, **La Rioja** (Ciudad de La Rioja) |
+| Litoral | Santa Fe, Entre Ríos, Corrientes, Misiones, Chaco, Formosa |
+| Norte | Jujuy, Salta, Tucumán, Catamarca, Santiago del Estero |
+| Patagonia | Neuquén, Río Negro, Chubut, Santa Cruz, Tierra del Fuego, **La Pampa** (Santa Rosa) |
+
+Constante en el código: `src/regiones.py` (`PROVINCIAS`, por código INDEC de provincia). La API la expone en `GET /regiones`.
+
+**Diferencia con la EVyTH:** la EVyTH pone La Rioja en **Norte** (se verificó cruzando `provincia_destino` con `region_destino` en los microdatos), separa la provincia de Buenos Aires en dos (Partidos del GBA y Resto) y llama "Centro" a Córdoba. En el proyecto se usa la definición de la EOH:
+- microdatos (`evyth_turistas.csv`): el destino se arma desde `provincia_destino` y el origen desde `region_origen`, pasando el aglomerado La Rioja (código 25) a Cuyo; las dos PBA quedan en "Buenos Aires";
+- gasto promedio por región (4a): es una serie ya agregada por la SSTur, así que las dos PBA se promedian, pero La Rioja queda dentro de Norte y no se puede corregir.

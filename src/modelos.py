@@ -10,11 +10,14 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
+from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+
+from regiones import REGIONES  # noqa: F401  (la usan la API y los tests)
 
 RAIZ = Path(__file__).resolve().parents[1]
 PROCESSED = RAIZ / "data" / "processed"
@@ -145,6 +148,154 @@ def proyectar(modelo, df, hasta="2028-12-01", salario_real_var=0, inflacion=30, 
 
 def proyectar_escenarios(modelo, df, hasta="2028-12-01"):
     return pd.DataFrame({n: proyectar(modelo, df, hasta, **v) for n, v in ESCENARIOS.items()})
+
+
+# ---------- Demanda por región (base: notebook de Tina) ----------
+
+REZAGO_VUELOS = 12  # con 12 meses de rezago, los meses proyectados usan vuelos ya observados mientras existan
+INICIO_PANDEMIA, FIN_PANDEMIA = "2020-03-01", "2021-12-01"
+VUELOS = ["pasajeros", "asientos", "vuelos"]  # de cabotaje
+FEATURES_TINA_NIVEL = ["region", "mes_sin", "mes_cos", "pasajeros_l12", "asientos_l12", "vuelos_l12"]
+FEATURES_TINA = ["region", "mes_sin", "mes_cos", "pasajeros_var_l12", "asientos_var_l12", "vuelos_var_l12"]
+CANDIDATAS_REGION = FEATURES[1:] + ["gasto_usd_var"]
+# resultado de `seleccion_region` (ver data/processed/seleccion_variables_region.csv)
+FEATURES_REGION = list(FEATURES_TINA)
+
+
+def cargar_region():
+    df = pd.read_csv(PROCESSED / "mensual_region.csv", index_col="fecha", parse_dates=True)
+    return pd.concat([features_region(g) for _, g in df.groupby("region")])
+
+
+def cargar_vuelos():
+    """Vuelos ANAC mensuales completos (pasan el último mes de la EOH) con su variación interanual."""
+    v = pd.read_csv(PROCESSED / "vuelos_mensual.csv", index_col="fecha", parse_dates=True)
+    en_pandemia = (v.index >= INICIO_PANDEMIA) & (v.index <= FIN_PANDEMIA)
+    contaminada = en_pandemia | pd.Series(en_pandemia, index=v.index).shift(12, fill_value=False).to_numpy()
+    for col in VUELOS:
+        v[f"{col}_var"] = (v[col].pct_change(12) * 100).mask(contaminada)
+    return v
+
+
+def features_region(g):
+    """Features de una región (serie mensual ordenada): las nacionales + gasto y vuelos."""
+    g = agregar_features(g)
+    contaminada = g.pandemia | g.pandemia.shift(12, fill_value=False)
+    for col in VUELOS + ["gasto_usd"]:
+        g[f"{col}_var"] = (g[col].pct_change(12) * 100).mask(contaminada)
+    for col in VUELOS:
+        g[f"{col}_l12"] = g[col].shift(REZAGO_VUELOS)
+        g[f"{col}_var_l12"] = g[f"{col}_var"].shift(REZAGO_VUELOS)
+    # la EVyTH termina en 2024-T2: después se repite la última variación conocida
+    ultimo = g.gasto_usd_var.last_valid_index()
+    g.loc[ultimo:, "gasto_usd_var"] = g.gasto_usd_var.loc[ultimo]
+    return g
+
+
+def pipeline_region(estimador):
+    """Región en one-hot; los faltantes (vuelos antes de 2017, gasto antes de 2012) se completan con 0."""
+    return make_pipeline(
+        ColumnTransformer([("region", OneHotEncoder(handle_unknown="ignore", sparse_output=False), ["region"])],
+                          remainder="passthrough"),
+        SimpleImputer(strategy="constant", fill_value=0, keep_empty_features=True),
+        estimador,
+    )
+
+
+def modelos_region():
+    return {
+        "Random Forest": RandomForestRegressor(n_estimators=500, min_samples_leaf=3, n_jobs=-1,
+                                               random_state=SEMILLA),
+        # el de Tina, con sus hiperparámetros
+        "Gradient Boosting": GradientBoostingRegressor(n_estimators=250, learning_rate=0.04, max_depth=5,
+                                                       min_samples_split=4, subsample=0.85, random_state=SEMILLA),
+    }
+
+
+def backtest_region(df, features, objetivo="variacion", nombres=("Random Forest",)):
+    """Backtest por año completo, igual que el nacional. objetivo: "variacion" (interanual) o "nivel"."""
+    d = utilizables(df)
+    preds = []
+    for anio in ANIOS_BACKTEST:
+        train, test = d[d.index.year < anio], d[d.index.year == anio]
+        y = train.var_viajeros if objetivo == "variacion" else train[TARGET]
+        salida = {"Baseline (mismo mes año anterior)": test.viajeros_anio_anterior}
+        for nombre in nombres:
+            pred = pipeline_region(modelos_region()[nombre]).fit(train[features], y).predict(test[features])
+            salida[nombre] = a_viajeros(test, pred) if objetivo == "variacion" else pred
+        for nombre, pred in salida.items():
+            preds.append(pd.DataFrame({"fecha": test.index, "anio": anio, "region": test.region.values,
+                                       "modelo": nombre, "prediccion": np.asarray(pred),
+                                       "real": test[TARGET].values}))
+    return pd.concat(preds, ignore_index=True)
+
+
+def tabla_region(preds):
+    """MAPE por región y modelo (promedio de los MAPE anuales) + promedio de las regiones."""
+    ape = (preds.prediccion - preds.real).abs() / preds.real * 100
+    t = preds.assign(ape=ape).groupby(["region", "modelo", "anio"]).ape.mean().groupby(["region", "modelo"]).mean()
+    t = t.unstack("modelo")
+    t.loc["Promedio"] = t.mean()
+    return t
+
+
+def mape_promedio_region(df, features):
+    return tabla_region(backtest_region(df, features)).loc["Promedio", "Random Forest"]
+
+
+def seleccion_region(df, base=FEATURES_TINA, candidatas=CANDIDATAS_REGION):
+    """Suma las candidatas de a una; cada una queda solo si baja el MAPE promedio de las regiones."""
+    elegidas, mejor = list(base), mape_promedio_region(df, base)
+    filas = [{"variable": "(base de Tina)", "mape": mejor, "queda": True}]
+    for c in candidatas:
+        valor = mape_promedio_region(df, elegidas + [c])
+        filas.append({"variable": c, "mape": valor, "queda": valor < mejor})
+        if valor < mejor:
+            elegidas, mejor = elegidas + [c], valor
+    return elegidas, pd.DataFrame(filas)
+
+
+def entrenar_final_region(df, features=FEATURES_REGION):
+    d = utilizables(df)
+    return pipeline_region(modelos_region()["Random Forest"]).fit(d[features], d.var_viajeros)
+
+
+def x_futuro_region(d, fechas, columnas, salario_real_var=0, inflacion=30, desocupacion_var=0,
+                    tipo_cambio_real_var=0, emae=2, vuelos_var=0):
+    """Features de los meses futuros de una región. Los vuelos rezagados usan el dato observado mientras exista
+    y, después, el supuesto `vuelos_var` (variación interanual)."""
+    X = pd.DataFrame({"region": d.region.iloc[0], "mes_sin": np.sin(2 * np.pi * fechas.month / 12),
+                      "mes_cos": np.cos(2 * np.pi * fechas.month / 12), "salario_real_var": salario_real_var,
+                      "inflacion_log": np.log1p(inflacion), "desocupacion_var": desocupacion_var,
+                      "tipo_cambio_real_var": tipo_cambio_real_var, "emae_interanual": emae}, index=fechas)
+    vuelos = cargar_vuelos()
+    for col in columnas:
+        if col.endswith("_l12"):
+            observado = vuelos[col.removesuffix("_l12")].reindex(fechas - pd.DateOffset(months=REZAGO_VUELOS))
+            X[col] = np.where(observado.isna(), vuelos_var, observado)
+    return X[columnas]
+
+
+def proyectar_region(modelo, df, region, hasta="2028-12-01", **supuestos):
+    """Igual que `proyectar`, para una región, con el modelo regional (que predice la variación)."""
+    d = df[df.region == region]
+    serie = d[TARGET].copy()
+    fechas = pd.date_range(serie.index.max() + pd.DateOffset(months=1), hasta, freq="MS")
+    variaciones = modelo.predict(x_futuro_region(d, fechas, list(modelo.feature_names_in_), **supuestos))
+    for fecha, var in zip(fechas, variaciones):
+        serie.loc[fecha] = serie.loc[fecha - pd.DateOffset(years=1)] * (1 + var / 100)
+    return serie.loc[fechas]
+
+
+# Vuelos sin cambio en todos los escenarios: con solo 2019, 2024 y 2025 de datos útiles, el modelo aprendió que más
+# vuelos van con menos viajeros (por el shock de 2024) y un supuesto de vuelos daría el signo al revés.
+ESCENARIOS_REGION = {n: {**v, "vuelos_var": 0} for n, v in ESCENARIOS.items()}
+
+
+def proyectar_escenarios_region(modelo, df, hasta="2028-12-01"):
+    filas = [proyectar_region(modelo, df, r, hasta, **v).rename("viajeros").to_frame().assign(region=r, escenario=n)
+             for n, v in ESCENARIOS_REGION.items() for r in sorted(df.region.unique())]
+    return pd.concat(filas).rename_axis("fecha").reset_index()
 
 
 def total_verano(serie):
