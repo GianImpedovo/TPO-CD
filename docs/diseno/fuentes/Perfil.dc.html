@@ -15,33 +15,34 @@ body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
 .tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940}
 .tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
 .tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+@media (max-width: 820px){.nav{max-width:none !important;flex-basis:100% !important}}
 h1,h2,h3{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
 select:focus,input:focus{outline:none}
 </style>
 </helmet>
 <div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
-  <nav aria-label="Secciones" style="flex: 1 1 220px; background: var(--side); color: var(--side-ink); padding: 28px 20px; display: flex; flex-direction: column; gap: 28px; box-sizing: border-box">
+  <nav class="nav" aria-label="Secciones" style="flex: 0 0 212px; max-width: 212px; background: var(--side); color: var(--side-ink); padding: 20px 12px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
     <div style="display: flex; align-items: center; gap: 12px">
-      <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 14px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 18px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 14px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
       <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
-        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 18px">{{cad.nombre}}</span>
-        <span style="font-size: 13px; color: var(--side-muted)">{{cad.detalle}}</span>
+        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; line-height: 1.2">{{cad.nombre}}</span>
+        <span style="font-size: 12px; color: var(--side-muted)">{{cad.detalle}}</span>
       </div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 4px">
-      <a href="Main.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Panel general</a>
-      <a href="MiNegocio.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Mi negocio</a>
-      <a href="Supuestos.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Supuestos económicos</a>
-      <a href="Perfil.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)">Perfil del turista</a>
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Panel general</a>
+      <a href="MiNegocio.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Mi negocio</a>
+      <a href="Supuestos.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Supuestos</a>
+      <a href="Perfil.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Perfil del turista</a>
     </div>
     <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
       <span style="font-size: 12px; line-height: 1.5; color: var(--side-muted)">Encuesta de Viajes y Turismo de los Hogares (EVyTH), 2012–2024</span>
-      <a href="Login.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
+      <a href="Login.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
     </div>
   </nav>
 
-  <main style="flex: 999 1 560px; min-width: 0; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
+  <main style="flex: 999 1 560px; min-width: 0; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
     <header style="display: flex; flex-direction: column; gap: 6px; max-width: 720px">
       <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Perfil del turista</span>
       <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Este turista va a buscar hotel?</h1>
@@ -100,19 +101,36 @@ select:focus,input:focus{outline:none}
     </form>
 
     <section aria-label="Resultado" style="display: flex; flex-wrap: wrap; gap: 16px">
-      <div style="flex: 1 1 320px; background: var(--side); color: var(--side-ink); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
-        <svg viewBox="0 0 220 130" width="260" height="154" role="img" aria-label="Medidor: 90 sobre 100, muy propenso a hotel">
-          <path d="M20 115 A90 90 0 0 1 200 115" fill="none" stroke="#4C1D95" stroke-width="22" stroke-linecap="round"></path>
-          <path d="M20 115 A90 90 0 0 1 200 115" fill="none" stroke="#F59E0B" stroke-width="22" stroke-linecap="round" stroke-dasharray="254.5 283"></path>
-          <text x="110" y="102" text-anchor="middle" font-family="Archivo, sans-serif" font-size="44" font-weight="800" fill="#F5F3FF">90</text>
-          <text x="110" y="124" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" font-weight="700" fill="#C4B5FD">de 100</text>
-        </svg>
-        <span style="font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 800">Muy propenso a ir a hotel</span>
-        <span style="font-size: 14px; line-height: 1.5; color: var(--side-muted); max-width: 340px">Sirve para elegir a qué público apuntar: más de 50 es más propenso que el turista promedio.</span>
+      <div style="flex: 2 1 420px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 14px; font-weight: 800; color: var(--accent)">Viajes reales parecidos</span>
+        <div role="img" aria-label="3 de cada 10 viajes parecidos terminan en hotel" style="display: grid; grid-template-columns: repeat(10, minmax(0, 44px)); gap: 6px">
+          <sc-for list="{{pictos}}" as="p" hint-placeholder-count="10">
+            <svg viewBox="0 0 24 36" style="width: 100%; height: auto; display: block" aria-hidden="true"><circle cx="12" cy="6" r="5" style="{{p.estilo}}"></circle><path d="M3 34V20a9 9 0 0 1 18 0v14z" style="{{p.estilo}}"></path></svg>
+          </sc-for>
+        </div>
+        <span style="font-family: 'Archivo', sans-serif; font-size: 28px; line-height: 1.15; font-weight: 800">3 de cada 10 viajes parecidos terminan en hotel</span>
+        <span style="font-size: 15px; line-height: 1.5; color: var(--muted)">En todos los turistas el promedio es 2 o 3 de cada 10 (24 %): este perfil está un poco por encima. Mismo ingreso, destino y motivo; 636 viajes encuestados entre 2022 y 2024.</span>
       </div>
 
-      <div style="flex: 2 1 420px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-        <h2 style="margin: 0; font-size: 20px; font-weight: 800">Por qué</h2>
+      <div style="flex: 1 1 300px; background: var(--side); color: var(--side-ink); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+        <span style="font-size: 14px; font-weight: 800; color: var(--side-muted)">Propensión a hotel</span>
+        <svg viewBox="0 0 220 140" width="250" height="159" role="img" aria-label="Propensión a hotel: media" style="overflow: visible">
+          <title>Puntaje del modelo: 90 (escala relativa, 50 = turista promedio)</title>
+          <path d="M20 115 A90 90 0 0 1 65 37.1" fill="none" stroke="#93BBFA" stroke-width="22" opacity="0.55"></path>
+          <path d="M66.5 36.3 A90 90 0 0 1 153.5 36.3" fill="none" stroke="#F59E0B" stroke-width="22"></path>
+          <path d="M155 37.1 A90 90 0 0 1 200 115" fill="none" stroke="#C4B5FD" stroke-width="22" opacity="0.55"></path>
+          <line x1="110" y1="115" x2="122.2" y2="46.1" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"></line>
+          <circle cx="110" cy="115" r="9" fill="#FFFFFF"></circle>
+          <text x="22" y="136" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" font-weight="700" fill="#C4B5FD">Baja</text>
+          <text x="110" y="20" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" font-weight="800" fill="#F59E0B">Media</text>
+          <text x="198" y="136" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" font-weight="700" fill="#C4B5FD">Alta</text>
+        </svg>
+        <span style="font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 800">Media, apenas arriba del promedio</span>
+        <span style="font-size: 14px; line-height: 1.5; color: var(--side-muted); max-width: 320px">Sirve para comparar públicos entre sí, no como porcentaje.</span>
+      </div>
+
+      <div style="flex: 1 1 100%; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 800">Qué lo acerca al hotel</h2>
         <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 12px">
           <li style="display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 14px; background: var(--accent-soft)">
             <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--accent)"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -131,10 +149,6 @@ select:focus,input:focus{outline:none}
             <span style="font-weight: 800; font-size: 15px">Hogar de ingreso medio alto o alto</span>
           </li>
         </ol>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--chip)">
-          <span style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 800">3 de 10</span>
-          <span style="font-size: 14px; color: var(--muted); line-height: 1.4">viajes reales parecidos terminaron en hotel (636 encuestados, 2022–2024)</span>
-        </div>
       </div>
     </section>
 
@@ -199,6 +213,7 @@ class Component extends DCLogic {
       clase: 'tema' + (oscuro ? ' oscuro' : ''),
       cad: CAD[this.state.cadena],
       regiones: REG,
+      pictos: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (i) { return { estilo: i < 3 ? 'fill: var(--accent)' : 'fill: var(--chip); stroke: var(--line); stroke-width: 1.5' }; }),
       filas: M.map(function (fila, i) {
         return { nombre: Q[i], celdas: fila.map(function (v, j) {
           var lv = Math.min(4, Math.max(0, Math.floor((v - 10) / 7)));
