@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Panel general</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
+.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5;--opt:#2563EB;--pes:#D9480F;--band:#DCEAFE;--band-2:#EEF4FE}
+.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940;--opt:#7FA6FF;--pes:#FF9A62;--band:#1E3358;--band-2:#172741}
+.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
+.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+h1,h2,h3{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
+button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+</style>
+</helmet>
+<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
+  <nav aria-label="Secciones" style="flex: 1 1 220px; background: var(--side); color: var(--side-ink); padding: 28px 20px; display: flex; flex-direction: column; gap: 28px; box-sizing: border-box">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 14px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 18px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 18px">{{cad.nombre}}</span>
+        <span style="font-size: 13px; color: var(--side-muted)">{{cad.detalle}}</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)">Panel general</a>
+      <a href="MiNegocio.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Mi negocio</a>
+      <a href="Supuestos.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Supuestos económicos</a>
+      <a href="Perfil.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Perfil del turista</a>
+    </div>
+    <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; line-height: 1.5; color: var(--side-muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
+      <a href="Login.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
+    </div>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
+    <header style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Próximos 12 meses · nov 2026 – oct 2027</span>
+      <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Adónde va a viajar la gente?</h1>
+    </header>
+
+    <section aria-labelledby="t-mapa" style="background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; gap: 32px">
+      <div onMouseMove="{{move}}" onMouseLeave="{{leave}}" style="flex: 1 1 360px; max-width: 480px; min-width: 0; position: relative">
+        <dc-import name="MapaArgentina" datos="{{mapa}}" hint-size="100%,900px"></dc-import>
+        <sc-if value="{{tip.show}}" hint-placeholder-val="{{false}}">
+          <div style="{{tip.pos}}">
+            <span style="font-family: 'Archivo', sans-serif; font-size: 18px; font-weight: 800">{{tip.nombre}}</span>
+            <span style="font-size: 13px; opacity: 0.85">{{tip.frase}}</span>
+            <div style="display: grid; grid-template-columns: auto auto; gap: 4px 14px; font-size: 13px; margin-top: 6px">
+              <span style="opacity: 0.8">Próximos 12 meses</span><span style="font-weight: 800; text-align: right">{{tip.total}}</span>
+              <span style="opacity: 0.8">Verano 2027</span><span style="font-weight: 800; text-align: right">{{tip.verano}}</span>
+              <span style="opacity: 0.8">Mes más fuerte</span><span style="font-weight: 800; text-align: right">{{tip.pico}}</span>
+              <span style="opacity: 0.8">Frente al año anterior</span><span style="font-weight: 800; text-align: right">{{tip.var}}</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <h2 id="t-mapa" style="margin: 0; font-size: 22px; font-weight: 800">Viajeros por región</h2>
+          <span style="font-size: 14px; color: var(--muted)">Pasá el mouse por el mapa para ver cada región. Hacé clic para elegirla.</span>
+        </div>
+
+        <div style="background: var(--accent-soft); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-size: 14px; font-weight: 800; color: var(--accent)">{{det.nombre}}</span>
+          <span style="font-family: 'Archivo', sans-serif; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{det.verano}}</span>
+          <span style="font-size: 15px; font-weight: 600">viajeros en el verano 2027</span>
+          <span style="font-size: 14px; color: var(--muted)">{{det.frase}}</span>
+          <a href="MiNegocio.dc.html" onClick="{{irNegocio}}" style="align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: var(--accent); color: var(--on-accent); font-weight: 800; text-decoration: none">Ver mis precios en {{det.nombre}}</a>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="font-size: 13px; font-weight: 800; color: var(--muted)">Viajeros en los próximos 12 meses</span>
+          <div style="display: flex; gap: 3px">
+            <sc-for list="{{leyenda}}" as="l" hint-placeholder-count="5">
+              <div style="flex: 1 1 0; display: flex; flex-direction: column; gap: 4px">
+                <span style="{{l.estilo}}"></span>
+                <span style="font-size: 11px; color: var(--muted)">{{l.texto}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div role="group" aria-label="Regiones" style="display: flex; flex-wrap: wrap; gap: 6px">
+          <sc-for list="{{ranking}}" as="r" hint-placeholder-count="7">
+            <button type="button" aria-pressed="{{r.pressed}}" onClick="{{r.pick}}" onMouseEnter="{{r.enter}}" onMouseLeave="{{leave}}" onFocus="{{r.enter}}" onBlur="{{leave}}" style="{{r.estilo}}"><span style="{{r.swatch}}"></span>{{r.nombre}}</button>
+          </sc-for>
+        </div>
+        <span style="font-size: 12px; color: var(--muted)">Límites provinciales: Instituto Geográfico Nacional (IGN), simplificados. Las regiones siguen la Encuesta de Ocupación Hotelera (INDEC).</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-curva" style="background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h2 id="t-curva" style="margin: 0; font-size: 22px; font-weight: 800">Todo el país, mes a mes</h2>
+          <span style="font-size: 14px; color: var(--muted)">Cómo cambia el total si la economía mejora o empeora</span>
+        </div>
+        <div role="group" aria-label="Escenario económico" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; background: var(--chip); border-radius: 12px">
+          <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: center">
+        <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-family: 'Archivo', sans-serif; font-size: 48px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{k.total}}</span>
+          <span style="font-size: 15px; font-weight: 600">viajeros en los próximos 12 meses</span>
+          <span style="{{k.estiloVar}}">{{k.frase}}</span>
+        </div>
+        <div style="flex: 3 1 520px; min-width: 0">
+          <svg viewBox="0 0 1000 330" role="img" aria-label="Viajeros por mes en todo el país: datos reales hasta noviembre de 2025, estimación puente hasta octubre de 2026, pronóstico de noviembre de 2026 a octubre de 2027 y tendencia hasta 2028" style="width: 100%; height: auto; display: block">
+            <line x1="40" y1="300" x2="990" y2="300" style="stroke: var(--line)" stroke-width="1"></line>
+            <line x1="40" y1="160" x2="990" y2="160" style="stroke: var(--line)" stroke-width="1" stroke-dasharray="2 4"></line>
+            <text x="36" y="164" text-anchor="end" font-size="12" font-family="Manrope, sans-serif" style="fill: var(--muted)">1,3 M</text>
+            <polygon points="{{banda2}}" style="fill: var(--band-2)"></polygon>
+            <polygon points="{{banda}}" style="fill: var(--band)"></polygon>
+            <polyline points="{{pts.otra1}}" fill="none" style="stroke: var(--muted)" stroke-width="1.2" opacity="0.45"></polyline>
+            <polyline points="{{pts.otra2}}" fill="none" style="stroke: var(--muted)" stroke-width="1.2" opacity="0.45"></polyline>
+            <polyline points="{{pts.real}}" fill="none" style="stroke: var(--ink)" stroke-width="2.5"></polyline>
+            <polyline points="{{pts.puente}}" fill="none" style="stroke: var(--muted)" stroke-width="2" stroke-dasharray="3 5"></polyline>
+            <polyline points="{{pts.pron}}" fill="none" style="{{colorEsc}}" stroke-width="4" stroke-linejoin="round"></polyline>
+            <polyline points="{{pts.tend}}" fill="none" style="{{colorEsc}}" stroke-width="2" opacity="0.5" stroke-dasharray="8 5"></polyline>
+            <line x1="{{hoy}}" y1="18" x2="{{hoy}}" y2="300" style="stroke: var(--accent)" stroke-width="2"></line>
+            <text x="{{hoy}}" y="14" text-anchor="middle" font-size="13" font-weight="800" font-family="Manrope, sans-serif" style="fill: var(--accent)">Hoy</text>
+            <text x="{{xPuente}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">estimado: aún sin datos oficiales</text>
+            <text x="{{xPron}}" y="318" text-anchor="middle" font-size="12" font-weight="800" font-family="Manrope, sans-serif" style="fill: var(--ink)">Pronóstico</text>
+            <text x="{{xTend}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">tendencia</text>
+            <text x="{{xReal}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">real</text>
+          </svg>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--muted)">Los picos son enero (verano) y julio (vacaciones de invierno). La franja muestra el margen habitual (± 6 %); más allá de octubre 2027 es solo tendencia.</p>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"oscuro":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var sel = 'Patagonia', cadena = 'andina';
+    try { sel = window.localStorage.getItem('pt_region') || 'Patagonia'; } catch (e) {}
+    try { cadena = window.localStorage.getItem('pt_cadena') || 'andina'; } catch (e) {}
+    this.state = { esc: 'Base', sel: sel, cadena: cadena === 'pampa' ? 'pampa' : 'andina', hover: null, tx: 0, ty: 0, w: 400 };
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    var oscuro = this.props.oscuro ?? false;
+    var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    var mil = function (n) { return n >= 1000000 ? (n / 1000000).toFixed(1).replace('.', ',') + ' M' : Math.round(n / 1000) + ' mil'; };
+    var pct = function (x) { var r = Math.round(x * 10) / 10; return (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r).toFixed(1).replace('.', ',') + ' %'; };
+    var CAD = { andina: { ini: 'CA', nombre: 'Cadena Andina', detalle: '4 hoteles · datos ficticios' }, pampa: { ini: 'GP', nombre: 'Grupo Pampa Hoteles', detalle: '2 hoteles · datos ficticios' } };
+
+    // RF regional: nov-2026 a oct-2027 (total, verano 2027, mes pico, variación contra los 12 meses previos)
+    var R = {
+      'Buenos Aires': { t: 1817000, ver: 569000, pico: 1, v: -0.5 },
+      'CABA': { t: 1890000, ver: 249000, pico: 7, v: 1.3 },
+      'Cuyo': { t: 1214000, ver: 215000, pico: 7, v: 0.0 },
+      'Córdoba': { t: 2536000, ver: 598000, pico: 2, v: 3.3 },
+      'Litoral': { t: 2367000, ver: 445000, pico: 1, v: 0.5 },
+      'Norte': { t: 1883000, ver: 268000, pico: 7, v: 1.8 },
+      'Patagonia': { t: 2798000, ver: 593000, pico: 1, v: 1.6 }
+    };
+    var BINS = [
+      { max: 1500000, color: '#DCEAFE', texto: '< 1,5 M' },
+      { max: 2000000, color: '#93BBFA', texto: '1,5–2 M' },
+      { max: 2400000, color: '#5491F0', texto: '2–2,4 M' },
+      { max: 2700000, color: '#2F6FE0', texto: '2,4–2,7 M' },
+      { max: Infinity, color: '#1A3E9A', texto: '2,7 M o más' }
+    ];
+    var colorDe = function (v) { for (var i = 0; i < BINS.length; i++) if (v < BINS[i].max) return BINS[i].color; return BINS[4].color; };
+    var info = {}, colores = {};
+    Object.keys(R).forEach(function (r) {
+      var d = R[r];
+      var frase = d.v >= 1 ? 'Viene creciendo frente al año anterior' : d.v <= -1 ? 'Viene un poco por debajo del año anterior' : 'Parecido al año anterior';
+      info[r] = { nombre: r, total: mil(d.t), verano: mil(d.ver), pico: MESES[d.pico - 1].charAt(0).toUpperCase() + MESES[d.pico - 1].slice(1), var: pct(d.v), frase: frase };
+      colores[r] = colorDe(d.t);
+    });
+    var sel = info[st.sel] ? st.sel : 'Patagonia';
+    var pick = function (r) { return function () { self.setState({ sel: r }); try { window.localStorage.setItem('pt_region', r); } catch (e) {} }; };
+    var enter = function (r) { return function () { self.setState({ hover: r }); }; };
+
+    var tip = { show: false };
+    if (st.hover && info[st.hover]) {
+      var left = st.tx + 18; if (left > st.w - 250) left = Math.max(8, st.tx - 258);
+      tip = Object.assign({}, info[st.hover], { show: true,
+        pos: 'position: absolute; left: ' + left + 'px; top: ' + Math.max(8, st.ty - 80) + 'px; width: 240px; box-sizing: border-box; padding: 14px 16px; background: #0E1A2B; color: #FFFFFF; border-radius: 12px; box-shadow: 0 10px 28px rgba(14,26,43,0.3); display: flex; flex-direction: column; gap: 2px; pointer-events: none; z-index: 2' });
+    }
+    var orden = Object.keys(R).sort(function (a, b) { return R[b].t - R[a].t; });
+
+    // Serie nacional: real ene-2024..nov-2025, luego modelo nacional por escenario (dic-2025..dic-2028)
+    var H = [1482828,1358641,1224165,980909,871390,973632,1341532,1097696,1164397,1268423,1264323,1106419,1531958,1403042,1250236,1089542,1000810,968940,1433612,1164506,1180520,1244191,1341549];
+    var P = {
+      Optimista: [1151186,1591609,1459286,1306262,1139347,1046266,1012067,1493799,1213159,1228644,1293445,1396424,1197765,1653583,1517784,1364799,1191429,1093786,1057114,1556513,1263844,1278730,1344648,1453543,1246228,1717970,1578628,1425958,1245892,1143465,1104167,1621859,1316647,1330858,1397879,1512999,1296652],
+      Base: [1129904,1562383,1432477,1279873,1114411,1025924,995021,1469209,1189278,1202026,1265681,1367621,1153887,1593412,1462529,1310212,1139847,1051668,1021803,1505689,1214577,1223923,1287541,1394200,1178380,1625057,1493211,1341270,1165863,1078058,1049307,1543075,1240414,1246219,1309779,1421296,1203392],
+      Pesimista: [1072663,1463039,1339923,1194274,1040992,959978,931627,1381546,1123179,1139819,1204710,1299734,1039936,1397221,1279643,1140816,994606,920813,895751,1331372,1083319,1100521,1166481,1259223,1008208,1334364,1222075,1089752,950287,883245,861257,1283019,1044874,1062578,1129466,1219974,977448]
+    };
+    var X = function (i) { return 40 + i * (950 / 59); };
+    var Y = function (v) { return 20 + (1800000 - v) / 1000000 * 280; };
+    var pt = function (i, v) { return X(i).toFixed(1) + ',' + Y(v).toFixed(1); };
+    var serie = function (esc) { return H.concat(P[esc]); };
+    var tramo = function (arr, a, b) { var o = []; for (var i = a; i <= b; i++) o.push(pt(i, arr[i])); return o.join(' '); };
+    var banda = function (arr, a, b, f) { var up = [], lo = []; for (var i = a; i <= b; i++) { up.push(pt(i, arr[i] * (1 + f))); lo.unshift(pt(i, arr[i] * (1 - f))); } return up.concat(lo).join(' '); };
+    var s = serie(st.esc);
+    var otras = ['Optimista', 'Base', 'Pesimista'].filter(function (n) { return n !== st.esc; });
+    var total = 0; for (var i = 34; i <= 45; i++) total += s[i];
+    var prev = 0; for (var j = 22; j <= 33; j++) prev += s[j];
+    var dv = (total / prev - 1) * 100;
+    var colorVar = { Optimista: 'var(--opt)', Base: 'var(--ink)', Pesimista: 'var(--pes)' }[st.esc];
+
+    return {
+      clase: 'tema ' + st.cadena + (oscuro ? ' oscuro' : ''),
+      cad: CAD[st.cadena],
+      mapa: { colores: colores, sel: sel, hover: st.hover, borde: oscuro ? '#131D2E' : '#FFFFFF', marca: oscuro ? '#FFB27A' : '#0E1A2B', tinta: oscuro ? '#EDF2F8' : '#0E1A2B', onHover: function (r) { if (self.state.hover !== r) self.setState({ hover: r }); }, onPick: function (r) { pick(r)(); } },
+      tip: tip,
+      move: function (e) { var r = e.currentTarget.getBoundingClientRect(); self.setState({ tx: e.clientX - r.left, ty: e.clientY - r.top, w: r.width }); },
+      leave: function () { self.setState({ hover: null }); },
+      det: info[sel],
+      irNegocio: function () { try { window.localStorage.setItem('pt_region', sel); } catch (e) {} },
+      leyenda: BINS.map(function (b) { return { texto: b.texto, estilo: 'display: block; height: 14px; border-radius: 3px; background: ' + b.color }; }),
+      ranking: orden.map(function (r) {
+        var on = r === sel;
+        return { nombre: r, pressed: on ? 'true' : 'false', pick: pick(r), enter: enter(r),
+          estilo: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 999px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; color: var(--ink); background: ' + (on ? 'var(--accent-soft)' : 'var(--card)') + '; border: 1.5px solid ' + (on ? 'var(--accent)' : 'var(--line)'),
+          swatch: 'width: 12px; height: 12px; border-radius: 50%; background: ' + colores[r] };
+      }),
+      escenarios: ['Optimista', 'Base', 'Pesimista'].map(function (n) {
+        var on = n === st.esc;
+        return { nombre: n, pressed: on ? 'true' : 'false', pick: function () { self.setState({ esc: n }); },
+          estilo: 'min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 15px Manrope, sans-serif; background: ' + (on ? 'var(--accent)' : 'transparent') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+      }),
+      pts: {
+        real: tramo(s, 0, 22), puente: tramo(s, 22, 33), pron: tramo(s, 33, 45), tend: tramo(s, 45, 59),
+        otra1: tramo(serie(otras[0]), 33, 59), otra2: tramo(serie(otras[1]), 33, 59)
+      },
+      banda: banda(s, 33, 45, 0.06), banda2: banda(s, 45, 59, 0.12),
+      colorEsc: 'stroke: ' + colorVar,
+      hoy: X(33.8).toFixed(1), xReal: X(11).toFixed(1), xPuente: X(27.5).toFixed(1), xPron: X(39.5).toFixed(1), xTend: X(52).toFixed(1),
+      k: { total: mil(total), frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(Math.round(dv)) + ' % frente a los 12 meses anteriores',
+        estiloVar: 'align-self: flex-start; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; background: var(--chip); color: ' + colorVar }
+    };
+  }
+}
+</script>
+</body>
+</html>

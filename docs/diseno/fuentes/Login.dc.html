@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Entrar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
+.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5}
+.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940}
+.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
+.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+h1,h2{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+input:focus{outline:none}
+</style>
+</helmet>
+<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
+  <section aria-label="Presentación" style="flex: 1 1 420px; background: var(--side); color: var(--side-ink); padding: clamp(32px, 6vw, 72px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 40px">
+    <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px">Pronóstico Turismo</span>
+    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 520px">
+      <span aria-hidden="true" style="width: 88px; height: 88px; border-radius: 24px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center">
+        <sc-if value="{{esAndina}}" hint-placeholder-val="{{true}}"><svg width="52" height="52" viewBox="0 0 24 24"><path d="M2 20 9 7l4 7 3-4 6 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="m7.5 10 1.5 1.5 1.5-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+        <sc-if value="{{esPampa}}" hint-placeholder-val="{{false}}"><svg width="52" height="52" viewBox="0 0 24 24"><circle cx="12" cy="13" r="4.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M2 18h20M12 4v2.5M4.5 7.5l1.8 1.8M19.5 7.5l-1.8 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></sc-if>
+      </span>
+      <h1 style="margin: 0; font-size: clamp(32px, 4vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em">Sabé cuánta gente viene y a qué precio publicar.</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.55; color: var(--side-muted)">Pronóstico de viajeros por región para los próximos 12 meses y precios recomendados para cada habitación de tu cadena.</p>
+    </div>
+    <span style="font-size: 13px; color: var(--side-muted)">Datos oficiales: INDEC (EOH), Ministerio de Turismo, BCRA</span>
+  </section>
+
+  <main style="flex: 1 1 420px; padding: clamp(32px, 6vw, 72px); box-sizing: border-box; display: flex; align-items: center; justify-content: center">
+    <form style="width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 22px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 800">Entrar</h2>
+        <p style="margin: 0; font-size: 15px; color: var(--muted)">Elegí tu cadena para ver tus hoteles.</p>
+      </div>
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="font-size: 14px; font-weight: 700; margin-bottom: 8px">Cadena</legend>
+        <sc-for list="{{cadenas}}" as="c" hint-placeholder-count="2">
+          <button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="{{c.estilo}}">
+            <span style="{{c.badge}}">{{c.ini}}</span>
+            <span style="display: flex; flex-direction: column; gap: 2px; text-align: left; flex: 1 1 auto">
+              <span style="font-size: 16px; font-weight: 800">{{c.nombre}}</span>
+              <span style="font-size: 13px; font-weight: 500; color: var(--muted)">{{c.detalle}}</span>
+            </span>
+            <span style="{{c.check}}"></span>
+          </button>
+        </sc-for>
+      </fieldset>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="mail" style="font-size: 14px; font-weight: 700">Correo</label>
+        <input id="mail" type="email" value="{{mail}}" readonly="readonly" style="min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif; box-sizing: border-box">
+      </div>
+      <a href="MiNegocio.dc.html" onClick="{{entrar}}" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 12px; background: var(--accent); color: var(--on-accent); font-size: 17px; font-weight: 800; text-decoration: none">Entrar como {{nombreCorto}}</a>
+      <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">Demo: las cadenas, hoteles y precios son ficticios y no se pide contraseña.</p>
+    </form>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"oscuro":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var c = 'andina';
+    try { c = window.localStorage.getItem('pt_cadena') || 'andina'; } catch (e) {}
+    this.state = { cadena: c === 'pampa' ? 'pampa' : 'andina' };
+  }
+  renderVals() {
+    var self = this, sel = this.state.cadena;
+    var oscuro = this.props.oscuro ?? false;
+    var C = [
+      { id: 'andina', nombre: 'Cadena Andina', ini: 'CA', detalle: '4 hoteles · Patagonia, Cuyo y Norte', mail: 'gerencia@cadenaandina.demo', color: 'var(--accent)' },
+      { id: 'pampa', nombre: 'Grupo Pampa Hoteles', ini: 'GP', detalle: '2 hoteles · Buenos Aires y Córdoba', mail: 'gerencia@grupopampa.demo', color: 'var(--accent)' }
+    ];
+    var act = C[0].id === sel ? C[0] : C[1];
+    return {
+      clase: 'tema ' + sel + (oscuro ? ' oscuro' : ''),
+      esAndina: sel === 'andina', esPampa: sel === 'pampa',
+      mail: act.mail, nombreCorto: act.nombre,
+      cadenas: C.map(function (c) {
+        var on = c.id === sel;
+        return {
+          ini: c.ini, nombre: c.nombre, detalle: c.detalle, pressed: on ? 'true' : 'false',
+          pick: function () { self.setState({ cadena: c.id }); },
+          estilo: 'display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 12px 16px; border-radius: 14px; cursor: pointer; font-family: Manrope, sans-serif; color: var(--ink); background: var(--card); border: 2px solid ' + (on ? c.color : 'var(--line)') + (on ? '; box-shadow: 0 6px 18px rgba(14,26,43,0.10)' : ''),
+          badge: 'flex: none; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font: 800 16px Archivo, sans-serif; color: #FFFFFF; background: ' + c.color,
+          check: 'flex: none; width: 22px; height: 22px; border-radius: 50%; box-sizing: border-box; border: 2px solid ' + (on ? c.color : 'var(--line)') + '; background: ' + (on ? c.color : 'transparent') + (on ? '; box-shadow: inset 0 0 0 4px var(--card)' : '')
+        };
+      }),
+      entrar: function () { try { window.localStorage.setItem('pt_cadena', sel); } catch (e) {} }
+    };
+  }
+}
+</script>
+</body>
+</html>

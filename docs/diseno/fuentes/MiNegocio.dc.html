@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mi negocio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
+a{color:#6D28D9}a:hover{color:#4C1D95}
+.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5;--sube:#1D4ED8;--baja:#C2410C;--igual:#5B6878;--sube-soft:#E3ECFF;--baja-soft:#FDE9DD;--igual-soft:#EDF0F4}
+.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940;--sube:#7FA6FF;--baja:#FF9A62;--igual:#A7B4C4;--sube-soft:#1B2A4F;--baja-soft:#3A2416;--igual-soft:#1C2940}
+.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
+.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+h1,h2,h3{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+select:focus,input:focus{outline:none}
+summary{cursor:pointer}
+</style>
+</helmet>
+<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
+  <nav aria-label="Secciones" style="flex: 1 1 220px; background: var(--side); color: var(--side-ink); padding: 28px 20px; display: flex; flex-direction: column; gap: 28px; box-sizing: border-box">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 14px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 18px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 18px">{{cad.nombre}}</span>
+        <span style="font-size: 13px; color: var(--side-muted)">{{cad.detalle}}</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Panel general</a>
+      <a href="MiNegocio.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)">Mi negocio</a>
+      <a href="Supuestos.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Supuestos económicos</a>
+      <a href="Perfil.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--side-ink); font-weight: 600; text-decoration: none">Perfil del turista</a>
+    </div>
+    <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; line-height: 1.5; color: var(--side-muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
+      <a href="Login.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
+    </div>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
+    <header style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Mi negocio · {{mesNombre}}</span>
+      <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance">{{titular}}</h1>
+    </header>
+
+    <section aria-label="Mes y filtros" style="display: flex; flex-direction: column; gap: 14px">
+      <div role="group" aria-label="Mes" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px">
+        <sc-for list="{{meses}}" as="m" hint-placeholder-count="12">
+          <button type="button" aria-pressed="{{m.pressed}}" onClick="{{m.pick}}" style="{{m.estilo}}">{{m.corto}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px">
+          <label for="f-hotel" style="font-size: 13px; font-weight: 700; color: var(--muted)">Hotel</label>
+          <select id="f-hotel" value="{{fHotel}}" onChange="{{setHotel}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif">
+            <sc-for list="{{opHoteles}}" as="o" hint-placeholder-count="3">
+              <option value="{{o.v}}">{{o.t}}</option>
+            </sc-for>
+          </select>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px">
+          <label for="f-region" style="font-size: 13px; font-weight: 700; color: var(--muted)">Región</label>
+          <select id="f-region" value="{{fRegion}}" onChange="{{setRegion}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif">
+            <sc-for list="{{opRegiones}}" as="o" hint-placeholder-count="3">
+              <option value="{{o.v}}">{{o.t}}</option>
+            </sc-for>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Resumen del mes" style="display: flex; flex-wrap: wrap; gap: 16px">
+      <div style="flex: 1 1 340px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center">
+        <svg viewBox="0 0 120 120" width="132" height="132" role="img" aria-label="{{dona.aria}}" style="flex: none">
+          <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--chip)" stroke-width="18"></circle>
+          <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--sube)" stroke-width="18" stroke-dasharray="{{dona.sube}}" stroke-dashoffset="0" transform="rotate(-90 60 60)"></circle>
+          <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--igual)" stroke-width="18" stroke-dasharray="{{dona.igual}}" stroke-dashoffset="{{dona.offIgual}}" transform="rotate(-90 60 60)"></circle>
+          <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--baja)" stroke-width="18" stroke-dasharray="{{dona.baja}}" stroke-dashoffset="{{dona.offBaja}}" transform="rotate(-90 60 60)"></circle>
+          <text x="60" y="58" text-anchor="middle" font-family="Archivo, sans-serif" font-size="28" font-weight="800" style="fill: var(--ink)">{{dona.total}}</text>
+          <text x="60" y="78" text-anchor="middle" font-family="Manrope, sans-serif" font-size="11" font-weight="600" style="fill: var(--muted)">publicaciones</text>
+        </svg>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--sube-soft); color: var(--sube); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.sube}} para subir</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--baja-soft); color: var(--baja); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.baja}} para bajar</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--igual-soft); color: var(--igual); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.igual}} sin cambios</span>
+        </div>
+      </div>
+      <div style="flex: 1 1 260px; background: var(--accent); color: var(--on-accent); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 8px; justify-content: center">
+        <span style="font-size: 14px; font-weight: 700; opacity: 0.9">Si aplicás todo en {{mesNombre}}</span>
+        <span style="font-family: 'Archivo', sans-serif; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{res.impacto}}</span>
+        <span style="font-size: 14px; opacity: 0.9">en ingresos estimados del mes</span>
+        <button type="button" onClick="{{aplicarTodas}}" style="align-self: flex-start; margin-top: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--card); color: var(--ink); font: 800 15px 'Manrope', sans-serif; cursor: pointer">Aplicar todas</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-demanda" style="background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 28px">
+      <div style="flex: 3 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h2 id="t-demanda" style="margin: 0; font-size: 20px; font-weight: 800">Cuánta gente llega a tus regiones · nov 2026 – oct 2027</h2>
+          <span style="font-size: 13px; color: var(--muted)">Más oscuro, más viajeros. Pasá el mouse por un mes para ver el detalle.</span>
+        </div>
+        <div style="overflow-x: auto">
+          <div style="min-width: 560px; display: flex; flex-direction: column; gap: 8px">
+            <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 800; text-align: center">
+              <span></span>
+              <span style="grid-column: 4 / span 2; padding: 4px 0; border-radius: 6px; background: var(--accent-soft); color: var(--accent)">Verano 2027</span>
+              <span style="grid-column: 10 / span 1; padding: 4px 0; border-radius: 6px; background: var(--accent-soft); color: var(--accent)">Invierno</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 700; color: var(--muted); text-align: center">
+              <span></span>
+              <sc-for list="{{meses}}" as="m" hint-placeholder-count="12"><span>{{m.ini}}</span></sc-for>
+            </div>
+            <sc-for list="{{calor}}" as="r" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; align-items: center">
+                <span style="font-size: 14px; font-weight: 800">{{r.nombre}}</span>
+                <sc-for list="{{r.celdas}}" as="c" hint-placeholder-count="12">
+                  <span title="{{c.titulo}}" style="{{c.estilo}}"></span>
+                </sc-for>
+              </div>
+            </sc-for>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); padding-left: 114px">
+              <span>Temporada baja</span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #DCEAFE"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #93BBFA"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #5491F0"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #2F6FE0"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #1A3E9A"></span>
+              <span>alta</span>
+            </div>
+          </div>
+        </div>
+        <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">La proyección por región depende de la temporada y la conectividad aérea; los escenarios económicos aplican al total país. Margen de error habitual: {{errores}}.</p>
+      </div>
+      <div style="flex: 1 1 200px; max-width: 260px; display: flex; flex-direction: column; gap: 10px">
+        <dc-import name="MapaArgentina" datos="{{mapa}}" hint-size="100%,500px"></dc-import>
+        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted)">
+          <span style="font-weight: 700; color: var(--ink)">{{mesNombre}} frente a lo normal</span>
+          <div style="display: flex; gap: 3px"><span style="flex: 1; height: 10px; border-radius: 2px; background: #C2410C"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #F6B58F"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #CBD5E1"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #93B4F5"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #1D4ED8"></span></div>
+          <div style="display: flex; justify-content: space-between"><span>más flojo</span><span>normal</span><span>más fuerte</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-pubs" style="display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px">
+        <h2 id="t-pubs" style="margin: 0; font-size: 22px; font-weight: 800">Tus publicaciones en {{mesNombre}}</h2>
+        <span style="font-size: 13px; color: var(--muted)">Pasá el mouse por la flecha para ver los precios</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 14px">
+        <sc-for list="{{pubs}}" as="p" hint-placeholder-count="6">
+          <article style="{{p.estiloCard}}">
+            <div style="display: flex; justify-content: space-between; gap: 10px; align-items: flex-start">
+              <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+                <span style="font-size: 12px; font-weight: 700; color: var(--muted)">{{p.num}} · {{p.hotel}}</span>
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800">{{p.tipo}}</h3>
+              </div>
+              <span style="{{p.estiloEstado}}">{{p.estado}}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span title="{{p.tituloPrecio}}" style="{{p.estiloFlecha}}">
+                <sc-if value="{{p.sube}}" hint-placeholder-val="{{true}}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                <sc-if value="{{p.baja}}" hint-placeholder-val="{{false}}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                <sc-if value="{{p.igual}}" hint-placeholder-val="{{false}}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+              </span>
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="{{p.estiloVerbo}}">{{p.verbo}}</span>
+                <span style="font-size: 13px; color: var(--muted); line-height: 1.4">{{p.motivo}}</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <div aria-hidden="true" style="position: relative; height: 10px; border-radius: 999px; background: var(--chip)">
+                <span style="position: absolute; left: 50%; top: -3px; width: 2px; height: 16px; background: var(--muted)"></span>
+                <span style="{{p.estiloTermo}}"></span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--muted)"><span>Demanda floja</span><span>normal</span><span>fuerte</span></div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: var(--muted)">
+              <span style="display: inline-flex; align-items: center; gap: 4px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.8c1.6.8 2.6 2.5 3 5.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>{{p.capacidad}} personas</span>
+              <span>·</span>
+              <span>{{p.unidades}} habitaciones</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px">
+              <button type="button" onClick="{{p.aplicar}}" style="min-height: 44px; padding: 0 14px; border: 0; border-radius: 10px; background: var(--accent); color: var(--on-accent); font: 800 14px 'Manrope', sans-serif; cursor: pointer">Aplicar recomendación</button>
+              <button type="button" aria-expanded="{{p.expandido}}" onClick="{{p.toggle}}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 700 14px 'Manrope', sans-serif; cursor: pointer">{{p.textoToggle}}</button>
+            </div>
+            <sc-if value="{{p.abierto}}" hint-placeholder-val="{{false}}">
+              <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line)">
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end">
+                  <div style="display: flex; flex-direction: column; gap: 4px">
+                    <label for="{{p.idInput}}" style="font-size: 12px; font-weight: 700; color: var(--muted)">Precio publicado hoy (ARS por noche)</label>
+                    <input id="{{p.idInput}}" type="number" step="1000" value="{{p.precio}}" onChange="{{p.setPrecio}}" style="min-height: 44px; width: 160px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 700 16px 'Manrope', sans-serif; box-sizing: border-box">
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px">
+                    <span style="font-size: 12px; font-weight: 700; color: var(--muted)">Recomendado</span>
+                    <span style="font-family: 'Archivo', sans-serif; font-size: 22px; font-weight: 800; min-height: 44px; display: flex; align-items: center">{{p.recTexto}}</span>
+                  </div>
+                </div>
+                <span style="font-size: 12px; font-weight: 700; color: var(--muted)">Precio recomendado mes a mes, frente al de hoy</span>
+                <div role="img" aria-label="{{p.ariaMeses}}" style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; height: 70px; align-items: stretch">
+                  <sc-for list="{{p.meses}}" as="b" hint-placeholder-count="12">
+                    <div title="{{b.titulo}}" style="position: relative; height: 70px">
+                      <span style="position: absolute; left: 0; right: 0; top: 35px; height: 1px; background: var(--line)"></span>
+                      <span style="{{b.estilo}}"></span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; font-size: 10px; font-weight: 700; color: var(--muted); text-align: center">
+                  <sc-for list="{{meses}}" as="m" hint-placeholder-count="12"><span>{{m.ini}}</span></sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <details style="background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px">
+      <summary style="font-weight: 800; font-size: 16px; min-height: 28px">Ajustes avanzados</summary>
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; padding-top: 16px">
+        <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px">
+          <div style="display: flex; justify-content: space-between"><label for="sens" style="font-weight: 700">Sensibilidad</label><output for="sens" style="font-weight: 800">{{sensTexto}}</output></div>
+          <input id="sens" type="range" min="0" max="1" step="0.1" value="{{sens}}" onChange="{{setSens}}" style="width: 100%; accent-color: var(--accent)">
+          <span style="font-size: 13px; color: var(--muted); line-height: 1.5">Cuánto seguís a la demanda. Con 0,5, si el mes viene 10 % más fuerte que lo normal, el precio sube 5 %.</span>
+        </div>
+        <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px">
+          <div style="display: flex; justify-content: space-between"><label for="tope" style="font-weight: 700">Tope de ajuste</label><output for="tope" style="font-weight: 800">± {{tope}} %</output></div>
+          <input id="tope" type="range" min="5" max="50" step="5" value="{{tope}}" onChange="{{setTope}}" style="width: 100%; accent-color: var(--accent)">
+          <span style="font-size: 13px; color: var(--muted); line-height: 1.5">Lo máximo que se mueve un precio en un mes, para arriba o para abajo.</span>
+        </div>
+      </div>
+    </details>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"oscuro":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var cadena = 'andina', region = 'todas';
+    try { cadena = window.localStorage.getItem('pt_cadena') || 'andina'; } catch (e) {}
+    try { var r = window.localStorage.getItem('pt_region'); if (r) region = r; } catch (e) {}
+    this.state = { cadena: cadena, mes: 0, hotel: 'todos', region: region, sens: 0.5, tope: 25, abierto: null, precios: {} };
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    var MES_L = ['Noviembre 2026', 'Diciembre 2026', 'Enero 2027', 'Febrero 2027', 'Marzo 2027', 'Abril 2027', 'Mayo 2027', 'Junio 2027', 'Julio 2027', 'Agosto 2027', 'Septiembre 2027', 'Octubre 2027'];
+    var MES_C = ['Nov', 'Dic', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'];
+    var DIAS = [30, 31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31];
+    // Viajeros proyectados por región (RF regional, nov-2026 a oct-2027) y desvío contra lo normal del mes (%)
+    var REG = {
+      'Buenos Aires': { v: [182600,174900,322200,247300,168400,113600,71700,86200,110600,95000,115500,128700], dv: [-0.2,-11.8,-6.6,-13.7,-14.0,-12.1,-21.3,-6.4,-2.4,-7.8,-14.6,-15.5], err: '10,3' },
+      'CABA': { v: [200400,152100,120200,128400,163100,149900,142000,145100,200600,154200,160300,173300], dv: [-1.9,-11.3,-17.2,-14.3,-9.5,-10.3,-17.9,-13.0,-3.2,-13.4,-11.5,-7.6], err: '7,9' },
+      'Cuyo': { v: [114100,80400,113400,101900,100400,92000,81900,84600,139500,103700,100800,101400], dv: [3.1,-9.3,-6.4,-10.1,-12.5,-11.9,-19.6,-20.7,-7.1,-8.9,-15.3,-11.3], err: '10,8' },
+      'Córdoba': { v: [232900,198300,286900,311400,213600,167600,134300,161600,244100,192300,186100,207200], dv: [15.1,17.1,6.9,20.2,13.3,12.7,0.3,8.2,14.2,20.5,8.9,7.2], err: '8,2' },
+      'Litoral': { v: [201100,178800,232500,212500,207900,184600,171100,171800,229200,185000,183700,208300], dv: [-0.3,4.5,7.6,1.5,5.3,1.2,-7.2,-7.9,1.7,-4.7,-9.0,-3.3], err: '8,8' },
+      'Norte': { v: [154600,106600,135600,132300,145000,150100,139000,155100,268900,160000,167100,168700], dv: [6.7,-1.5,-3.6,-7.2,-0.9,0.6,-12.9,-11.3,-0.8,-10.8,-6.5,-1.7], err: '8,9' },
+      'Patagonia': { v: [271500,222800,324100,269200,229100,195000,136500,163300,259500,237500,240300,249500], dv: [10.7,-5.9,-4.2,-4.7,-10.0,-8.0,-16.5,-7.1,3.0,-1.9,-4.4,-2.2], err: '8,8' }
+    };
+    // Cadenas ficticias de demostración (data/cadenas_demo.json)
+    var CAD = {
+      andina: { nombre: 'Cadena Andina', ini: 'CA', hoteles: [
+        { id: 'andina-bariloche', nombre: 'Andina Bariloche', region: 'Patagonia', x: 55.4, y: 480.7, pubs: [['andina-bariloche-doble','Doble estándar',2,24,145000,'publicada'],['andina-bariloche-lago','Doble vista al lago',2,12,190000,'publicada'],['andina-bariloche-familiar','Familiar',4,8,235000,'publicada'],['andina-bariloche-suite','Suite',2,4,280000,'pausada']] },
+        { id: 'andina-ushuaia', nombre: 'Andina Ushuaia', region: 'Patagonia', x: 112.6, y: 800, pubs: [['andina-ushuaia-doble','Doble estándar',2,18,160000,'publicada'],['andina-ushuaia-canal','Doble vista al canal',2,8,205000,'publicada'],['andina-ushuaia-familiar','Familiar',4,6,230000,'publicada']] },
+        { id: 'andina-mendoza', nombre: 'Andina Mendoza', region: 'Cuyo', x: 102.3, y: 282.1, pubs: [['andina-mendoza-doble','Doble estándar',2,30,110000,'publicada'],['andina-mendoza-superior','Superior',2,14,150000,'publicada'],['andina-mendoza-triple','Triple',3,8,165000,'publicada'],['andina-mendoza-suite','Suite con vista a la cordillera',2,3,240000,'pausada']] },
+        { id: 'andina-salta', nombre: 'Andina Salta', region: 'Norte', x: 167.4, y: 86.9, pubs: [['andina-salta-doble','Doble estándar',2,22,90000,'publicada'],['andina-salta-triple','Triple',3,10,120000,'publicada'],['andina-salta-cuadruple','Cuádruple',4,6,145000,'publicada']] }
+      ] },
+      pampa: { nombre: 'Grupo Pampa Hoteles', ini: 'GP', hoteles: [
+        { id: 'pampa-mardelplata', nombre: 'Pampa Mar del Plata', region: 'Buenos Aires', x: 316.7, y: 405.2, pubs: [['pampa-mdp-doble','Doble estándar',2,40,95000,'publicada'],['pampa-mdp-mar','Doble vista al mar',2,20,130000,'publicada'],['pampa-mdp-familiar','Familiar',4,12,160000,'publicada'],['pampa-mdp-dpto','Departamento 2 ambientes',5,6,185000,'pausada']] },
+        { id: 'pampa-cordoba', nombre: 'Pampa Córdoba', region: 'Córdoba', x: 190.8, y: 246.7, pubs: [['pampa-cba-doble','Doble estándar',2,28,85000,'publicada'],['pampa-cba-ejecutiva','Ejecutiva',2,16,115000,'publicada'],['pampa-cba-triple','Triple',3,6,125000,'publicada']] }
+      ] }
+    };
+    var ck = CAD[st.cadena] ? st.cadena : 'andina';
+    var cad = CAD[ck];
+    var oscuro = this.props.oscuro ?? false;
+    var fmt = function (n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+    var pesos = function (n) { return '$ ' + fmt(Math.round(n / 100) * 100); };
+    var regionesCadena = [];
+    cad.hoteles.forEach(function (h) { if (regionesCadena.indexOf(h.region) < 0) regionesCadena.push(h.region); });
+    var fRegion = regionesCadena.indexOf(st.region) >= 0 ? st.region : 'todas';
+    var fHotel = cad.hoteles.some(function (h) { return h.id === st.hotel; }) ? st.hotel : 'todos';
+    var hoteles = cad.hoteles.filter(function (h) { return (fHotel === 'todos' || h.id === fHotel) && (fRegion === 'todas' || h.region === fRegion); });
+    var regsVista = [];
+    hoteles.forEach(function (h) { if (regsVista.indexOf(h.region) < 0) regsVista.push(h.region); });
+    if (!regsVista.length) regsVista = regionesCadena.slice();
+    var m = st.mes, s = Number(st.sens), tope = Number(st.tope) / 100;
+
+    // Regla de precios (src/precios.py)
+    var recomendar = function (precio, dv) { var c = Math.max(-tope, Math.min(tope, s * dv / 100)); return precio * (1 + c); };
+    var ocup = function (dv) { return Math.max(0, Math.min(1, 0.6 * (1 + dv / 100))); };
+
+    var res = { sube: 0, baja: 0, igual: 0 }, impacto = 0, n = 0;
+    var pubs = [];
+    hoteles.forEach(function (h, hi) {
+      var numHotel = cad.hoteles.indexOf(h) + 1;
+      h.pubs.forEach(function (p) {
+        var id = p[0];
+        var precio = st.precios[id] != null ? Number(st.precios[id]) : p[4];
+        var dv = REG[h.region].dv[m];
+        var rec = recomendar(precio, dv);
+        var cambio = (rec / precio - 1) * 100;
+        var dir = Math.abs(cambio) < 1 ? 'igual' : (cambio > 0 ? 'sube' : 'baja');
+        var pub = p[5] === 'publicada';
+        if (pub) { res[dir]++; n++; impacto += (rec - precio) * p[3] * ocup(dv) * DIAS[m]; }
+        var col = dir === 'sube' ? 'var(--sube)' : dir === 'baja' ? 'var(--baja)' : 'var(--igual)';
+        var soft = dir === 'sube' ? 'var(--sube-soft)' : dir === 'baja' ? 'var(--baja-soft)' : 'var(--igual-soft)';
+        var pctTxt = Math.abs(Math.round(cambio)) + ' %';
+        var dvR = Math.round(dv);
+        var mesLow = MES_L[m].split(' ')[0];
+        var motivo = dvR === 0 ? mesLow + ' viene normal en ' + h.region : mesLow + ' viene ' + (dvR > 0 ? '+' : '−') + Math.abs(dvR) + ' % ' + (dvR > 0 ? 'sobre' : 'bajo') + ' lo normal en ' + h.region;
+        var pos = Math.max(-25, Math.min(25, dv));
+        var abierto = st.abierto === id;
+        var mesesP = abierto ? REG[h.region].dv.map(function (d, i) {
+          var r = recomendar(precio, d); var c = (r / precio - 1);
+          var hpx = Math.min(34, Math.abs(c) / Math.max(tope, 0.05) * 34);
+          return {
+            titulo: MES_L[i] + ': ' + pesos(r) + ' (' + (c >= 0 ? '+' : '−') + Math.abs(Math.round(c * 100)) + ' %)',
+            estilo: 'position: absolute; left: 15%; right: 15%; border-radius: 3px; ' + (c >= 0 ? 'bottom: 35px; ' : 'top: 36px; ') + 'height: ' + Math.max(2, hpx).toFixed(0) + 'px; background: ' + (c >= 0 ? 'var(--sube)' : 'var(--baja)') + (i === m ? '' : '; opacity: 0.55')
+          };
+        }) : [];
+        pubs.push({
+          num: numHotel, hotel: h.nombre, tipo: p[1], capacidad: p[2], unidades: p[3],
+          estado: pub ? 'Publicada' : 'Pausada',
+          estiloEstado: 'flex: none; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; ' + (pub ? 'background: var(--accent-soft); color: var(--accent)' : 'background: var(--chip); color: var(--muted)'),
+          estiloCard: 'background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 4px 0 ' + col + (pub ? '' : '; opacity: 0.72'),
+          sube: dir === 'sube', baja: dir === 'baja', igual: dir === 'igual',
+          estiloFlecha: 'flex: none; width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: ' + soft + '; color: ' + col,
+          verbo: dir === 'sube' ? 'Subí ' + pctTxt : dir === 'baja' ? 'Bajá ' + pctTxt : 'Mantené el precio',
+          estiloVerbo: "font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 800; color: " + col,
+          motivo: motivo,
+          tituloPrecio: 'Hoy ' + pesos(precio) + ' por noche → recomendado ' + pesos(rec),
+          estiloTermo: 'position: absolute; top: 0; bottom: 0; border-radius: 999px; background: ' + (pos >= 0 ? 'var(--sube)' : 'var(--baja)') + '; ' + (pos >= 0 ? 'left: 50%; width: ' + (pos / 25 * 50).toFixed(1) + '%' : 'right: 50%; width: ' + (-pos / 25 * 50).toFixed(1) + '%'),
+          expandido: abierto ? 'true' : 'false', abierto: abierto, textoToggle: abierto ? 'Ocultar detalle' : 'Ver mes a mes',
+          toggle: function () { self.setState({ abierto: abierto ? null : id }); },
+          aplicar: function () { var np = Object.assign({}, self.state.precios); np[id] = Math.round(rec / 100) * 100; self.setState({ precios: np }); },
+          idInput: 'precio-' + id, precio: precio, recTexto: pesos(rec),
+          setPrecio: function (e) { var np = Object.assign({}, self.state.precios); np[id] = e.target.value; self.setState({ precios: np }); },
+          meses: mesesP, ariaMeses: 'Precio recomendado por mes para ' + p[1] + ' en ' + h.nombre
+        });
+      });
+    });
+
+    // Titular en lenguaje simple
+    var mejor = regsVista.slice().sort(function (a, b) { return REG[b].dv[m] - REG[a].dv[m]; });
+    var top = mejor[0], dvTop = REG[top].dv[m], mesN = MES_L[m].split(' ')[0];
+    var titular = dvTop >= 3 ? mesN + ' viene fuerte en ' + top + ': subí precios' : (REG[mejor[mejor.length - 1]].dv[m] <= -3 ? mesN + ' viene flojo en ' + mejor[mejor.length - 1] + ': conviene bajar un poco' : mesN + ' viene normal: mantené tus precios');
+
+    var calor = regsVista.map(function (r) {
+      var v = REG[r].v, mn = Math.min.apply(null, v), mx = Math.max.apply(null, v);
+      var esc = ['#DCEAFE', '#93BBFA', '#5491F0', '#2F6FE0', '#1A3E9A'];
+      return {
+        nombre: r,
+        celdas: v.map(function (x, i) {
+          var lv = Math.min(4, Math.floor((x - mn) / Math.max(1, mx - mn) * 5));
+          var dvx = Math.round(REG[r].dv[i]);
+          return {
+            titulo: MES_L[i] + ' en ' + r + ': ' + Math.round(x / 1000) + ' mil viajeros (' + (dvx >= 0 ? '+' : '−') + Math.abs(dvx) + ' % frente a lo normal)',
+            estilo: 'display: block; height: 40px; border-radius: 8px; background: ' + esc[lv] + (i === m ? '; box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--accent)' : '')
+          };
+        })
+      };
+    });
+
+    var div = function (dv) { return dv >= 5 ? '#1D4ED8' : dv >= 1 ? '#93B4F5' : dv > -1 ? '#CBD5E1' : dv > -5 ? '#F6B58F' : '#C2410C'; };
+    var colores = {};
+    Object.keys(REG).forEach(function (r) { colores[r] = regionesCadena.indexOf(r) >= 0 ? div(REG[r].dv[m]) : (oscuro ? '#1C2940' : '#E5EAF0'); });
+
+    var C = 2 * Math.PI * 46, tot = Math.max(1, n);
+    var lS = res.sube / tot * C, lI = res.igual / tot * C, lB = res.baja / tot * C;
+    var imp = impacto / 1000000;
+
+    return {
+      clase: 'tema ' + ck + (oscuro ? ' oscuro' : ''),
+      cad: { ini: cad.ini, nombre: cad.nombre, detalle: cad.hoteles.length + ' hoteles · datos ficticios' },
+      mesNombre: MES_L[m].split(' ')[0].toLowerCase() === MES_L[m].split(' ')[0].toLowerCase() ? MES_L[m] : MES_L[m],
+      titular: titular,
+      meses: MES_C.map(function (c, i) {
+        var on = i === m;
+        return { corto: c + ' ' + MES_L[i].slice(-2), ini: c, pressed: on ? 'true' : 'false', pick: function () { self.setState({ mes: i }); },
+          estilo: 'flex: none; min-height: 44px; min-width: 64px; padding: 0 12px; border-radius: 10px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; border: 1px solid ' + (on ? 'var(--accent)' : 'var(--line)') + '; background: ' + (on ? 'var(--accent)' : 'var(--card)') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+      }),
+      opHoteles: [{ v: 'todos', t: 'Todos los hoteles' }].concat(cad.hoteles.map(function (h) { return { v: h.id, t: h.nombre }; })),
+      opRegiones: [{ v: 'todas', t: 'Todas mis regiones' }].concat(regionesCadena.map(function (r) { return { v: r, t: r }; })),
+      fHotel: fHotel, fRegion: fRegion,
+      setHotel: function (e) { self.setState({ hotel: e.target.value }); },
+      setRegion: function (e) { var v = e.target.value; self.setState({ region: v }); try { if (v !== 'todas') window.localStorage.setItem('pt_region', v); } catch (x) {} },
+      res: { sube: res.sube, baja: res.baja, igual: res.igual, impacto: (imp >= 0 ? '+' : '−') + '$ ' + Math.abs(imp).toFixed(1).replace('.', ',') + ' M' },
+      dona: {
+        total: n, aria: res.sube + ' para subir, ' + res.igual + ' sin cambios y ' + res.baja + ' para bajar',
+        sube: lS.toFixed(1) + ' ' + C.toFixed(1), igual: lI.toFixed(1) + ' ' + C.toFixed(1), offIgual: (-lS).toFixed(1),
+        baja: lB.toFixed(1) + ' ' + C.toFixed(1), offBaja: (-(lS + lI)).toFixed(1)
+      },
+      aplicarTodas: function () { var np = Object.assign({}, self.state.precios); hoteles.forEach(function (h) { h.pubs.forEach(function (p) { if (p[5] !== 'publicada') return; var pr = np[p[0]] != null ? Number(np[p[0]]) : p[4]; np[p[0]] = Math.round(recomendar(pr, REG[h.region].dv[m]) / 100) * 100; }); }); self.setState({ precios: np }); },
+      calor: calor,
+      errores: regsVista.map(function (r) { return r + ' ± ' + REG[r].err + ' %'; }).join(' · '),
+      mapa: {
+        colores: colores, sel: fRegion === 'todas' ? null : fRegion, hover: null,
+        borde: oscuro ? '#131D2E' : '#FFFFFF', marca: oscuro ? '#EDF2F8' : '#0E1A2B', tinta: oscuro ? '#EDF2F8' : '#0E1A2B',
+        onPick: function (r) { if (regionesCadena.indexOf(r) >= 0) { self.setState({ region: r, hotel: 'todos' }); try { window.localStorage.setItem('pt_region', r); } catch (x) {} } },
+        pines: cad.hoteles.map(function (h, i) { return { num: i + 1, x: h.x, y: h.y, activo: hoteles.indexOf(h) >= 0 }; })
+      },
+      pubs: pubs,
+      sens: s, sensTexto: s.toFixed(1).replace('.', ','), tope: Math.round(tope * 100),
+      setSens: function (e) { self.setState({ sens: Number(e.target.value) }); },
+      setTope: function (e) { self.setState({ tope: Number(e.target.value) }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
