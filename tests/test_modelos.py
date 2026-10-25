@@ -65,3 +65,22 @@ def test_proyectar_region_usa_vuelos_observados_y_despues_el_supuesto():
     fijo.feature_names_in_ = modelos.FEATURES_REGION
     proy = modelos.proyectar_region(fijo, df, "CABA", hasta=fechas[11])
     assert proy.iloc[0] == d[modelos.TARGET].loc[fechas[0] - pd.DateOffset(years=1)] * 1.1
+
+
+def test_escenarios_ordenados_en_todas_las_regiones():
+    df = modelos.cargar_region()
+    rf = modelos.cargar("demanda_region_rf.joblib")
+    for region in modelos.REGIONES:
+        proy = {e: modelos.proyectar_region(rf, df, region, "2027-10-01", **modelos.ESCENARIOS_REGION[e]).loc["2026-11":]
+                for e in ["Pesimista", "Base", "Optimista"]}
+        assert (proy["Pesimista"] <= proy["Base"]).all(), region
+        assert (proy["Base"] <= proy["Optimista"]).all(), region
+
+
+def test_restricciones_de_monotonia_alineadas_con_el_pipeline():
+    rf = modelos.cargar("demanda_region_rf.joblib")
+    columnas = rf[0].get_feature_names_out()
+    cst = dict(zip(columnas, rf[-1].monotonic_cst))
+    assert cst["remainder__salario_real_var"] == 1 and cst["remainder__inflacion_log"] == -1
+    assert cst["remainder__emae_interanual"] == 1
+    assert all(v == 0 for c, v in cst.items() if c.startswith("region__"))

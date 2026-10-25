@@ -157,9 +157,11 @@ INICIO_PANDEMIA, FIN_PANDEMIA = "2020-03-01", "2021-12-01"
 VUELOS = ["pasajeros", "asientos", "vuelos"]  # de cabotaje
 FEATURES_TINA_NIVEL = ["region", "mes_sin", "mes_cos", "pasajeros_l12", "asientos_l12", "vuelos_l12"]
 FEATURES_TINA = ["region", "mes_sin", "mes_cos", "pasajeros_var_l12", "asientos_var_l12", "vuelos_var_l12"]
-CANDIDATAS_REGION = FEATURES[1:] + ["gasto_usd_var"]
+MACRO = FEATURES[1:]  # salario real, inflación, desocupación, tipo de cambio real y EMAE
+# de a una y, al final, el bloque macro junto (las macro se mueven juntas: de a una no alcanzan)
+CANDIDATAS_REGION = [[c] for c in MACRO] + [["gasto_usd_var"], MACRO]
 # resultado de `seleccion_region` (ver data/processed/seleccion_variables_region.csv)
-FEATURES_REGION = list(FEATURES_TINA)
+FEATURES_REGION = FEATURES_TINA + ["salario_real_var", "inflacion_log", "emae_interanual"]
 
 
 def cargar_region():
@@ -192,8 +194,20 @@ def features_region(g):
     return g
 
 
-def pipeline_region(estimador):
-    """Región en one-hot; los faltantes (vuelos antes de 2017, gasto antes de 2012) se completan con 0."""
+# signo esperado del efecto de cada variable macro sobre la demanda (0 = sin restricción)
+MONOTONIA = {"salario_real_var": 1, "emae_interanual": 1, "inflacion_log": -1, "desocupacion_var": -1}
+
+
+def restricciones(features, n_regiones=len(REGIONES)):
+    """monotonic_cst en el orden de columnas del pipeline: primero la región en one-hot, después el resto."""
+    return [0] * n_regiones + [MONOTONIA.get(f, 0) for f in features if f != "region"]
+
+
+def pipeline_region(estimador, features=None):
+    """Región en one-hot; los faltantes (vuelos antes de 2017, gasto antes de 2012) se completan con 0.
+    Con `features`, el Random Forest respeta el signo esperado de las variables macro (MONOTONIA)."""
+    if features is not None and "monotonic_cst" in estimador.get_params():
+        estimador.set_params(monotonic_cst=restricciones(features))
     return make_pipeline(
         ColumnTransformer([("region", OneHotEncoder(handle_unknown="ignore", sparse_output=False), ["region"])],
                           remainder="passthrough"),
@@ -221,7 +235,7 @@ def backtest_region(df, features, objetivo="variacion", nombres=("Random Forest"
         y = train.var_viajeros if objetivo == "variacion" else train[TARGET]
         salida = {"Baseline (mismo mes año anterior)": test.viajeros_anio_anterior}
         for nombre in nombres:
-            pred = pipeline_region(modelos_region()[nombre]).fit(train[features], y).predict(test[features])
+            pred = pipeline_region(modelos_region()[nombre], features).fit(train[features], y).predict(test[features])
             salida[nombre] = a_viajeros(test, pred) if objetivo == "variacion" else pred
         for nombre, pred in salida.items():
             preds.append(pd.DataFrame({"fecha": test.index, "anio": anio, "region": test.region.values,
@@ -244,20 +258,26 @@ def mape_promedio_region(df, features):
 
 
 def seleccion_region(df, base=FEATURES_TINA, candidatas=CANDIDATAS_REGION):
-    """Suma las candidatas de a una; cada una queda solo si baja el MAPE promedio de las regiones."""
+    """Suma las candidatas (variables o bloques) en orden; cada una queda solo si baja el MAPE promedio."""
     elegidas, mejor = list(base), mape_promedio_region(df, base)
     filas = [{"variable": "(base de Tina)", "mape": mejor, "queda": True}]
-    for c in candidatas:
-        valor = mape_promedio_region(df, elegidas + [c])
-        filas.append({"variable": c, "mape": valor, "queda": valor < mejor})
+    for bloque in candidatas:
+        nuevas = [c for c in bloque if c not in elegidas]
+        valor = mape_promedio_region(df, elegidas + nuevas)
+        nombre = bloque[0] if len(bloque) == 1 else "bloque macro (" + ", ".join(bloque) + ")"
+        filas.append({"variable": nombre, "mape": valor, "queda": valor < mejor})
         if valor < mejor:
-            elegidas, mejor = elegidas + [c], valor
+            elegidas, mejor = elegidas + nuevas, valor
     return elegidas, pd.DataFrame(filas)
+
+
+def usa_macro(modelo):
+    return any(f in MACRO for f in modelo.feature_names_in_)
 
 
 def entrenar_final_region(df, features=FEATURES_REGION):
     d = utilizables(df)
-    return pipeline_region(modelos_region()["Random Forest"]).fit(d[features], d.var_viajeros)
+    return pipeline_region(modelos_region()["Random Forest"], features).fit(d[features], d.var_viajeros)
 
 
 def x_futuro_region(d, fechas, columnas, salario_real_var=0, inflacion=30, desocupacion_var=0,
@@ -319,6 +339,39 @@ def datos_hotel(ev):
     train, test = ev[ev.anio <= 2021], ev[ev.anio >= 2022]
     return (train[FEATURES_HOTEL], train.hotel, train.pondera,
             test[FEATURES_HOTEL], test.hotel, test.pondera)
+
+
+ANIO_DESDE_HOTEL = 2022  # "datos reales" del perfil: viajes de 2022 a 2024-T2 (lo último de la EVyTH)
+CRITERIOS_PARECIDOS = ["quintil", "region_destino", "transporte", "motivo"]
+SOLTAR_EN_ORDEN = ["transporte", "quintil", "motivo"]  # el destino no se suelta nunca
+MINIMO_ENCUESTADOS = 30
+
+
+def pct_hotel(viajes):
+    return float(np.average(viajes.hotel, weights=viajes.pondera) * 100) if len(viajes) else None
+
+
+def viajes_parecidos(ev, perfil, minimo=MINIMO_ENCUESTADOS):
+    """% ponderado (pondera) de viajes parecidos que fueron a hotel, con n y los criterios usados.
+
+    Parecidos = mismo quintil, destino, transporte y motivo. Si hay menos de `minimo` encuestados, se sueltan
+    criterios en el orden de SOLTAR_EN_ORDEN hasta llegar al mínimo (o quedarse solo con el destino)."""
+    criterios = list(CRITERIOS_PARECIDOS)
+    for soltar in [None, *SOLTAR_EN_ORDEN]:
+        if soltar:
+            criterios.remove(soltar)
+        parecidos = ev[np.logical_and.reduce([ev[c] == perfil[c] for c in criterios])]
+        if len(parecidos) >= minimo:
+            break
+    return {"porcentaje_hotel": pct_hotel(parecidos), "n_encuestados": len(parecidos), "criterios_usados": criterios,
+            "criterios_soltados": [c for c in CRITERIOS_PARECIDOS if c not in criterios]}
+
+
+def grilla_hotel(ev):
+    """% ponderado de viajes en hotel por quintil × región de destino, con n."""
+    return (ev.groupby(["quintil", "region_destino"])
+            .apply(lambda g: pd.Series({"porcentaje_hotel": pct_hotel(g), "n_encuestados": len(g)}))
+            .reset_index())
 
 
 def modelos_hotel(depth_arbol=4):
