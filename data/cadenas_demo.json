@@ -1,0 +1,82 @@
+{
+  "aviso": "Datos FICTICIOS de demostración: las cadenas, hoteles, publicaciones y precios no existen.",
+  "cadenas": [
+    {
+      "id": "andina",
+      "nombre": "Cadena Andina (ficticia)",
+      "ficticia": true,
+      "hoteles": [
+        {
+          "id": "andina-bariloche",
+          "nombre": "Andina Bariloche",
+          "region": "Patagonia",
+          "publicaciones": [
+            {"id": "andina-bariloche-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 24, "precio_ars": 145000, "estado": "publicada"},
+            {"id": "andina-bariloche-lago", "tipo": "Doble vista al lago", "capacidad": 2, "unidades": 12, "precio_ars": 190000, "estado": "publicada"},
+            {"id": "andina-bariloche-familiar", "tipo": "Familiar", "capacidad": 4, "unidades": 8, "precio_ars": 235000, "estado": "publicada"},
+            {"id": "andina-bariloche-suite", "tipo": "Suite", "capacidad": 2, "unidades": 4, "precio_ars": 280000, "estado": "pausada"}
+          ]
+        },
+        {
+          "id": "andina-ushuaia",
+          "nombre": "Andina Ushuaia",
+          "region": "Patagonia",
+          "publicaciones": [
+            {"id": "andina-ushuaia-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 18, "precio_ars": 160000, "estado": "publicada"},
+            {"id": "andina-ushuaia-canal", "tipo": "Doble vista al canal", "capacidad": 2, "unidades": 8, "precio_ars": 205000, "estado": "publicada"},
+            {"id": "andina-ushuaia-familiar", "tipo": "Familiar", "capacidad": 4, "unidades": 6, "precio_ars": 230000, "estado": "publicada"}
+          ]
+        },
+        {
+          "id": "andina-mendoza",
+          "nombre": "Andina Mendoza",
+          "region": "Cuyo",
+          "publicaciones": [
+            {"id": "andina-mendoza-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 30, "precio_ars": 110000, "estado": "publicada"},
+            {"id": "andina-mendoza-superior", "tipo": "Superior", "capacidad": 2, "unidades": 14, "precio_ars": 150000, "estado": "publicada"},
+            {"id": "andina-mendoza-triple", "tipo": "Triple", "capacidad": 3, "unidades": 8, "precio_ars": 165000, "estado": "publicada"},
+            {"id": "andina-mendoza-suite", "tipo": "Suite con vista a la cordillera", "capacidad": 2, "unidades": 3, "precio_ars": 240000, "estado": "pausada"}
+          ]
+        },
+        {
+          "id": "andina-salta",
+          "nombre": "Andina Salta",
+          "region": "Norte",
+          "publicaciones": [
+            {"id": "andina-salta-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 22, "precio_ars": 90000, "estado": "publicada"},
+            {"id": "andina-salta-triple", "tipo": "Triple", "capacidad": 3, "unidades": 10, "precio_ars": 120000, "estado": "publicada"},
+            {"id": "andina-salta-cuadruple", "tipo": "Cuádruple", "capacidad": 4, "unidades": 6, "precio_ars": 145000, "estado": "publicada"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pampa",
+      "nombre": "Grupo Pampa Hoteles (ficticio)",
+      "ficticia": true,
+      "hoteles": [
+        {
+          "id": "pampa-mardelplata",
+          "nombre": "Pampa Mar del Plata",
+          "region": "Buenos Aires",
+          "publicaciones": [
+            {"id": "pampa-mdp-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 40, "precio_ars": 95000, "estado": "publicada"},
+            {"id": "pampa-mdp-mar", "tipo": "Doble vista al mar", "capacidad": 2, "unidades": 20, "precio_ars": 130000, "estado": "publicada"},
+            {"id": "pampa-mdp-familiar", "tipo": "Familiar", "capacidad": 4, "unidades": 12, "precio_ars": 160000, "estado": "publicada"},
+            {"id": "pampa-mdp-dpto", "tipo": "Departamento 2 ambientes", "capacidad": 5, "unidades": 6, "precio_ars": 185000, "estado": "pausada"}
+          ]
+        },
+        {
+          "id": "pampa-cordoba",
+          "nombre": "Pampa Córdoba",
+          "region": "Córdoba",
+          "publicaciones": [
+            {"id": "pampa-cba-doble", "tipo": "Doble estándar", "capacidad": 2, "unidades": 28, "precio_ars": 85000, "estado": "publicada"},
+            {"id": "pampa-cba-ejecutiva", "tipo": "Ejecutiva", "capacidad": 2, "unidades": 16, "precio_ars": 115000, "estado": "publicada"},
+            {"id": "pampa-cba-triple", "tipo": "Triple", "capacidad": 3, "unidades": 6, "precio_ars": 125000, "estado": "publicada"}
+          ]
+        }
+      ]
+    }
+  ]
+}
