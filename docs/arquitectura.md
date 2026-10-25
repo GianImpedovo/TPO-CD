@@ -1,5 +1,7 @@
 # Arquitectura de la solución
 
+> **Aviso (25-10-2026):** la arquitectura vigente está en [`hipotesis_y_arquitectura.md`](hipotesis_y_arquitectura.md). Ese documento suma el modelo regional, los vuelos ANAC, la API FastAPI, el front web, la regla de precios y la ventana nov 2026 a oct 2027. La imagen `img/arquitectura.png` ya muestra la arquitectura nueva. La sección 1 de este archivo queda como historial de la primera versión (solo Streamlit y notebooks). La **sección 2 (modelo dimensional) sigue vigente**; le falta el data mart regional (grano: mes × región, con vuelos de cabotaje y gasto en USD).
+
 Entregable 2 de la consigna: de dónde salen los datos, cómo se procesan y dónde terminan.
 
 Es un proceso **batch**: las fuentes se descargan una sola vez y desde ahí todo corre sin internet. Sigue las cuatro etapas de un *data pipeline* vistas en clase (ingesta → almacenamiento → procesamiento → reporte), con una etapa de modelado entre el procesamiento y el reporte.
