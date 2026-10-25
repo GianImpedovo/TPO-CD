@@ -10,6 +10,7 @@ from typing import Annotated, Literal
 
 import pandas as pd
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -19,9 +20,13 @@ import precios as reglas_precio  # noqa: E402
 import regiones  # noqa: E402
 
 TOTAL = "Total país"
-NOTA_ESCENARIOS = ("El modelo regional no usa variables macro: los escenarios Optimista, Base y Pesimista dan la misma "
-                   "proyección por región. Solo cambia con el supuesto de vuelos (vuelos_var), en los meses cuyos vuelos "
-                   "de cabotaje de 12 meses antes todavía no se publicaron.")
+NOTAS_ESCENARIOS = {
+    True: "El modelo regional usa las variables macro (salario real, inflación, desocupación, tipo de cambio real y "
+          "EMAE): los escenarios cambian la proyección por región. Los vuelos de cabotaje usan el dato publicado de 12 "
+          "meses antes y, donde todavía no hay, el supuesto vuelos_var.",
+    False: "El modelo regional no usa variables macro: los escenarios Optimista, Base y Pesimista dan la misma "
+           "proyección por región. Solo cambia con el supuesto de vuelos (vuelos_var).",
+}
 app = FastAPI(title="Turismo interno: demanda y perfiles")
 
 
@@ -48,9 +53,21 @@ def proyeccion_region(nombre_region, escenario, hasta):
                                     **modelos.ESCENARIOS_REGION[escenario])
 
 
+def escenarios_region():
+    """Si los escenarios mueven la proyección regional (sale del modelo entrenado, no de un valor fijo)."""
+    afecta = modelos.usa_macro(modelo("demanda_region_rf.joblib"))
+    return {"escenarios_afectan_region": afecta, "nota_escenarios": NOTAS_ESCENARIOS[afecta]}
+
+
 def fecha_hoy():
     """Se reemplaza en los tests (app.dependency_overrides) para fijar el "hoy"."""
     return horizonte.hoy()
+
+
+@cache
+def evyth_reciente():
+    ev = modelos.cargar_evyth()
+    return ev[ev.anio >= modelos.ANIO_DESDE_HOTEL]
 
 
 @cache
@@ -149,8 +166,7 @@ def proyeccion(pedido: PedidoProyeccion, hoy: pd.Timestamp = Depends(fecha_hoy))
                  "variables_del_modelo": variables, "mape_backtest": round(float(mape(nombre)), 2),
                  **info_horizonte(ultimo_real, ventana), "proyeccion": a_lista(serie, ultimo_real, ventana)}
     if pedido.region is not None:
-        respuesta["escenarios_afectan_region"] = False
-        respuesta["nota_escenarios"] = NOTA_ESCENARIOS
+        respuesta.update(escenarios_region())
     return respuesta
 
 
@@ -179,6 +195,35 @@ def hotel(perfil: Perfil):
     return {"probabilidad": round(float(modelo("hotel_rf.joblib").predict_proba(X)[0, 1]), 4)}
 
 
+def periodo_hotel(ev):
+    return f"{ev.anio.min()}-T{ev[ev.anio == ev.anio.min()].trimestre.min()} a {ev.anio.max()}-T{ev[ev.anio == ev.anio.max()].trimestre.max()}"
+
+
+@app.post("/hotel/real")
+def hotel_real(perfil: Perfil):
+    """Dato real de la EVyTH: % ponderado de viajes parecidos que fueron a hotel (mismo quintil, destino, transporte
+    y motivo; si hay menos de 30 encuestados se sueltan transporte, quintil y motivo, en ese orden)."""
+    ev = evyth_reciente()
+    fila = {**perfil.model_dump(), "region_destino": regiones.CODIGO_REGION[perfil.region_destino]}
+    parecidos = modelos.viajes_parecidos(ev, fila)
+    porcentaje = parecidos["porcentaje_hotel"]
+    return {**parecidos, "porcentaje_hotel": None if porcentaje is None else round(porcentaje, 1),
+            "minimo_encuestados": modelos.MINIMO_ENCUESTADOS,
+            "promedio_general": round(modelos.pct_hotel(ev), 1), "periodo": periodo_hotel(ev)}
+
+
+@app.get("/hotel/grilla")
+def hotel_grilla():
+    """% real de viajes en hotel por quintil × región de destino (7 regiones), ponderado por pondera."""
+    ev = evyth_reciente()
+    nombre = {c: r for r, c in regiones.CODIGO_REGION.items()}
+    filas = [{"quintil": int(f.quintil), "region": nombre[int(f.region_destino)],
+              "porcentaje_hotel": round(f.porcentaje_hotel, 1), "n_encuestados": int(f.n_encuestados)}
+             for f in modelos.grilla_hotel(ev).itertuples()]
+    return {"periodo": periodo_hotel(ev), "promedio_general": round(modelos.pct_hotel(ev), 1),
+            "regiones": regiones.REGIONES, "quintiles": [1, 2, 3, 4, 5], "celdas": filas}
+
+
 # ---------- Precios recomendados (cadenas ficticias, login simulado) ----------
 
 def buscar_cadena(cadena_id):
@@ -201,7 +246,8 @@ def detalle_cadena(cadena_id: str):
 
 class PrecioEditado(BaseModel):
     publicacion_id: str
-    precio_ars: float = Field(gt=0)
+    precio_ars: float = Field(gt=0)  # precio actual (editado por el usuario)
+    precio_base: float | None = Field(None, gt=0)  # sobre qué se calcula la recomendación; por defecto, el publicado
 
 
 Mes = Annotated[str, Field(pattern=r"^\d{4}-(0[1-9]|1[0-2])$")]  # "AAAA-MM"
@@ -231,16 +277,19 @@ def meses_pedidos(pedido, ventana):
 def desvios_hotel(hotel, pedido, desde, hasta):
     proy = proyeccion_region(hotel["region"], pedido.escenario, hasta)
     d = region()
-    return reglas_precio.desvio(proy.loc[desde:hasta], d[d.region == hotel["region"]], pedido.referencia)
+    # la proyección completa (con los meses puente) hace falta para la referencia "anio_anterior"
+    return reglas_precio.desvio(proy, d[d.region == hotel["region"]], pedido.referencia).loc[desde:hasta]
 
 
-def fila_precio(hotel, pub, actual, fecha, dv, pedido):
-    rec = float(reglas_precio.precio_recomendado(actual, dv, pedido.sensibilidad, pedido.tope))
+def fila_precio(hotel, pub, actual, base, fecha, dv, pedido):
+    """El recomendado sale siempre del precio base (el publicado), así aplicar la recomendación no la encadena;
+    el cambio y la dirección se miden contra el precio actual."""
+    rec = float(reglas_precio.precio_recomendado(base, dv, pedido.sensibilidad, pedido.tope))
     cambio = (rec / actual - 1) * 100
     return {"hotel_id": hotel["id"], "hotel": hotel["nombre"], "region": hotel["region"],
             "publicacion_id": pub["id"], "tipo": pub["tipo"], "capacidad": pub["capacidad"],
             "unidades": pub["unidades"], "estado": pub["estado"], "fecha": f"{fecha:%Y-%m}",
-            "precio_actual": round(actual), "precio_recomendado": round(rec), "cambio_pct": round(cambio, 1),
+            "precio_publicado": round(base), "precio_actual": round(actual), "precio_recomendado": round(rec), "cambio_pct": round(cambio, 1),
             "direccion": reglas_precio.direccion(cambio), "desvio_pct": round(float(dv) * 100, 1),
             "ocupacion_esperada_pct": round(reglas_precio.ocupacion_esperada(dv, pedido.ocupacion_base) * 100, 1),
             "motivo": reglas_precio.motivo(fecha, dv, hotel["region"])}
@@ -271,15 +320,21 @@ def precios(pedido: PedidoPrecios, hoy: pd.Timestamp = Depends(fecha_hoy)):
     cadena = buscar_cadena(pedido.cadena_id)
     ventana = horizonte.ventana_pronostico(hoy)
     desde, hasta = meses_pedidos(pedido, ventana)
-    editados = {p.publicacion_id: p.precio_ars for p in pedido.precios}
+    editados = {p.publicacion_id: p for p in pedido.precios}
     filas = []
     for hotel in cadena["hoteles"]:
         desvios = desvios_hotel(hotel, pedido, desde, hasta)
         for pub in hotel["publicaciones"]:
-            actual = editados.get(pub["id"], pub["precio_ars"])
-            filas += [fila_precio(hotel, pub, actual, fecha, dv, pedido) for fecha, dv in desvios.items()]
+            editado = editados.get(pub["id"])
+            actual = editado.precio_ars if editado else pub["precio_ars"]
+            base = editado.precio_base if editado and editado.precio_base else pub["precio_ars"]
+            filas += [fila_precio(hotel, pub, actual, base, fecha, dv, pedido) for fecha, dv in desvios.items()]
     return {"cadena_id": cadena["id"], "escenario": pedido.escenario, "sensibilidad": pedido.sensibilidad,
             "tope": pedido.tope, "ocupacion_base": pedido.ocupacion_base, "referencia": pedido.referencia,
-            "aviso": "Cadena ficticia de demostración", "escenarios_afectan_region": False,
-            "nota_escenarios": NOTA_ESCENARIOS, **info_horizonte(region().dropna(subset=[modelos.TARGET]).index.max(), ventana),
+            "aviso": "Cadena ficticia de demostración", **escenarios_region(), **info_horizonte(region().dropna(subset=[modelos.TARGET]).index.max(), ventana),
             "resumen_mensual": resumen_mensual(filas), "resultados": filas}
+
+
+# ---------- Front web (web/): se monta al final para no tapar las rutas de la API ----------
+
+app.mount("/", StaticFiles(directory=Path(__file__).resolve().parents[1] / "web", html=True), name="web")

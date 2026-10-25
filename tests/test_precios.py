@@ -71,3 +71,12 @@ def test_normal_usa_solo_meses_reales():
     d = pd.DataFrame({"viajeros_residentes": [100.0, 200.0, 300.0, float("nan")], "pandemia": False}, index=fechas)
     assert precios.normal_por_mes(d, "promedio_3").loc[7] == pytest.approx(200)
     assert precios.normal_por_mes(d).loc[7] == 300  # 2026-07 no tiene dato real: no cuenta
+
+
+def test_anio_anterior_compara_con_el_mismo_mes_real_o_estimado():
+    fechas = pd.date_range("2024-01-01", "2025-06-01", freq="MS")
+    d = pd.DataFrame({"viajeros_residentes": 100.0, "pandemia": False}, index=fechas)
+    proy = pd.Series(110.0, index=pd.date_range("2025-07-01", "2026-12-01", freq="MS"))
+    dv = precios.desvio(proy, d, "anio_anterior")
+    assert dv.loc["2025-07-01"] == pytest.approx(0.10)  # contra julio 2024, real
+    assert dv.loc["2026-07-01"] == pytest.approx(0.0)  # contra julio 2025, estimado

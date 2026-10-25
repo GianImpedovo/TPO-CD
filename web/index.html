@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar · Pronóstico Turismo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%236D28D9%22/%3E%3Cpath d=%22M4 18 10 7l3.5 6 2.5-3.5L20 18Z%22 fill=%22%23F59E0B%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/estilos.css">
+<script type="module" src="js/entrar.js"></script>
+</head>
+<body>
+<div class="entrar">
+  <section class="entrar-presentacion" aria-label="Presentación">
+    <span class="entrar-marca">Pronóstico Turismo</span>
+    <div class="col" style="gap: 20px; max-width: 520px">
+      <span class="entrar-icono" id="icono-cadena" aria-hidden="true"></span>
+      <h1 class="entrar-h1">Sabé cuánta gente viene y a qué precio publicar.</h1>
+      <p>Pronóstico de viajeros por región para los próximos 12 meses y precios recomendados para cada habitación de tu cadena.</p>
+    </div>
+    <span style="font-size: 13px; color: var(--side-muted)">Datos oficiales: INDEC (EOH), Ministerio de Turismo, BCRA</span>
+  </section>
+  <main class="entrar-main" id="contenido">
+    <form class="entrar-form" id="form" novalidate>
+      <div class="col">
+        <h2 style="font-size: 28px">Entrar</h2>
+        <p class="sub" style="margin: 0; font-size: 15px">Elegí tu cadena para ver tus hoteles.</p>
+      </div>
+      <div id="estado" class="estado" hidden></div>
+      <fieldset>
+        <legend>Cadena</legend>
+        <div id="cadenas" class="col" style="gap: 10px"></div>
+      </fieldset>
+      <div class="campo">
+        <label for="mail" style="font-size: 14px; color: var(--ink)">Correo</label>
+        <input id="mail" type="email" readonly>
+      </div>
+      <button type="submit" class="btn btn-entrar" id="entrar" disabled>Entrar</button>
+      <p class="nota">Demo: las cadenas, hoteles y precios son ficticios y no se pide contraseña.</p>
+    </form>
+  </main>
+</div>
+</body>
+</html>

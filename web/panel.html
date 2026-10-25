@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel general · Pronóstico Turismo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%236D28D9%22/%3E%3Cpath d=%22M4 18 10 7l3.5 6 2.5-3.5L20 18Z%22 fill=%22%23F59E0B%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/estilos.css">
+<script type="module" src="js/panel.js"></script>
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="app">
+  <nav class="nav" id="nav" aria-label="Secciones"></nav>
+  <main class="main" id="contenido" tabindex="-1">
+    <header class="cabecera">
+      <span class="antetitulo" id="ventana">Próximos 12 meses</span>
+      <h1 class="titulo">¿Adónde va a viajar la gente?</h1>
+    </header>
+    <div id="estado" class="estado" hidden></div>
+
+    <section class="tarjeta panel-mapa" aria-labelledby="t-mapa" id="sec-mapa" hidden>
+      <div class="panel-mapa-svg" id="mapa-zona">
+        <div id="mapa"></div>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+      <div class="panel-mapa-info">
+        <div class="col">
+          <h2 id="t-mapa" class="h2">Viajeros por región</h2>
+          <span class="sub">Pasá el mouse por el mapa para ver cada región. Hacé clic para elegirla.</span>
+        </div>
+        <div role="group" aria-label="Escenario económico de las regiones" class="segmentos" id="esc-region" hidden></div>
+        <div class="destacado" aria-live="polite">
+          <span class="destacado-region" id="det-nombre"></span>
+          <span class="cifra" id="det-verano"></span>
+          <span style="font-size: 15px; font-weight: 600" id="det-verano-txt"></span>
+          <span class="sub" id="det-frase"></span>
+          <a class="btn" id="det-link" style="align-self: flex-start; margin-top: 6px" href="negocio.html"></a>
+        </div>
+        <div class="col" style="gap: 8px">
+          <span style="font-size: 13px; font-weight: 800; color: var(--muted)">Viajeros en los próximos 12 meses</span>
+          <div class="leyenda" id="leyenda"></div>
+        </div>
+        <div role="group" aria-label="Regiones" class="chips" id="chips"></div>
+        <p class="nota" id="nota-region"></p>
+        <span class="chica">Límites provinciales: Instituto Geográfico Nacional (IGN), simplificados. Las regiones siguen la Encuesta de Ocupación Hotelera (INDEC).</span>
+      </div>
+    </section>
+
+    <section class="tarjeta col" style="gap: 18px" aria-labelledby="t-curva" id="sec-curva" hidden>
+      <div class="fila" style="justify-content: space-between; align-items: flex-end">
+        <div class="col" style="gap: 4px">
+          <h2 id="t-curva" class="h2">Todo el país, mes a mes</h2>
+          <span class="sub">Cómo cambia el total si la economía mejora o empeora</span>
+        </div>
+        <div role="group" aria-label="Escenario económico" class="segmentos" id="escenarios"></div>
+      </div>
+      <div class="curva">
+        <div class="curva-kpi" aria-live="polite">
+          <span class="cifra" id="k-total"></span>
+          <span style="font-size: 15px; font-weight: 600">viajeros en los próximos 12 meses</span>
+          <span class="pildora" id="k-frase"></span>
+        </div>
+        <div class="curva-svg" id="curva-zona">
+          <div id="curva"></div>
+          <div class="tip" id="tip-curva" hidden style="width: 210px"></div>
+        </div>
+      </div>
+      <p class="chica" style="margin: 0; font-size: 13px" id="nota-curva"></p>
+    </section>
+  </main>
+</div>
+</body>
+</html>

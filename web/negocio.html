@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi negocio · Pronóstico Turismo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%236D28D9%22/%3E%3Cpath d=%22M4 18 10 7l3.5 6 2.5-3.5L20 18Z%22 fill=%22%23F59E0B%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/estilos.css">
+<script type="module" src="js/negocio.js"></script>
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="app">
+  <nav class="nav" id="nav" aria-label="Secciones"></nav>
+  <main class="main" id="contenido" tabindex="-1">
+    <header class="cabecera">
+      <span class="antetitulo" id="antetitulo">Mi negocio</span>
+      <h1 class="titulo" id="titular">Tus precios para los próximos 12 meses</h1>
+    </header>
+    <div id="estado" class="estado" hidden></div>
+    <div id="aviso" class="sr-only" role="status" aria-live="polite"></div>
+
+    <div id="cuerpo" class="col" style="gap: 24px" hidden>
+      <section aria-label="Mes y filtros" class="col" style="gap: 14px">
+        <div role="group" aria-label="Mes" class="meses" id="meses"></div>
+        <div class="fila" style="gap: 14px; align-items: flex-end">
+          <div class="campo" style="flex: 1 1 200px">
+            <label for="f-hotel">Hotel</label>
+            <select id="f-hotel"></select>
+          </div>
+          <div class="campo" style="flex: 1 1 200px">
+            <label for="f-region">Región</label>
+            <select id="f-region"></select>
+          </div>
+          <div class="campo" id="esc-zona" hidden>
+            <span style="font-size: 13px; font-weight: 700; color: var(--muted)" id="esc-label">Escenario económico</span>
+            <div role="group" aria-labelledby="esc-label" class="segmentos" id="escenarios"></div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="Resumen del mes" class="fila">
+        <div class="tarjeta dona-tarjeta">
+          <div id="dona"></div>
+          <div class="contadores">
+            <span class="contador c-sube"><span id="ic-sube"></span><span id="n-sube"></span></span>
+            <span class="contador c-baja"><span id="ic-baja"></span><span id="n-baja"></span></span>
+            <span class="contador c-igual"><span id="ic-igual"></span><span id="n-igual"></span></span>
+          </div>
+        </div>
+        <div class="impacto">
+          <span style="font-size: 14px; font-weight: 700; opacity: 0.9" id="imp-titulo"></span>
+          <span class="cifra" id="imp-valor"></span>
+          <span style="font-size: 14px; opacity: 0.9">en ingresos estimados del mes</span>
+          <button type="button" class="btn" id="aplicar-todas">Aplicar todas</button>
+        </div>
+      </section>
+
+      <section class="tarjeta demanda" aria-labelledby="t-demanda">
+        <div class="col" style="flex: 3 1 460px; min-width: 0; gap: 14px">
+          <div class="col" style="gap: 4px">
+            <h2 id="t-demanda" style="font-size: 20px">Cuánta gente llega a tus regiones · <span id="ventana"></span></h2>
+            <span class="chica" style="font-size: 13px">Más oscuro, más viajeros. Pasá el mouse por un mes para ver el detalle.</span>
+          </div>
+          <div class="desplazable"><div class="calendario" id="calendario"></div></div>
+          <p class="nota" id="nota-demanda"></p>
+        </div>
+        <div class="demanda-mapa">
+          <div id="mapa"></div>
+          <div class="col" style="gap: 4px; font-size: 12px; color: var(--muted)">
+            <span style="font-weight: 700; color: var(--ink)" id="mapa-titulo"></span>
+            <div style="display: flex; gap: 3px" aria-hidden="true"><i style="flex: 1; height: 10px; border-radius: 2px; background: var(--d1)"></i><i style="flex: 1; height: 10px; border-radius: 2px; background: var(--d2)"></i><i style="flex: 1; height: 10px; border-radius: 2px; background: var(--d3)"></i><i style="flex: 1; height: 10px; border-radius: 2px; background: var(--d4)"></i><i style="flex: 1; height: 10px; border-radius: 2px; background: var(--d5)"></i></div>
+            <div style="display: flex; justify-content: space-between"><span>más flojo</span><span>normal</span><span>más fuerte</span></div>
+            <span>Los números son tus hoteles: pasá el mouse para ver la ciudad.</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="t-pubs" class="col" style="gap: 14px">
+        <div class="fila" style="justify-content: space-between; align-items: baseline; gap: 10px">
+          <h2 id="t-pubs" class="h2"></h2>
+          <span class="chica" style="font-size: 13px">Pasá el mouse por la flecha para ver los precios</span>
+        </div>
+        <div class="pubs" id="pubs"></div>
+      </section>
+
+      <details class="tarjeta">
+        <summary>Ajustes avanzados</summary>
+        <div class="fila" style="gap: 28px; padding-top: 16px">
+          <div class="col" style="flex: 1 1 260px">
+            <div style="display: flex; justify-content: space-between"><label for="sens" style="font-weight: 700">Sensibilidad</label><output for="sens" id="sens-txt" style="font-weight: 800"></output></div>
+            <input id="sens" type="range" min="0" max="1" step="0.1">
+            <span class="sub" style="font-size: 13px; line-height: 1.5">Cuánto seguís a la demanda. Con 0,5, si el mes viene 10 % más fuerte que lo normal, el precio sube 5 %.</span>
+          </div>
+          <div class="col" style="flex: 1 1 260px">
+            <div style="display: flex; justify-content: space-between"><label for="tope" style="font-weight: 700">Tope de ajuste</label><output for="tope" id="tope-txt" style="font-weight: 800"></output></div>
+            <input id="tope" type="range" min="5" max="50" step="5">
+            <span class="sub" style="font-size: 13px; line-height: 1.5">Lo máximo que se mueve un precio en un mes, para arriba o para abajo.</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </main>
+</div>
+</body>
+</html>

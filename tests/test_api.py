@@ -40,9 +40,11 @@ def test_proyeccion_por_region():
     r = cliente.post("/proyeccion", json={"region": "Patagonia", "escenario": "Optimista"}).json()
     assert r["region"] == "Patagonia" and r["proyeccion"][-1]["fecha"] == "2027-10"  # fin de la ventana
     assert "region" in r["variables_del_modelo"] and r["mape_backtest"] > 0
-    assert r["escenarios_afectan_region"] is False and r["nota_escenarios"]
-    base = cliente.post("/proyeccion", json={"region": "Patagonia", "escenario": "Base"}).json()
-    assert base["proyeccion"] == r["proyeccion"]
+    assert r["escenarios_afectan_region"] is True and "macro" in r["nota_escenarios"]
+    assert "salario_real_var" in r["variables_del_modelo"]
+    total = {e: sum(p["viajeros"] for p in cliente.post("/proyeccion", json={"region": "Buenos Aires", "escenario": e})
+                    .json()["proyeccion"] if p["tipo"] == "pronostico") for e in ["Pesimista", "Base", "Optimista"]}
+    assert total["Pesimista"] < total["Base"] < total["Optimista"]
 
 
 def test_proyeccion_valida_escenario():
@@ -81,7 +83,7 @@ def test_precios_por_publicacion_y_mes():
     editada = [f for f in filas if f["publicacion_id"] == "pampa-cba-ejecutiva"]
     assert all(f["precio_actual"] == 100000 for f in editada)
     assert all(abs(f["cambio_pct"]) <= 25 for f in filas)
-    assert r["escenarios_afectan_region"] is False
+    assert r["escenarios_afectan_region"] is True
 
 
 def test_precios_resumen_mensual():
@@ -150,3 +152,65 @@ def test_precios_referencia_elegible():
     assert por_defecto["referencia"] == "ultimo_anio" and promedio["referencia"] == "promedio_3"
     assert por_defecto["resultados"][0]["desvio_pct"] != promedio["resultados"][0]["desvio_pct"]
     assert cliente.post("/precios", json={**base, "referencia": "otra"}).status_code == 422
+
+
+def test_raiz_sirve_el_front_sin_tapar_la_api():
+    r = cliente.get("/")
+    assert r.status_code == 200 and "text/html" in r.headers["content-type"]
+    assert "Pronóstico Turismo" in r.text and "js/entrar.js" in r.text
+    assert cliente.get("/css/estilos.css").status_code == 200
+    assert cliente.get("/js/mapa-geo.js").status_code == 200
+    assert isinstance(cliente.get("/regiones").json(), dict)  # la API sigue respondiendo por encima del mount
+
+
+def test_precios_referencia_anio_anterior_es_la_variacion_del_modelo():
+    base = {"cadena_id": "pampa", "desde": "2027-01", "hasta": "2027-01", "referencia": "anio_anterior"}
+    r = cliente.post("/precios", json=base).json()
+    cba = next(f for f in r["resultados"] if f["region"] == "Córdoba")
+    proy = cliente.post("/proyeccion", json={"region": "Córdoba", "hasta": "2027-01-01"}).json()["proyeccion"]
+    valores = {p["fecha"]: p["viajeros"] for p in proy}
+    assert cba["desvio_pct"] == pytest.approx((valores["2027-01"] / valores["2026-01"] - 1) * 100, abs=0.1)
+
+
+def test_hotel_real_viajes_parecidos_y_criterios():
+    perfil = {"quintil": 4, "region_origen": "CABA", "region_destino": "Patagonia", "trimestre": 1, "noches": 7,
+              "tamanio_grupo": 1, "motivo": 1, "transporte": 4}
+    r = cliente.post("/hotel/real", json=perfil).json()
+    assert r["criterios_usados"] == ["quintil", "region_destino", "transporte", "motivo"] and r["n_encuestados"] >= 30
+    assert 0 <= r["porcentaje_hotel"] <= 100 and r["promedio_general"] == pytest.approx(24.0, abs=0.1)
+    raro = cliente.post("/hotel/real", json={**perfil, "quintil": 1, "region_destino": "CABA", "motivo": 6,
+                                             "transporte": 5}).json()
+    assert raro["criterios_soltados"] and "region_destino" in raro["criterios_usados"]
+    assert raro["n_encuestados"] >= 30
+
+
+def test_hotel_grilla_quintil_por_region():
+    r = cliente.get("/hotel/grilla").json()
+    assert len(r["celdas"]) == 5 * 7 and set(r["regiones"]) == {c["region"] for c in r["celdas"]}
+    assert all(0 <= c["porcentaje_hotel"] <= 100 and c["n_encuestados"] > 0 for c in r["celdas"])
+
+
+def test_aplicar_la_recomendacion_no_la_encadena():
+    pedido = {"cadena_id": "pampa", "desde": "2027-01", "hasta": "2027-01"}
+    primera = cliente.post("/precios", json=pedido).json()["resultados"]
+    pub = next(f for f in primera if f["publicacion_id"] == "pampa-cba-doble")
+    assert pub["precio_publicado"] == 85000
+    aplicado = cliente.post("/precios", json={**pedido, "precios": [
+        {"publicacion_id": "pampa-cba-doble", "precio_ars": pub["precio_recomendado"]}]}).json()["resultados"]
+    segunda = next(f for f in aplicado if f["publicacion_id"] == "pampa-cba-doble")
+    assert segunda["precio_recomendado"] == pub["precio_recomendado"]  # se calcula sobre el publicado
+    assert abs(segunda["cambio_pct"]) < 1 and segunda["direccion"] == "se_mantiene"
+    base = cliente.post("/precios", json={**pedido, "precios": [
+        {"publicacion_id": "pampa-cba-doble", "precio_ars": 90000, "precio_base": 100000}]}).json()["resultados"]
+    con_base = next(f for f in base if f["publicacion_id"] == "pampa-cba-doble")
+    assert con_base["precio_publicado"] == 100000 and con_base["precio_actual"] == 90000
+
+
+def test_cadenas_con_ubicacion_coherente():
+    import regiones
+    region_de = {prov: reg for prov, reg in regiones.PROVINCIAS.values()}
+    for cadena_id in ["andina", "pampa"]:
+        for h in cliente.get(f"/cadenas/{cadena_id}").json()["hoteles"]:
+            assert {"ciudad", "provincia", "lat", "lon"} <= set(h)
+            assert region_de[h["provincia"]] == h["region"]
+            assert -56 < h["lat"] < -21 and -74 < h["lon"] < -53

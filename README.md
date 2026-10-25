@@ -22,6 +22,8 @@ src/               descarga, preparación de datos, modelos y entrenamiento
 models/            modelos entrenados (.joblib)
 notebooks/         01_eda, 02_modelos, 03_conclusiones
 app/app.py         aplicación Streamlit
+api/main.py        API FastAPI (demanda, perfil del turista, precios) que además sirve el front
+web/               front web (HTML + CSS + JS sin build) que consume la API
 docs/              arquitectura, guion de la presentación e imágenes (docs/img/)
 tests/             tests de preparación de datos y de los modelos
 ```
@@ -53,6 +55,18 @@ Para ejecutar los notebooks de punta a punta sin abrirlos:
 ```
 .venv\Scripts\jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
 ```
+
+### Front web
+
+Un solo comando levanta la API y el front (la carpeta `web/` se sirve en la raíz):
+
+```
+.venv\Scripts\python.exe -m uvicorn api.main:app
+```
+
+y abrir http://127.0.0.1:8000/. Pantallas: Entrar (elegir cadena de demostración), Panel general, Mi negocio, Supuestos y Perfil del turista. La documentación de la API queda en http://127.0.0.1:8000/docs.
+
+Funciona sin internet: no usa CDNs ni build. Las tipografías Archivo y Manrope se usan solo si están instaladas en la computadora; si no, se ve con la fuente del sistema (`system-ui`). El mapa usa los límites provinciales del IGN simplificados (`web/js/mapa-geo.js`) y la asignación provincia → región de `GET /regiones`. El diseño de referencia está en `docs/diseno/`.
 
 ### Sin internet
 

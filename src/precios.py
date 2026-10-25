@@ -3,13 +3,15 @@
 desvío = demanda proyectada (RF regional) / referencia real de ese mes − 1
 referencia (solo meses reales, sin pandemia): "ultimo_anio" = el mismo mes del último año con dato (por defecto),
 "promedio_3" / "mediana_3" = promedio o mediana de ese mes en los últimos 3 años. El promedio de 3 años incluye 2023,
-un año alto (PreViaje), y predice peor el año siguiente (ver 02_modelos.ipynb).
+un año alto (PreViaje), y predice peor el año siguiente. "anio_anterior" = el mismo mes 12 meses antes, real o
+estimado (puente): a 2 años de distancia se equivoca más que "ultimo_anio" (ver 02_modelos.ipynb).
 precio recomendado = precio actual × (1 + clip(sensibilidad × desvío, −tope, +tope))
 """
 import json
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 from modelos import TARGET
 
@@ -17,7 +19,7 @@ CADENAS = Path(__file__).resolve().parents[1] / "data" / "cadenas_demo.json"
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
          "noviembre", "diciembre"]
 ANIOS_NORMAL = 3
-REFERENCIAS = ["ultimo_anio", "promedio_3", "mediana_3"]
+REFERENCIAS = ["ultimo_anio", "anio_anterior", "promedio_3", "mediana_3"]
 REFERENCIA = "ultimo_anio"
 
 
@@ -34,7 +36,13 @@ def normal_por_mes(d, referencia=REFERENCIA):
 
 
 def desvio(proyeccion, d, referencia=REFERENCIA):
-    """Desvío de cada mes proyectado contra lo normal de ese mes, en fracción (0,12 = +12 %)."""
+    """Desvío de cada mes proyectado contra su referencia, en fracción (0,12 = +12 %).
+
+    "anio_anterior" compara con el mismo mes 12 meses antes, real o estimado: `proyeccion` tiene que empezar
+    en el primer mes sin dato real (incluir los meses puente)."""
+    if referencia == "anio_anterior":
+        serie = pd.concat([d[TARGET].dropna(), proyeccion])
+        return proyeccion / serie.reindex(proyeccion.index - pd.DateOffset(years=1)).to_numpy() - 1
     return proyeccion / normal_por_mes(d, referencia).reindex(proyeccion.index.month).to_numpy() - 1
 
 
