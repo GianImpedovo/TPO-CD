@@ -66,7 +66,7 @@ Un solo comando levanta la API y el front (la carpeta `web/` se sirve en la raí
 
 y abrir http://127.0.0.1:8000/. Pantallas: Entrar (elegir cadena de demostración), Panel general, Mi negocio, Supuestos y Perfil del turista. La documentación de la API queda en http://127.0.0.1:8000/docs.
 
-Funciona sin internet: no usa CDNs ni build. Las tipografías Archivo y Manrope se usan solo si están instaladas en la computadora; si no, se ve con la fuente del sistema (`system-ui`). El mapa usa los límites provinciales del IGN simplificados (`web/js/mapa-geo.js`) y la asignación provincia → región de `GET /regiones`. El diseño de referencia está en `docs/diseno/`.
+Funciona sin internet: no usa CDNs ni build. Las tipografías Newsreader y Public Sans (licencia OFL) están en `web/fonts/`, así que no se descargan. El mapa usa los límites provinciales del IGN simplificados (`web/js/mapa-geo.js`) y la asignación provincia → región de `GET /regiones`. El diseño de referencia está en `docs/diseno/`.
 
 ### Sin internet
 

@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Perfil del turista · Pronóstico Turismo</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%236D28D9%22/%3E%3Cpath d=%22M4 18 10 7l3.5 6 2.5-3.5L20 18Z%22 fill=%22%23F59E0B%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 fill=%22%231D1D1F%22/%3E%3Cpath d=%22M5 19V13M9.5 19V8M14 19v-5M18.5 19V6%22 stroke=%22%23FAFAF8%22 stroke-width=%222.2%22/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/estilos.css">
 <script type="module" src="js/perfil.js"></script>
 </head>
@@ -19,7 +20,7 @@
     </header>
     <div id="estado" class="estado" hidden></div>
 
-    <form aria-label="El viaje" class="tarjeta col" style="gap: 16px; padding: 22px" id="form" novalidate>
+    <form aria-label="El viaje" class="tarjeta col" style="gap: 16px" id="form" novalidate>
       <div class="grilla-form">
         <div class="campo"><label for="quintil">Ingreso del hogar</label><select id="quintil"></select></div>
         <div class="campo"><label for="region_origen">Viene desde</label><select id="region_origen"></select></div>
@@ -35,16 +36,16 @@
 
     <section aria-label="Resultado" class="fila" id="resultado" hidden aria-live="polite">
       <div class="tarjeta col" style="flex: 2 1 420px; gap: 14px">
-        <span style="font-size: 14px; font-weight: 800; color: var(--accent)">Viajes reales parecidos</span>
+        <span style="font-size: 14px; font-weight: 650; color: var(--accent)">Viajes reales parecidos</span>
         <div id="pictos" role="img" style="display: grid; grid-template-columns: repeat(10, minmax(0, 44px)); gap: 6px"></div>
-        <span style="font-family: var(--f-titulo); font-size: 28px; line-height: 1.15; font-weight: 800" id="real-cifra"></span>
+        <span style="font-family: var(--f-titulo); font-size: 28px; line-height: 1.15; font-weight: 650" id="real-cifra"></span>
         <span style="font-size: 15px; line-height: 1.5; color: var(--muted)" id="real-comparacion"></span>
         <span class="chica" id="real-criterios"></span>
       </div>
-      <div style="flex: 1 1 300px; background: var(--side); color: var(--side-ink); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
-        <span style="font-size: 14px; font-weight: 800; color: var(--side-muted)">Propensión a hotel</span>
+      <div class="hero-perfil" style="flex: 1 1 300px; background: var(--side); color: var(--side-ink); border-radius: 0; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+        <span style="font-size: 14px; font-weight: 650; color: var(--side-muted)">Propensión a hotel</span>
         <div id="medidor" style="margin-top: 14px"></div>
-        <span style="font-family: var(--f-titulo); font-size: 24px; font-weight: 800" id="nivel"></span>
+        <span style="font-family: var(--f-titulo); font-size: 24px; font-weight: 650" id="nivel"></span>
         <span style="font-size: 14px; line-height: 1.5; color: var(--side-muted); max-width: 320px" id="nivel-sub"></span>
       </div>
       <div class="tarjeta col" style="flex: 1 1 100%; gap: 16px">

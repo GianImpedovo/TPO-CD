@@ -240,8 +240,8 @@ function pintarCurva() {
   const xHoy = X(iPron - 0.5);
   svg.append(
     s('line', { x1: xHoy, y1: 18, x2: xHoy, y2: Y1, style: 'stroke: var(--accent)', 'stroke-width': 2 }),
-    s('text', { x: xHoy, y: 14, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, style: 'fill: var(--accent)' }, 'Hoy'));
-  const rotulo = (i, txt, fuerte) => s('text', { x: X(i), y: 318, 'text-anchor': 'middle', 'font-size': fuerte ? 12 : 11, 'font-weight': fuerte ? 800 : null, style: `fill: var(--${fuerte ? 'ink' : 'muted'})` }, txt);
+    s('text', { x: xHoy, y: 14, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 600, style: 'fill: var(--accent)' }, 'Hoy'));
+  const rotulo = (i, txt, fuerte) => s('text', { x: X(i), y: 318, 'text-anchor': 'middle', 'font-size': fuerte ? 12 : 11, 'font-weight': fuerte ? 600 : null, style: `fill: var(--${fuerte ? 'ink' : 'muted'})` }, txt);
   svg.append(rotulo(iReal / 2, 'real'), rotulo((iReal + iPron - 1) / 2, 'estimado: aún sin datos oficiales'),
     rotulo((iPron + iFin) / 2, 'Pronóstico', true), rotulo((iFin + iUlt) / 2, 'tendencia'));
   // zonas invisibles para el tooltip mes a mes
@@ -255,7 +255,7 @@ function pintarCurva() {
       marca.setAttribute('cx', X(i)); marca.setAttribute('cy', Y(p.viajeros)); marca.setAttribute('visibility', 'visible');
       const tipo = { real: 'dato real', puente: 'estimado puente', pronostico: 'pronóstico', tendencia: 'tendencia' }[p.tipo];
       tip.replaceChildren(h('span', { class: 'tip-nombre', style: { fontSize: '15px' } }, mesLargo(p.fecha)),
-        h('span', { style: { fontWeight: 800 } }, `${mil(p.viajeros)} viajeros`), h('span', { class: 'tip-frase' }, tipo));
+        h('span', { style: { fontWeight: 650 } }, `${mil(p.viajeros)} viajeros`), h('span', { class: 'tip-frase' }, tipo));
       const caja = zona.getBoundingClientRect(), fx = X(i) / W * caja.width;
       tip.style.left = `${fx > caja.width - 230 ? fx - 225 : fx + 14}px`;
       tip.style.top = `${Math.max(0, Y(p.viajeros) / H * caja.height - 70)}px`;

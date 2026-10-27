@@ -95,18 +95,18 @@ function medidor(v, nivel, titulo) {
   const arco = (a, b, n, apagado) => {
     const [x0, y0] = pt(a), [x1, y1] = pt(b), on = n === nivel;
     return s('path', { d: `M${x0.toFixed(1)} ${y0.toFixed(1)} A90 90 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`, fill: 'none',
-      stroke: on ? '#F59E0B' : apagado, 'stroke-width': 22, opacity: on ? 1 : 0.55 });
+      style: `stroke: ${on ? 'var(--accent)' : 'var(--line)'}`, 'stroke-width': 22 });
   };
   const [nx, ny] = pt(Math.max(0, Math.min(100, v)), 70);
-  const col = (n) => (n === nivel ? '#F59E0B' : '#C4B5FD');
+  const col = (n) => (n === nivel ? 'var(--ink)' : 'var(--muted)');
   return s('svg', { viewBox: '0 0 220 140', width: 250, height: 159, role: 'img', 'aria-label': `Propensión a hotel: ${nivel.toLowerCase()}. ${titulo}`, style: 'overflow: visible' },
     s('title', {}, titulo),
-    arco(0.5, 39.5, 'Baja', '#93BBFA'), arco(40.5, 59.5, 'Media', '#C4B5FD'), arco(60.5, 99.5, 'Alta', '#C4B5FD'),
-    s('line', { x1: 110, y1: 115, x2: nx.toFixed(1), y2: ny.toFixed(1), stroke: '#FFFFFF', 'stroke-width': 5, 'stroke-linecap': 'round' }),
-    s('circle', { cx: 110, cy: 115, r: 9, fill: '#FFFFFF' }),
-    s('text', { x: 22, y: 136, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: col('Baja') }, 'Baja'),
-    s('text', { x: 110, y: 4, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: col('Media') }, 'Media'),
-    s('text', { x: 198, y: 136, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: col('Alta') }, 'Alta'));
+    arco(0.5, 39.5, 'Baja', '#636366'), arco(40.5, 59.5, 'Media', '#636366'), arco(60.5, 99.5, 'Alta', '#636366'),
+    s('line', { x1: 110, y1: 115, x2: nx.toFixed(1), y2: ny.toFixed(1), style: 'stroke: var(--ink)', 'stroke-width': 4, 'stroke-linecap': 'butt' }),
+    s('circle', { cx: 110, cy: 115, r: 7, style: 'fill: var(--ink)' }),
+    s('text', { x: 22, y: 136, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, style: `fill: ${col('Baja')}` }, 'Baja'),
+    s('text', { x: 110, y: 4, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, style: `fill: ${col('Media')}` }, 'Media'),
+    s('text', { x: 198, y: 136, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, style: `fill: ${col('Alta')}` }, 'Alta'));
 }
 
 function figura(llena) {

@@ -84,7 +84,7 @@ function armar() {
       h('span', { class: 'control-icono', 'aria-hidden': 'true' }, icono(c.icono, 26)),
       h('div', { class: 'col', style: { flex: '1 1 auto', minWidth: 0 } },
         h('div', { style: { display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '8px', alignItems: 'center' } },
-          h('label', { for: id, style: { fontWeight: 800, fontSize: '15px' } }, c.nombre), et),
+          h('label', { for: id, style: { fontWeight: 650, fontSize: '15px' } }, c.nombre), et),
         input,
         h('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--muted)', gap: '8px' } },
           h('span', {}, c.izq), valor, h('span', {}, c.der))));
@@ -94,7 +94,7 @@ function armar() {
     const b = h('button', { type: 'button', class: 'escenario', 'aria-pressed': 'false', 'data-esc': e },
       h('span', { class: 'escenario-icono', style: estilo }, icono(d, 30, 2.5)),
       h('span', { class: 'col', style: { gap: '4px' } },
-        h('span', { style: { fontFamily: 'var(--f-titulo)', fontSize: '22px', fontWeight: 800 } }, e),
+        h('span', { style: { fontFamily: 'var(--f-titulo)', fontSize: '22px', fontWeight: 650 } }, e),
         h('span', { style: { fontSize: '14px', color: 'var(--muted)', fontWeight: 500 } }, FRASE_ESC[e])));
     b.addEventListener('click', () => { Object.assign(valores, D.escs[e].supuestos); sincronizar(); pintar(); });
     return b;

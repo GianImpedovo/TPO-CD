@@ -188,7 +188,7 @@ function pintarDona(n, total) {
     'aria-label': `${n.sube} para subir, ${n.igual} sin cambios y ${n.baja} para bajar` },
   s('circle', { cx: 60, cy: 60, r: R, fill: 'none', style: 'stroke: var(--chip)', 'stroke-width': 18 }),
   arco('var(--sube)', lS, 0), arco('var(--igual)', lI, lS), arco('var(--baja)', lB, lS + lI),
-  s('text', { x: 60, y: 58, 'text-anchor': 'middle', 'font-size': 28, 'font-weight': 800, style: 'fill: var(--ink); font-family: var(--f-titulo)' }, total),
+  s('text', { x: 60, y: 58, 'text-anchor': 'middle', 'font-size': 28, 'font-weight': 600, style: 'fill: var(--ink); font-family: var(--f-titulo)' }, total),
   s('text', { x: 60, y: 78, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 600, style: 'fill: var(--muted)' }, 'publicaciones')));
 }
 
@@ -202,7 +202,7 @@ function pintarCalendario(regs, fechas, desvio) {
   const filas = regs.map((r) => {
     const proy = C.demanda[r].proyeccion.filter((p) => fechas.includes(p.fecha));
     const v = proy.map((p) => p.viajeros), mn = Math.min(...v), mx = Math.max(...v);
-    return fila('', h('span', { style: { fontSize: '14px', fontWeight: 800 } }, r), ...proy.map((p, i) => {
+    return fila('', h('span', { style: { fontSize: '14px', fontWeight: 650 } }, r), ...proy.map((p, i) => {
       const lv = Math.min(4, Math.floor((p.viajeros - mn) / Math.max(1, mx - mn) * 5));
       const dv = Math.round(desvio[r][p.fecha]);
       const titulo = `${mesLargo(p.fecha)} en ${r}: ${mil(p.viajeros)} viajeros (${dv >= 0 ? '+' : '−'}${Math.abs(dv)} % frente a lo normal)`;
@@ -262,7 +262,7 @@ function pintarPubs(filas, fecha, fechas, P) {
     let detalle = null;
     if (abierto) {
       const input = h('input', { id: idInput, type: 'number', min: 1, step: 1000, value: f.precio_actual, inputmode: 'numeric',
-        style: { minHeight: '44px', width: '160px', padding: '0 12px', border: '1px solid var(--line)', borderRadius: '10px', background: 'var(--card)', color: 'var(--ink)', font: '700 16px var(--f-texto)' } });
+        style: { minHeight: '44px', width: '160px', padding: '0 12px', border: '1px solid var(--line)', borderRadius: '0', background: 'var(--card)', color: 'var(--ink)', font: '600 16px var(--f-texto)' } });
       const err = h('span', { class: 'campo-error', role: 'alert' });
       input.addEventListener('change', () => {
         const v = Number(input.value);
@@ -283,13 +283,13 @@ function pintarPubs(filas, fecha, fechas, P) {
             h('label', { for: idInput, style: { fontSize: '12px', fontWeight: 700, color: 'var(--muted)' } }, 'Precio publicado hoy (ARS por noche)'), input, err),
           h('div', { class: 'col', style: { gap: '4px' } },
             h('span', { style: { fontSize: '12px', fontWeight: 700, color: 'var(--muted)' } }, `Recomendado en ${mesLargo(fecha).toLowerCase()}`),
-            h('span', { style: { fontFamily: 'var(--f-titulo)', fontSize: '22px', fontWeight: 800, minHeight: '44px', display: 'flex', alignItems: 'center' } }, pesos(f.precio_recomendado)))),
+            h('span', { style: { fontFamily: 'var(--f-titulo)', fontSize: '22px', fontWeight: 650, minHeight: '44px', display: 'flex', alignItems: 'center' } }, pesos(f.precio_recomendado)))),
         h('span', { style: { fontSize: '12px', fontWeight: 700, color: 'var(--muted)' } }, 'Precio recomendado mes a mes, frente al de hoy'),
         h('div', { class: 'barras-mes', role: 'img', 'aria-label': `Precio recomendado por mes para ${f.tipo} en ${f.hotel}: ${lista.map((x) => `${mesCorto(x.fecha)} ${pesos(x.precio_recomendado)}`).join(', ')}` }, barras),
         h('div', { class: 'ini-meses', 'aria-hidden': 'true' }, fechas.map((x) => h('span', {}, mesCorto(x)))));
     }
 
-    return h('article', { class: `pub${publicada ? '' : ' pausada'}`, style: { boxShadow: `inset 0 4px 0 ${col}` } },
+    return h('article', { class: `pub${publicada ? '' : ' pausada'}` },
       h('div', { style: { display: 'flex', justifyContent: 'space-between', gap: '10px', alignItems: 'flex-start' } },
         h('div', { class: 'col', style: { gap: '3px', minWidth: 0 } },
           h('span', { style: { fontSize: '12px', fontWeight: 700, color: 'var(--muted)' } }, `${num} · ${f.hotel}${ciudad ? ` · ${ciudad}` : ''}`),

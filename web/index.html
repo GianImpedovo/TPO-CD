@@ -4,40 +4,45 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Entrar · Pronóstico Turismo</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%236D28D9%22/%3E%3Cpath d=%22M4 18 10 7l3.5 6 2.5-3.5L20 18Z%22 fill=%22%23F59E0B%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 fill=%22%231D1D1F%22/%3E%3Cpath d=%22M5 19V13M9.5 19V8M14 19v-5M18.5 19V6%22 stroke=%22%23FAFAF8%22 stroke-width=%222.2%22/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/estilos.css">
 <script type="module" src="js/entrar.js"></script>
 </head>
 <body>
-<div class="entrar">
-  <section class="entrar-presentacion" aria-label="Presentación">
-    <span class="entrar-marca">Pronóstico Turismo</span>
-    <div class="col" style="gap: 20px; max-width: 520px">
-      <span class="entrar-icono" id="icono-cadena" aria-hidden="true"></span>
-      <h1 class="entrar-h1">Sabé cuánta gente viene y a qué precio publicar.</h1>
-      <p>Pronóstico de viajeros por región para los próximos 12 meses y precios recomendados para cada habitación de tu cadena.</p>
-    </div>
-    <span style="font-size: 13px; color: var(--side-muted)">Datos oficiales: INDEC (EOH), Ministerio de Turismo, BCRA</span>
-  </section>
-  <main class="entrar-main" id="contenido">
-    <form class="entrar-form" id="form" novalidate>
-      <div class="col">
-        <h2 style="font-size: 28px">Entrar</h2>
-        <p class="sub" style="margin: 0; font-size: 15px">Elegí tu cadena para ver tus hoteles.</p>
-      </div>
-      <div id="estado" class="estado" hidden></div>
-      <fieldset>
-        <legend>Cadena</legend>
-        <div id="cadenas" class="col" style="gap: 10px"></div>
-      </fieldset>
-      <div class="campo">
-        <label for="mail" style="font-size: 14px; color: var(--ink)">Correo</label>
-        <input id="mail" type="email" readonly>
-      </div>
-      <button type="submit" class="btn btn-entrar" id="entrar" disabled>Entrar</button>
-      <p class="nota">Demo: las cadenas, hoteles y precios son ficticios y no se pide contraseña.</p>
-    </form>
-  </main>
+<div class="inf">
+  <header class="inf-cab">
+    <span class="inf-marca">Pronóstico Turismo</span>
+    <span class="inf-meta" id="meta">Datos INDEC (EOH)</span>
+  </header>
+
+  <div class="inf-cuerpo">
+    <section class="inf-portada" aria-labelledby="t-portada">
+      <h1 class="inf-h1" id="t-portada">Cuánta gente viaja, mes a mes, y a qué precio publicar.</h1>
+      <figure class="inf-grafico" id="grafico" hidden>
+        <figcaption><span id="g-total"></span><span id="g-picos"></span></figcaption>
+        <div class="inf-barras" id="barras" role="img"></div>
+        <div class="inf-meses" id="meses" aria-hidden="true"></div>
+      </figure>
+    </section>
+
+    <main class="inf-entrar" id="contenido">
+      <form class="col" style="gap: 28px" id="form" novalidate>
+        <h2>Entrar</h2>
+        <div id="estado" class="estado" hidden></div>
+        <fieldset>
+          <legend>Cadena</legend>
+          <div id="cadenas"></div>
+        </fieldset>
+        <div class="inf-correo">
+          <label for="mail" class="rotulo" style="padding-bottom: 0">Correo</label>
+          <input id="mail" type="email" readonly>
+        </div>
+        <button type="submit" class="btn btn-entrar" id="entrar" disabled>Entrar</button>
+        <p class="inf-nota">Demo: las cadenas, los hoteles y los precios son ficticios y no se pide contraseña. Las cifras del país salen del modelo con datos de INDEC, Ministerio de Turismo y BCRA.</p>
+      </form>
+    </main>
+  </div>
 </div>
 </body>
 </html>
