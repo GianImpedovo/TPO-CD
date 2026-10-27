@@ -8,36 +8,37 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
 <style>
-body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
-.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5;--opt:#2563EB;--pes:#D9480F;--band:#DCEAFE;--band-2:#EEF4FE}
-.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940;--opt:#7FA6FF;--pes:#FF9A62;--band:#1E3358;--band-2:#172741}
-.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
-.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+body{margin:0;background:#FAFAF8;font-family:Public Sans, system-ui, sans-serif,system-ui,sans-serif}
+.tema{--bg:#FAFAF8;--card:#FAFAF8;--ink:#1D1D1F;--muted:#5C5C61;--line:#D2D2D7;--chip:#EFEFEC;--opt:#2563EB;--pes:#D9480F;--band:#DCEAFE;--band-2:#EEF4FE}
+.tema.oscuro{--bg:#141414;--card:#141414;--ink:#F2F2EE;--muted:#A1A1A6;--line:#3A3A3C;--chip:#232323;--opt:#7FA6FF;--pes:#FF9A62;--band:#1E3358;--band-2:#172741}
+.tema{--nav:#FAFAF8;--seg:#1D1D1F;--accent:#0A66D8;--accent-2:#0A66D8;--accent-soft:#EAF2FD;--on-accent:#FFFFFF;--side:#1D1D1F;--side-2:#3A3A3C;--side-ink:#F5F5F7;--side-muted:#A1A1A6}
+.tema.oscuro{--nav:#141414;--seg:#F2F2EE;--accent:#4C9AFF;--accent-soft:#0F2745;--on-accent:#001631;--side:#2C2C2E;--side-2:#48484A}
 @media (max-width: 820px){.nav{max-width:none !important;flex-basis:100% !important}}
-h1,h2,h3{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
+h1,h2,h3{font-family:Public Sans, system-ui, sans-serif,'Arial Narrow',system-ui,sans-serif}
 button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+.nav{flex:0 0 100% !important;max-width:none !important;flex-direction:row !important;flex-wrap:wrap !important;align-items:center !important;gap:8px 40px !important;padding:22px clamp(20px,4vw,64px) 0 !important;border-right:0 !important;background:var(--bg) !important}.nav::after{content:'';flex-basis:100%;height:2px;background:var(--ink);margin-top:6px}.nav>div:first-child>span:first-child{display:none !important}.nav>div:first-child>div{flex-direction:row !important;align-items:baseline !important;gap:12px !important}.nav>div:first-child>div>span:first-child{font-family:Newsreader, Georgia, serif !important;font-size:24px !important;font-weight:600 !important}.nav>div:nth-child(2){flex-direction:row !important;flex-wrap:wrap;gap:0 28px !important}.nav>div:last-child{margin-top:0 !important;margin-left:auto;flex-direction:row !important;align-items:center}.nav>div:last-child>span{display:none}.nav svg{display:none}.nav a{padding:0 !important;background:none !important;color:var(--ink) !important;font-weight:400 !important}.nav a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--ink) !important;font-weight:600 !important}h1,h2,h3{font-family:Newsreader, Georgia, serif;font-weight:500 !important}::selection{background:var(--ink);color:var(--bg)}
 </style>
 </helmet>
-<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
-  <nav class="nav" aria-label="Secciones" style="flex: 0 0 212px; max-width: 212px; background: var(--side); color: var(--side-ink); padding: 20px 12px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: Public Sans, system-ui, sans-serif">
+  <nav class="nav" aria-label="Secciones" style="flex: 0 0 212px; max-width: 212px; background: var(--nav); color: var(--ink); border-right: 1px solid var(--line); padding: 20px 12px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
     <div style="display: flex; align-items: center; gap: 12px">
-      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 14px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 0; background: var(--ink); color: var(--card); display: flex; align-items: center; justify-content: center; font: 600 14px Public Sans, system-ui, sans-serif; flex: none">{{cad.ini}}</span>
       <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
-        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; line-height: 1.2">{{cad.nombre}}</span>
-        <span style="font-size: 12px; color: var(--side-muted)">{{cad.detalle}}</span>
+        <span style="font-family: Public Sans, system-ui, sans-serif; font-weight: 650; font-size: 15px; line-height: 1.2">{{cad.nombre}}</span>
+        <span style="font-size: 12px; color: var(--muted)">{{cad.detalle}}</span>
       </div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 4px">
-      <a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Panel general</a>
-      <a href="MiNegocio.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Mi negocio</a>
-      <a href="Supuestos.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Supuestos</a>
-      <a href="Perfil.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Perfil del turista</a>
+      <a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; background: var(--accent-soft); color: var(--accent); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Panel general</a>
+      <a href="MiNegocio.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Mi negocio</a>
+      <a href="Supuestos.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Supuestos</a>
+      <a href="Perfil.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Perfil del turista</a>
     </div>
     <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
-      <span style="font-size: 12px; line-height: 1.5; color: var(--side-muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
-      <a href="Login.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
+      <span style="font-size: 12px; line-height: 1.5; color: var(--muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
+      <a href="Login.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
     </div>
   </nav>
 
@@ -45,10 +46,10 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
     <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
       <div style="display: flex; flex-direction: column; gap: 6px">
         <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Próximos 12 meses · nov 2026 – oct 2027</span>
-        <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">¿Adónde va a viajar la gente?</h1>
+        <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 650; letter-spacing: -0.028em">¿Adónde va a viajar la gente?</h1>
       </div>
       <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end">
-        <div role="group" aria-label="Escenario económico" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; background: var(--chip); border-radius: 12px">
+        <div role="group" aria-label="Escenario económico" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; background: var(--chip); border-radius: 0">
           <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
             <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
           </sc-for>
@@ -57,18 +58,18 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
       </div>
     </header>
 
-    <section aria-labelledby="t-mapa" style="background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; gap: 32px">
+    <section aria-labelledby="t-mapa" style="background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 24px 0 0; display: flex; flex-wrap: wrap; gap: 32px">
       <div onMouseMove="{{move}}" onMouseLeave="{{leave}}" style="flex: 1 1 360px; max-width: 480px; min-width: 0; position: relative">
         <dc-import name="MapaArgentina" datos="{{mapa}}" hint-size="100%,900px"></dc-import>
         <sc-if value="{{tip.show}}" hint-placeholder-val="{{false}}">
           <div style="{{tip.pos}}">
-            <span style="font-family: 'Archivo', sans-serif; font-size: 18px; font-weight: 800">{{tip.nombre}}</span>
+            <span style="font-family: Public Sans, system-ui, sans-serif; font-size: 18px; font-weight: 650">{{tip.nombre}}</span>
             <span style="font-size: 13px; opacity: 0.85">{{tip.frase}} · escenario {{tip.esc}}</span>
             <div style="display: grid; grid-template-columns: auto auto; gap: 4px 14px; font-size: 13px; margin-top: 6px">
-              <span style="opacity: 0.8">Próximos 12 meses</span><span style="font-weight: 800; text-align: right">{{tip.total}}</span>
-              <span style="opacity: 0.8">Verano 2027</span><span style="font-weight: 800; text-align: right">{{tip.verano}}</span>
-              <span style="opacity: 0.8">Mes más fuerte</span><span style="font-weight: 800; text-align: right">{{tip.pico}}</span>
-              <span style="opacity: 0.8">Frente al año anterior</span><span style="font-weight: 800; text-align: right">{{tip.var}}</span>
+              <span style="opacity: 0.8">Próximos 12 meses</span><span style="font-weight: 650; text-align: right">{{tip.total}}</span>
+              <span style="opacity: 0.8">Verano 2027</span><span style="font-weight: 650; text-align: right">{{tip.verano}}</span>
+              <span style="opacity: 0.8">Mes más fuerte</span><span style="font-weight: 650; text-align: right">{{tip.pico}}</span>
+              <span style="opacity: 0.8">Frente al año anterior</span><span style="font-weight: 650; text-align: right">{{tip.var}}</span>
             </div>
           </div>
         </sc-if>
@@ -76,20 +77,20 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
 
       <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
         <div style="display: flex; flex-direction: column; gap: 6px">
-          <h2 id="t-mapa" style="margin: 0; font-size: 22px; font-weight: 800">Viajeros por región</h2>
+          <h2 id="t-mapa" style="margin: 0; font-size: 22px; font-weight: 650">Viajeros por región</h2>
           <span style="font-size: 14px; color: var(--muted)">Pasá el mouse por el mapa para ver cada región. Hacé clic para elegirla.</span>
         </div>
 
-        <div style="background: var(--accent-soft); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
-          <span style="font-size: 14px; font-weight: 800; color: var(--accent)">{{det.nombre}}</span>
-          <span style="font-family: 'Archivo', sans-serif; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{det.verano}}</span>
+        <div style="background: var(--accent-soft); border-radius: 0; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-size: 14px; font-weight: 650; color: var(--accent)">{{det.nombre}}</span>
+          <span style="font-family: Newsreader, Georgia, serif; font-size: 44px; line-height: 1; font-weight: 500; letter-spacing: -0.028em">{{det.verano}}</span>
           <span style="font-size: 15px; font-weight: 600">viajeros en el verano 2027</span>
           <span style="font-size: 14px; color: var(--muted)">{{det.frase}}</span>
-          <a href="MiNegocio.dc.html" onClick="{{irNegocio}}" style="align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: var(--accent); color: var(--on-accent); font-weight: 800; text-decoration: none">Ver mis precios en {{det.nombre}}</a>
+          <a href="MiNegocio.dc.html" onClick="{{irNegocio}}" style="align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 0; background: var(--ink); color: var(--bg); font-weight: 650; text-decoration: none">Ver mis precios en {{det.nombre}}</a>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 8px">
-          <span style="font-size: 13px; font-weight: 800; color: var(--muted)">Viajeros en los próximos 12 meses</span>
+          <span style="font-size: 13px; font-weight: 650; color: var(--muted)">Viajeros en los próximos 12 meses</span>
           <div style="display: flex; gap: 3px">
             <sc-for list="{{leyenda}}" as="l" hint-placeholder-count="5">
               <div style="flex: 1 1 0; display: flex; flex-direction: column; gap: 4px">
@@ -109,17 +110,17 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
       </div>
     </section>
 
-    <section aria-labelledby="t-curva" style="background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+    <section aria-labelledby="t-curva" style="background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 24px 0 0; display: flex; flex-direction: column; gap: 18px">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
         <div style="display: flex; flex-direction: column; gap: 4px">
-          <h2 id="t-curva" style="margin: 0; font-size: 22px; font-weight: 800">Todo el país, mes a mes</h2>
+          <h2 id="t-curva" style="margin: 0; font-size: 22px; font-weight: 650">Todo el país, mes a mes</h2>
           <span style="font-size: 14px; color: var(--muted)">Cómo cambia el total si la economía mejora o empeora</span>
         </div>
         <span style="{{k.estiloEsc}}">Escenario {{k.esc}}</span>
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: center">
         <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 6px">
-          <span style="font-family: 'Archivo', sans-serif; font-size: 48px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{k.total}}</span>
+          <span style="font-family: Newsreader, Georgia, serif; font-size: 48px; line-height: 1; font-weight: 500; letter-spacing: -0.028em">{{k.total}}</span>
           <span style="font-size: 15px; font-weight: 600">viajeros en los próximos 12 meses</span>
           <span style="{{k.estiloVar}}">{{k.frase}}</span>
         </div>
@@ -127,7 +128,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
           <svg viewBox="0 0 1000 330" role="img" aria-label="Viajeros por mes en todo el país: datos reales hasta noviembre de 2025, estimación puente hasta octubre de 2026, pronóstico de noviembre de 2026 a octubre de 2027 y tendencia hasta 2028" style="width: 100%; height: auto; display: block">
             <line x1="40" y1="300" x2="990" y2="300" style="stroke: var(--line)" stroke-width="1"></line>
             <line x1="40" y1="160" x2="990" y2="160" style="stroke: var(--line)" stroke-width="1" stroke-dasharray="2 4"></line>
-            <text x="36" y="164" text-anchor="end" font-size="12" font-family="Manrope, sans-serif" style="fill: var(--muted)">1,3 M</text>
+            <text x="36" y="164" text-anchor="end" font-size="12" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--muted)">1,3 M</text>
             <polygon points="{{banda2}}" style="fill: var(--band-2)"></polygon>
             <polygon points="{{banda}}" style="fill: var(--band)"></polygon>
             <polyline points="{{pts.otra1}}" fill="none" style="stroke: var(--muted)" stroke-width="1.2" opacity="0.45"></polyline>
@@ -137,11 +138,11 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--accent-2);outline-o
             <polyline points="{{pts.pron}}" fill="none" style="{{colorEsc}}" stroke-width="4" stroke-linejoin="round"></polyline>
             <polyline points="{{pts.tend}}" fill="none" style="{{colorEsc}}" stroke-width="2" opacity="0.5" stroke-dasharray="8 5"></polyline>
             <line x1="{{hoy}}" y1="18" x2="{{hoy}}" y2="300" style="stroke: var(--accent)" stroke-width="2"></line>
-            <text x="{{hoy}}" y="14" text-anchor="middle" font-size="13" font-weight="800" font-family="Manrope, sans-serif" style="fill: var(--accent)">Hoy</text>
-            <text x="{{xPuente}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">estimado: aún sin datos oficiales</text>
-            <text x="{{xPron}}" y="318" text-anchor="middle" font-size="12" font-weight="800" font-family="Manrope, sans-serif" style="fill: var(--ink)">Pronóstico</text>
-            <text x="{{xTend}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">tendencia</text>
-            <text x="{{xReal}}" y="318" text-anchor="middle" font-size="11" font-family="Manrope, sans-serif" style="fill: var(--muted)">real</text>
+            <text x="{{hoy}}" y="14" text-anchor="middle" font-size="13" font-weight="800" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--accent)">Hoy</text>
+            <text x="{{xPuente}}" y="318" text-anchor="middle" font-size="11" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--muted)">estimado: aún sin datos oficiales</text>
+            <text x="{{xPron}}" y="318" text-anchor="middle" font-size="12" font-weight="800" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--ink)">Pronóstico</text>
+            <text x="{{xTend}}" y="318" text-anchor="middle" font-size="11" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--muted)">tendencia</text>
+            <text x="{{xReal}}" y="318" text-anchor="middle" font-size="11" font-family="Public Sans, system-ui, sans-serif" style="fill: var(--muted)">real</text>
           </svg>
         </div>
       </div>
@@ -197,7 +198,7 @@ class Component extends DCLogic {
     if (st.hover && info[st.hover]) {
       var left = st.tx + 18; if (left > st.w - 250) left = Math.max(8, st.tx - 258);
       tip = Object.assign({}, info[st.hover], { show: true,
-        pos: 'position: absolute; left: ' + left + 'px; top: ' + Math.max(8, st.ty - 80) + 'px; width: 240px; box-sizing: border-box; padding: 14px 16px; background: #0E1A2B; color: #FFFFFF; border-radius: 12px; box-shadow: 0 10px 28px rgba(14,26,43,0.3); display: flex; flex-direction: column; gap: 2px; pointer-events: none; z-index: 2' });
+        pos: 'position: absolute; left: ' + left + 'px; top: ' + Math.max(8, st.ty - 80) + 'px; width: 240px; box-sizing: border-box; padding: 14px 16px; background: #1D1D1F; color: #FFFFFF; border-radius: 0; box-shadow: 0 10px 28px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 2px; pointer-events: none; z-index: 2' });
     }
     var orden = Object.keys(R).sort(function (a, b) { return R[b].t - R[a].t; });
 
@@ -224,23 +225,23 @@ class Component extends DCLogic {
     return {
       clase: 'tema ' + st.cadena + (oscuro ? ' oscuro' : ''),
       cad: CAD[st.cadena],
-      mapa: { colores: colores, sel: sel, hover: st.hover, borde: oscuro ? '#131D2E' : '#FFFFFF', marca: oscuro ? '#FFB27A' : '#0E1A2B', tinta: oscuro ? '#EDF2F8' : '#0E1A2B', onHover: function (r) { if (self.state.hover !== r) self.setState({ hover: r }); }, onPick: function (r) { pick(r)(); } },
+      mapa: { colores: colores, sel: sel, hover: st.hover, borde: oscuro ? '#1C1C1E' : '#FFFFFF', marca: oscuro ? '#FFB27A' : '#1D1D1F', tinta: oscuro ? '#F5F5F7' : '#1D1D1F', onHover: function (r) { if (self.state.hover !== r) self.setState({ hover: r }); }, onPick: function (r) { pick(r)(); } },
       tip: tip,
       move: function (e) { var r = e.currentTarget.getBoundingClientRect(); self.setState({ tx: e.clientX - r.left, ty: e.clientY - r.top, w: r.width }); },
       leave: function () { self.setState({ hover: null }); },
       det: info[sel],
       irNegocio: function () { try { window.localStorage.setItem('pt_region', sel); } catch (e) {} },
-      leyenda: BINS.map(function (b) { return { texto: b.texto, estilo: 'display: block; height: 14px; border-radius: 3px; background: ' + b.color }; }),
+      leyenda: BINS.map(function (b) { return { texto: b.texto, estilo: 'display: block; height: 14px; border-radius: 0; background: ' + b.color }; }),
       ranking: orden.map(function (r) {
         var on = r === sel;
         return { nombre: r, pressed: on ? 'true' : 'false', pick: pick(r), enter: enter(r),
-          estilo: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 999px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; color: var(--ink); background: ' + (on ? 'var(--accent-soft)' : 'var(--card)') + '; border: 1.5px solid ' + (on ? 'var(--accent)' : 'var(--line)'),
-          swatch: 'width: 12px; height: 12px; border-radius: 50%; background: ' + colores[r] };
+          estilo: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 0; cursor: pointer; font: ' + (on ? '600' : '600') + ' 14px Public Sans, system-ui, sans-serif; color: var(--ink); background: ' + (on ? 'var(--ink)' : 'transparent') + '; border: 1.5px solid ' + (on ? 'var(--accent)' : 'var(--line)'),
+          swatch: 'width: 12px; height: 12px; border-radius: 0; background: ' + colores[r] };
       }),
       escenarios: ['Optimista', 'Base', 'Pesimista'].map(function (n) {
         var on = n === st.esc;
         return { nombre: n, pressed: on ? 'true' : 'false', pick: function () { self.setState({ esc: n }); },
-          estilo: 'min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 15px Manrope, sans-serif; background: ' + (on ? 'var(--accent)' : 'transparent') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+          estilo: 'min-height: 44px; padding: 0 18px; border: 0; border-radius: 0; cursor: pointer; font: ' + (on ? '600' : '600') + ' 15px Public Sans, system-ui, sans-serif; background: ' + (on ? 'var(--ink)' : 'transparent') + '; color: ' + (on ? 'var(--bg)' : 'var(--ink)') };
       }),
       pts: {
         real: tramo(s, 0, 22), puente: tramo(s, 22, 33), pron: tramo(s, 33, 45), tend: tramo(s, 45, 59),
@@ -250,8 +251,8 @@ class Component extends DCLogic {
       colorEsc: 'stroke: ' + colorVar,
       hoy: X(33.8).toFixed(1), xReal: X(11).toFixed(1), xPuente: X(27.5).toFixed(1), xPron: X(39.5).toFixed(1), xTend: X(52).toFixed(1),
       k: { total: mil(total), esc: st.esc.toLowerCase(),
-        estiloEsc: 'padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; background: var(--chip); color: ' + colorVar, frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(dv).toFixed(1).replace('.', ',') + ' % frente a los últimos 12 meses reales',
-        estiloVar: 'align-self: flex-start; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; background: var(--chip); color: ' + colorVar }
+        estiloEsc: 'padding: 6px 12px; border-radius: 0; font-size: 13px; font-weight: 650; background: var(--chip); color: ' + colorVar, frase: (dv >= 0 ? 'Crece ' : 'Cae ') + Math.abs(dv).toFixed(1).replace('.', ',') + ' % frente a los últimos 12 meses reales',
+        estiloVar: 'align-self: flex-start; padding: 6px 12px; border-radius: 0; font-size: 14px; font-weight: 650; background: var(--chip); color: ' + colorVar }
     };
   }
 }

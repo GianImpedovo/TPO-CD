@@ -8,46 +8,47 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
 <style>
-body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
-a{color:#6D28D9}a:hover{color:#4C1D95}
-.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5;--sube:#1D4ED8;--baja:#C2410C;--igual:#5B6878;--sube-soft:#E3ECFF;--baja-soft:#FDE9DD;--igual-soft:#EDF0F4}
-.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940;--sube:#7FA6FF;--baja:#FF9A62;--igual:#A7B4C4;--sube-soft:#1B2A4F;--baja-soft:#3A2416;--igual-soft:#1C2940}
-.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
-.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
+body{margin:0;background:#FAFAF8;font-family:Public Sans, system-ui, sans-serif,system-ui,sans-serif}
+a{color:#0A66D8}a:hover{color:#3A3A3C}
+.tema{--bg:#FAFAF8;--card:#FAFAF8;--ink:#1D1D1F;--muted:#5C5C61;--line:#D2D2D7;--chip:#EFEFEC;--sube:#1D4ED8;--baja:#C2410C;--igual:#6E6E73;--sube-soft:#E3ECFF;--baja-soft:#FDE9DD;--igual-soft:#EDEDF0}
+.tema.oscuro{--bg:#141414;--card:#141414;--ink:#F2F2EE;--muted:#A1A1A6;--line:#3A3A3C;--chip:#232323;--sube:#7FA6FF;--baja:#FF9A62;--igual:#98989D;--sube-soft:#1B2A4F;--baja-soft:#3A2416;--igual-soft:#2C2C2E}
+.tema{--nav:#FAFAF8;--seg:#1D1D1F;--accent:#0A66D8;--accent-2:#0A66D8;--accent-soft:#EAF2FD;--on-accent:#FFFFFF;--side:#1D1D1F;--side-2:#3A3A3C;--side-ink:#F5F5F7;--side-muted:#A1A1A6}
+.tema.oscuro{--nav:#141414;--seg:#F2F2EE;--accent:#4C9AFF;--accent-soft:#0F2745;--on-accent:#001631;--side:#2C2C2E;--side-2:#48484A}
 @media (max-width: 820px){.nav{max-width:none !important;flex-basis:100% !important}}
-h1,h2,h3{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
+h1,h2,h3{font-family:Public Sans, system-ui, sans-serif,'Arial Narrow',system-ui,sans-serif}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
 select:focus,input:focus{outline:none}
 summary{cursor:pointer}
+.nav{flex:0 0 100% !important;max-width:none !important;flex-direction:row !important;flex-wrap:wrap !important;align-items:center !important;gap:8px 40px !important;padding:22px clamp(20px,4vw,64px) 0 !important;border-right:0 !important;background:var(--bg) !important}.nav::after{content:'';flex-basis:100%;height:2px;background:var(--ink);margin-top:6px}.nav>div:first-child>span:first-child{display:none !important}.nav>div:first-child>div{flex-direction:row !important;align-items:baseline !important;gap:12px !important}.nav>div:first-child>div>span:first-child{font-family:Newsreader, Georgia, serif !important;font-size:24px !important;font-weight:600 !important}.nav>div:nth-child(2){flex-direction:row !important;flex-wrap:wrap;gap:0 28px !important}.nav>div:last-child{margin-top:0 !important;margin-left:auto;flex-direction:row !important;align-items:center}.nav>div:last-child>span{display:none}.nav svg{display:none}.nav a{padding:0 !important;background:none !important;color:var(--ink) !important;font-weight:400 !important}.nav a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--ink) !important;font-weight:600 !important}h1,h2,h3{font-family:Newsreader, Georgia, serif;font-weight:500 !important}::selection{background:var(--ink);color:var(--bg)}
 </style>
 </helmet>
-<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
-  <nav class="nav" aria-label="Secciones" style="flex: 0 0 212px; max-width: 212px; background: var(--side); color: var(--side-ink); padding: 20px 12px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: Public Sans, system-ui, sans-serif">
+  <nav class="nav" aria-label="Secciones" style="flex: 0 0 212px; max-width: 212px; background: var(--nav); color: var(--ink); border-right: 1px solid var(--line); padding: 20px 12px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
     <div style="display: flex; align-items: center; gap: 12px">
-      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center; font: 800 14px 'Archivo', sans-serif; flex: none">{{cad.ini}}</span>
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 0; background: var(--ink); color: var(--card); display: flex; align-items: center; justify-content: center; font: 600 14px Public Sans, system-ui, sans-serif; flex: none">{{cad.ini}}</span>
       <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
-        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; line-height: 1.2">{{cad.nombre}}</span>
-        <span style="font-size: 12px; color: var(--side-muted)">{{cad.detalle}}</span>
+        <span style="font-family: Public Sans, system-ui, sans-serif; font-weight: 650; font-size: 15px; line-height: 1.2">{{cad.nombre}}</span>
+        <span style="font-size: 12px; color: var(--muted)">{{cad.detalle}}</span>
       </div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 4px">
-      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Panel general</a>
-      <a href="MiNegocio.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; background: var(--side-2); color: var(--side-ink); font-weight: 800; text-decoration: none; box-shadow: inset 4px 0 0 var(--accent-2)"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Mi negocio</a>
-      <a href="Supuestos.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Supuestos</a>
-      <a href="Perfil.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; color: var(--side-ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Perfil del turista</a>
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Panel general</a>
+      <a href="MiNegocio.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; background: var(--accent-soft); color: var(--accent); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Mi negocio</a>
+      <a href="Supuestos.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Supuestos</a>
+      <a href="Perfil.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-weight: 600; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex: none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Perfil del turista</a>
     </div>
     <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
-      <span style="font-size: 12px; line-height: 1.5; color: var(--side-muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
-      <a href="Login.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-size: 14px; border: 1px solid var(--side-muted); color: var(--side-ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
+      <span style="font-size: 12px; line-height: 1.5; color: var(--muted)">Pronóstico Turismo · datos INDEC (EOH)</span>
+      <a href="Login.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 0; font-size: 14px; color: var(--ink); font-size: 14px; font-weight: 700; text-decoration: none">Cambiar de cadena</a>
     </div>
   </nav>
 
   <main style="flex: 999 1 560px; min-width: 0; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
     <header style="display: flex; flex-direction: column; gap: 6px">
       <span style="font-size: 14px; font-weight: 700; color: var(--accent)">Mi negocio · {{mesNombre}}</span>
-      <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance">{{titular}}</h1>
+      <h1 style="margin: 0; font-size: 34px; line-height: 1.15; font-weight: 650; letter-spacing: -0.028em; text-wrap: balance">{{titular}}</h1>
     </header>
 
     <section aria-label="Mes y filtros" style="display: flex; flex-direction: column; gap: 14px">
@@ -59,7 +60,7 @@ summary{cursor:pointer}
       <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end">
         <div style="display: flex; flex-direction: column; gap: 6px">
           <span id="l-esc" style="font-size: 13px; font-weight: 700; color: var(--muted)">Escenario económico</span>
-          <div role="group" aria-labelledby="l-esc" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--chip); border-radius: 12px">
+          <div role="group" aria-labelledby="l-esc" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--chip); border-radius: 0">
             <sc-for list="{{escenarios}}" as="s" hint-placeholder-count="3">
               <button type="button" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}" style="{{s.estilo}}">{{s.nombre}}</button>
             </sc-for>
@@ -67,7 +68,7 @@ summary{cursor:pointer}
         </div>
         <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px">
           <label for="f-hotel" style="font-size: 13px; font-weight: 700; color: var(--muted)">Hotel</label>
-          <select id="f-hotel" value="{{fHotel}}" onChange="{{setHotel}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif">
+          <select id="f-hotel" value="{{fHotel}}" onChange="{{setHotel}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 0; background: var(--card); color: var(--ink); font: 600 15px Public Sans, system-ui, sans-serif">
             <sc-for list="{{opHoteles}}" as="o" hint-placeholder-count="3">
               <option value="{{o.v}}">{{o.t}}</option>
             </sc-for>
@@ -75,7 +76,7 @@ summary{cursor:pointer}
         </div>
         <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px">
           <label for="f-region" style="font-size: 13px; font-weight: 700; color: var(--muted)">Región</label>
-          <select id="f-region" value="{{fRegion}}" onChange="{{setRegion}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif">
+          <select id="f-region" value="{{fRegion}}" onChange="{{setRegion}}" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 0; background: var(--card); color: var(--ink); font: 600 15px Public Sans, system-ui, sans-serif">
             <sc-for list="{{opRegiones}}" as="o" hint-placeholder-count="3">
               <option value="{{o.v}}">{{o.t}}</option>
             </sc-for>
@@ -85,41 +86,41 @@ summary{cursor:pointer}
     </section>
 
     <section aria-label="Resumen del mes" style="display: flex; flex-wrap: wrap; gap: 16px">
-      <div style="flex: 1 1 340px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center">
+      <div style="flex: 1 1 340px; background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 22px 0 0; display: flex; flex-wrap: wrap; gap: 22px; align-items: center">
         <svg viewBox="0 0 120 120" width="132" height="132" role="img" aria-label="{{dona.aria}}" style="flex: none">
           <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--chip)" stroke-width="18"></circle>
           <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--sube)" stroke-width="18" stroke-dasharray="{{dona.sube}}" stroke-dashoffset="0" transform="rotate(-90 60 60)"></circle>
           <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--igual)" stroke-width="18" stroke-dasharray="{{dona.igual}}" stroke-dashoffset="{{dona.offIgual}}" transform="rotate(-90 60 60)"></circle>
           <circle cx="60" cy="60" r="46" fill="none" style="stroke: var(--baja)" stroke-width="18" stroke-dasharray="{{dona.baja}}" stroke-dashoffset="{{dona.offBaja}}" transform="rotate(-90 60 60)"></circle>
-          <text x="60" y="58" text-anchor="middle" font-family="Archivo, sans-serif" font-size="28" font-weight="800" style="fill: var(--ink)">{{dona.total}}</text>
-          <text x="60" y="78" text-anchor="middle" font-family="Manrope, sans-serif" font-size="11" font-weight="600" style="fill: var(--muted)">publicaciones</text>
+          <text x="60" y="58" text-anchor="middle" font-family="Public Sans, system-ui, sans-serif" font-size="28" font-weight="800" style="fill: var(--ink)">{{dona.total}}</text>
+          <text x="60" y="78" text-anchor="middle" font-family="Public Sans, system-ui, sans-serif" font-size="11" font-weight="600" style="fill: var(--muted)">publicaciones</text>
         </svg>
         <div style="display: flex; flex-direction: column; gap: 10px">
-          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--sube-soft); color: var(--sube); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.sube}} para subir</span>
-          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--baja-soft); color: var(--baja); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.baja}} para bajar</span>
-          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--igual-soft); color: var(--igual); font-weight: 800; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.igual}} sin cambios</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 0; background: var(--sube-soft); color: var(--sube); font-weight: 650; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.sube}} para subir</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 0; background: var(--baja-soft); color: var(--baja); font-weight: 650; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.baja}} para bajar</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 0; background: var(--igual-soft); color: var(--igual); font-weight: 650; font-size: 15px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{res.igual}} sin cambios</span>
         </div>
       </div>
-      <div style="flex: 1 1 260px; background: var(--accent); color: var(--on-accent); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 8px; justify-content: center">
+      <div style="flex: 1 1 260px; background: transparent; color: var(--ink); border-top: 2px solid var(--ink); border-radius: 0; padding: 22px 0 0; display: flex; flex-direction: column; gap: 8px; justify-content: center">
         <span style="font-size: 14px; font-weight: 700; opacity: 0.9">Si aplicás todo en {{mesNombre}}</span>
-        <span style="font-family: 'Archivo', sans-serif; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -0.02em">{{res.impacto}}</span>
+        <span style="font-family: Newsreader, Georgia, serif; font-size: 44px; line-height: 1; font-weight: 500; letter-spacing: -0.028em">{{res.impacto}}</span>
         <span style="font-size: 14px; opacity: 0.9">en ingresos estimados del mes</span>
-        <button type="button" onClick="{{aplicarTodas}}" style="align-self: flex-start; margin-top: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--card); color: var(--ink); font: 800 15px 'Manrope', sans-serif; cursor: pointer">Aplicar todas</button>
+        <button type="button" onClick="{{aplicarTodas}}" style="align-self: flex-start; margin-top: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 0; background: var(--card); color: var(--ink); font: 600 15px Public Sans, system-ui, sans-serif; cursor: pointer">Aplicar todas</button>
       </div>
     </section>
 
-    <section aria-labelledby="t-demanda" style="background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 28px">
+    <section aria-labelledby="t-demanda" style="background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 22px 0 0; display: flex; flex-wrap: wrap; gap: 28px">
       <div style="flex: 3 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
         <div style="display: flex; flex-direction: column; gap: 4px">
-          <h2 id="t-demanda" style="margin: 0; font-size: 20px; font-weight: 800">Cuánta gente llega a tus regiones · nov 2026 – oct 2027</h2>
+          <h2 id="t-demanda" style="margin: 0; font-size: 20px; font-weight: 650">Cuánta gente llega a tus regiones · nov 2026 – oct 2027</h2>
           <span style="font-size: 13px; color: var(--muted)">Más oscuro, más viajeros. Pasá el mouse por un mes para ver el detalle.</span>
         </div>
         <div style="overflow-x: auto">
           <div style="min-width: 560px; display: flex; flex-direction: column; gap: 8px">
-            <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 800; text-align: center">
+            <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 650; text-align: center">
               <span></span>
-              <span style="grid-column: 4 / span 2; padding: 4px 0; border-radius: 6px; background: var(--accent-soft); color: var(--accent)">Verano 2027</span>
-              <span style="grid-column: 10 / span 1; padding: 4px 0; border-radius: 6px; background: var(--accent-soft); color: var(--accent)">Invierno</span>
+              <span style="grid-column: 4 / span 2; padding: 4px 0; border-radius: 0; background: var(--accent-soft); color: var(--accent)">Verano 2027</span>
+              <span style="grid-column: 10 / span 1; padding: 4px 0; border-radius: 0; background: var(--accent-soft); color: var(--accent)">Invierno</span>
             </div>
             <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 700; color: var(--muted); text-align: center">
               <span></span>
@@ -127,7 +128,7 @@ summary{cursor:pointer}
             </div>
             <sc-for list="{{calor}}" as="r" hint-placeholder-count="3">
               <div style="display: grid; grid-template-columns: 110px repeat(12, minmax(0, 1fr)); gap: 4px; align-items: center">
-                <span style="font-size: 14px; font-weight: 800">{{r.nombre}}</span>
+                <span style="font-size: 14px; font-weight: 650">{{r.nombre}}</span>
                 <sc-for list="{{r.celdas}}" as="c" hint-placeholder-count="12">
                   <span title="{{c.titulo}}" style="{{c.estilo}}"></span>
                 </sc-for>
@@ -135,22 +136,22 @@ summary{cursor:pointer}
             </sc-for>
             <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); padding-left: 114px">
               <span>Temporada baja</span>
-              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #DCEAFE"></span>
-              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #93BBFA"></span>
-              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #5491F0"></span>
-              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #2F6FE0"></span>
-              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 3px; background: #1A3E9A"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 0; background: #DCEAFE"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 0; background: #93BBFA"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 0; background: #5491F0"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 0; background: #2F6FE0"></span>
+              <span aria-hidden="true" style="width: 22px; height: 12px; border-radius: 0; background: #1A3E9A"></span>
               <span>alta</span>
             </div>
           </div>
         </div>
-        <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">Cada región responde distinto a la economía. Margen de error habitual: {{errores}}.</p>
+        <p style="margin: 0; padding: 12px 14px; border-radius: 0; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">Cada región responde distinto a la economía. Margen de error habitual: {{errores}}.</p>
       </div>
       <div style="flex: 1 1 200px; max-width: 260px; display: flex; flex-direction: column; gap: 10px">
         <dc-import name="MapaArgentina" datos="{{mapa}}" hint-size="100%,500px"></dc-import>
         <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted)">
           <span style="font-weight: 700; color: var(--ink)">{{mesNombre}} frente a lo normal</span>
-          <div style="display: flex; gap: 3px"><span style="flex: 1; height: 10px; border-radius: 2px; background: #C2410C"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #F6B58F"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #CBD5E1"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #93B4F5"></span><span style="flex: 1; height: 10px; border-radius: 2px; background: #1D4ED8"></span></div>
+          <div style="display: flex; gap: 3px"><span style="flex: 1; height: 10px; border-radius: 0; background: #C2410C"></span><span style="flex: 1; height: 10px; border-radius: 0; background: #F6B58F"></span><span style="flex: 1; height: 10px; border-radius: 0; background: #D2D2D7"></span><span style="flex: 1; height: 10px; border-radius: 0; background: #93B4F5"></span><span style="flex: 1; height: 10px; border-radius: 0; background: #1D4ED8"></span></div>
           <div style="display: flex; justify-content: space-between"><span>más flojo</span><span>normal</span><span>más fuerte</span></div>
         </div>
       </div>
@@ -158,7 +159,7 @@ summary{cursor:pointer}
 
     <section aria-labelledby="t-pubs" style="display: flex; flex-direction: column; gap: 14px">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px">
-        <h2 id="t-pubs" style="margin: 0; font-size: 22px; font-weight: 800">Tus publicaciones en {{mesNombre}}</h2>
+        <h2 id="t-pubs" style="margin: 0; font-size: 22px; font-weight: 650">Tus publicaciones en {{mesNombre}}</h2>
         <span style="font-size: 13px; color: var(--muted)">Pasá el mouse por la flecha para ver los precios</span>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 14px">
@@ -167,7 +168,7 @@ summary{cursor:pointer}
             <div style="display: flex; justify-content: space-between; gap: 10px; align-items: flex-start">
               <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
                 <span style="font-size: 12px; font-weight: 700; color: var(--muted)">{{p.num}} · {{p.hotel}}</span>
-                <h3 style="margin: 0; font-size: 18px; font-weight: 800">{{p.tipo}}</h3>
+                <h3 style="margin: 0; font-size: 18px; font-weight: 650">{{p.tipo}}</h3>
               </div>
               <span style="{{p.estiloEstado}}">{{p.estado}}</span>
             </div>
@@ -183,7 +184,7 @@ summary{cursor:pointer}
               </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
-              <div aria-hidden="true" style="position: relative; height: 10px; border-radius: 999px; background: var(--chip)">
+              <div aria-hidden="true" style="position: relative; height: 10px; border-radius: 0; background: var(--chip)">
                 <span style="position: absolute; left: 50%; top: -3px; width: 2px; height: 16px; background: var(--muted)"></span>
                 <span style="{{p.estiloTermo}}"></span>
               </div>
@@ -195,19 +196,19 @@ summary{cursor:pointer}
               <span>{{p.unidades}} habitaciones</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px">
-              <button type="button" onClick="{{p.aplicar}}" style="min-height: 44px; padding: 0 14px; border: 0; border-radius: 10px; background: var(--accent); color: var(--on-accent); font: 800 14px 'Manrope', sans-serif; cursor: pointer">Aplicar recomendación</button>
-              <button type="button" aria-expanded="{{p.expandido}}" onClick="{{p.toggle}}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 700 14px 'Manrope', sans-serif; cursor: pointer">{{p.textoToggle}}</button>
+              <button type="button" onClick="{{p.aplicar}}" style="min-height: 44px; padding: 0 14px; border: 0; border-radius: 0; background: var(--ink); color: var(--bg); font: 600 14px Public Sans, system-ui, sans-serif; cursor: pointer">Aplicar recomendación</button>
+              <button type="button" aria-expanded="{{p.expandido}}" onClick="{{p.toggle}}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 0; background: var(--card); color: var(--ink); font: 700 14px Public Sans, system-ui, sans-serif; cursor: pointer">{{p.textoToggle}}</button>
             </div>
             <sc-if value="{{p.abierto}}" hint-placeholder-val="{{false}}">
               <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line)">
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end">
                   <div style="display: flex; flex-direction: column; gap: 4px">
                     <label for="{{p.idInput}}" style="font-size: 12px; font-weight: 700; color: var(--muted)">Precio publicado hoy (ARS por noche)</label>
-                    <input id="{{p.idInput}}" type="number" step="1000" value="{{p.precio}}" onChange="{{p.setPrecio}}" style="min-height: 44px; width: 160px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 700 16px 'Manrope', sans-serif; box-sizing: border-box">
+                    <input id="{{p.idInput}}" type="number" step="1000" value="{{p.precio}}" onChange="{{p.setPrecio}}" style="min-height: 44px; width: 160px; padding: 0 12px; border: 1px solid var(--line); border-radius: 0; background: var(--card); color: var(--ink); font: 700 16px Public Sans, system-ui, sans-serif; box-sizing: border-box">
                   </div>
                   <div style="display: flex; flex-direction: column; gap: 4px">
                     <span style="font-size: 12px; font-weight: 700; color: var(--muted)">Recomendado</span>
-                    <span style="font-family: 'Archivo', sans-serif; font-size: 22px; font-weight: 800; min-height: 44px; display: flex; align-items: center">{{p.recTexto}}</span>
+                    <span style="font-family: Newsreader, Georgia, serif; font-size: 22px; font-weight: 500; min-height: 44px; display: flex; align-items: center">{{p.recTexto}}</span>
                   </div>
                 </div>
                 <span style="font-size: 12px; font-weight: 700; color: var(--muted)">Precio recomendado mes a mes, frente al de hoy</span>
@@ -229,16 +230,16 @@ summary{cursor:pointer}
       </div>
     </section>
 
-    <details style="background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px">
-      <summary style="font-weight: 800; font-size: 16px; min-height: 28px">Ajustes avanzados</summary>
+    <details style="background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; padding: 16px 0 0">
+      <summary style="font-weight: 650; font-size: 16px; min-height: 28px">Ajustes avanzados</summary>
       <div style="display: flex; flex-wrap: wrap; gap: 28px; padding-top: 16px">
         <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px">
-          <div style="display: flex; justify-content: space-between"><label for="sens" style="font-weight: 700">Sensibilidad</label><output for="sens" style="font-weight: 800">{{sensTexto}}</output></div>
+          <div style="display: flex; justify-content: space-between"><label for="sens" style="font-weight: 700">Sensibilidad</label><output for="sens" style="font-weight: 650">{{sensTexto}}</output></div>
           <input id="sens" type="range" min="0" max="1" step="0.1" value="{{sens}}" onChange="{{setSens}}" style="width: 100%; accent-color: var(--accent)">
           <span style="font-size: 13px; color: var(--muted); line-height: 1.5">Cuánto seguís a la demanda. Con 0,5, si el mes viene 10 % más fuerte que lo normal, el precio sube 5 %.</span>
         </div>
         <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px">
-          <div style="display: flex; justify-content: space-between"><label for="tope" style="font-weight: 700">Tope de ajuste</label><output for="tope" style="font-weight: 800">± {{tope}} %</output></div>
+          <div style="display: flex; justify-content: space-between"><label for="tope" style="font-weight: 700">Tope de ajuste</label><output for="tope" style="font-weight: 650">± {{tope}} %</output></div>
           <input id="tope" type="range" min="5" max="50" step="5" value="{{tope}}" onChange="{{setTope}}" style="width: 100%; accent-color: var(--accent)">
           <span style="font-size: 13px; color: var(--muted); line-height: 1.5">Lo máximo que se mueve un precio en un mes, para arriba o para abajo.</span>
         </div>
@@ -329,21 +330,21 @@ class Component extends DCLogic {
           var hpx = Math.min(34, Math.abs(c) / Math.max(tope, 0.05) * 34);
           return {
             titulo: MES_L[i] + ': ' + pesos(r) + ' (' + (c >= 0 ? '+' : '−') + Math.abs(Math.round(c * 100)) + ' %)',
-            estilo: 'position: absolute; left: 15%; right: 15%; border-radius: 3px; ' + (c >= 0 ? 'bottom: 35px; ' : 'top: 36px; ') + 'height: ' + Math.max(2, hpx).toFixed(0) + 'px; background: ' + (c >= 0 ? 'var(--sube)' : 'var(--baja)') + (i === m ? '' : '; opacity: 0.55')
+            estilo: 'position: absolute; left: 15%; right: 15%; border-radius: 0; ' + (c >= 0 ? 'bottom: 35px; ' : 'top: 36px; ') + 'height: ' + Math.max(2, hpx).toFixed(0) + 'px; background: ' + (c >= 0 ? 'var(--sube)' : 'var(--baja)') + (i === m ? '' : '; opacity: 0.55')
           };
         }) : [];
         pubs.push({
           num: numHotel, hotel: h.nombre, tipo: p[1], capacidad: p[2], unidades: p[3],
           estado: pub ? 'Publicada' : 'Pausada',
-          estiloEstado: 'flex: none; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; ' + (pub ? 'background: var(--accent-soft); color: var(--accent)' : 'background: var(--chip); color: var(--muted)'),
-          estiloCard: 'background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 4px 0 ' + col + (pub ? '' : '; opacity: 0.72'),
+          estiloEstado: 'flex: none; padding: 4px 10px; border-radius: 0; font-size: 12px; font-weight: 650; ' + (pub ? 'background: var(--accent-soft); color: var(--accent)' : 'background: var(--chip); color: var(--muted)'),
+          estiloCard: 'background: var(--card); border: 1px solid var(--line); border-radius: 0; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 4px 0 ' + col + (pub ? '' : '; opacity: 0.72'),
           sube: dir === 'sube', baja: dir === 'baja', igual: dir === 'igual',
-          estiloFlecha: 'flex: none; width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: ' + soft + '; color: ' + col,
+          estiloFlecha: 'flex: none; width: 60px; height: 60px; border-radius: 0; display: flex; align-items: center; justify-content: center; background: ' + soft + '; color: ' + col,
           verbo: dir === 'sube' ? 'Subí ' + pctTxt : dir === 'baja' ? 'Bajá ' + pctTxt : 'Mantené el precio',
-          estiloVerbo: "font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 800; color: " + col,
+          estiloVerbo: "font-family: Public Sans, system-ui, sans-serif; font-size: 24px; font-weight: 650; color: " + col,
           motivo: motivo,
           tituloPrecio: 'Hoy ' + pesos(precio) + ' por noche → recomendado ' + pesos(rec),
-          estiloTermo: 'position: absolute; top: 0; bottom: 0; border-radius: 999px; background: ' + (pos >= 0 ? 'var(--sube)' : 'var(--baja)') + '; ' + (pos >= 0 ? 'left: 50%; width: ' + (pos / 25 * 50).toFixed(1) + '%' : 'right: 50%; width: ' + (-pos / 25 * 50).toFixed(1) + '%'),
+          estiloTermo: 'position: absolute; top: 0; bottom: 0; border-radius: 0; background: ' + (pos >= 0 ? 'var(--sube)' : 'var(--baja)') + '; ' + (pos >= 0 ? 'left: 50%; width: ' + (pos / 25 * 50).toFixed(1) + '%' : 'right: 50%; width: ' + (-pos / 25 * 50).toFixed(1) + '%'),
           expandido: abierto ? 'true' : 'false', abierto: abierto, textoToggle: abierto ? 'Ocultar detalle' : 'Ver mes a mes',
           toggle: function () { self.setState({ abierto: abierto ? null : id }); },
           aplicar: function () { var np = Object.assign({}, self.state.precios); np[id] = Math.round(rec / 100) * 100; self.setState({ precios: np }); },
@@ -369,15 +370,15 @@ class Component extends DCLogic {
           var dvx = Math.round(REG[r].dv[i]);
           return {
             titulo: MES_L[i] + ' en ' + r + ': ' + Math.round(x / 1000) + ' mil viajeros (' + (dvx >= 0 ? '+' : '−') + Math.abs(dvx) + ' % frente a lo normal)',
-            estilo: 'display: block; height: 40px; border-radius: 8px; background: ' + esc[lv] + (i === m ? '; box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--accent)' : '')
+            estilo: 'display: block; height: 40px; border-radius: 0; background: ' + esc[lv] + (i === m ? '; box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--accent)' : '')
           };
         })
       };
     });
 
-    var div = function (dv) { return dv >= 5 ? '#1D4ED8' : dv >= 1 ? '#93B4F5' : dv > -1 ? '#CBD5E1' : dv > -5 ? '#F6B58F' : '#C2410C'; };
+    var div = function (dv) { return dv >= 5 ? '#1D4ED8' : dv >= 1 ? '#93B4F5' : dv > -1 ? '#D2D2D7' : dv > -5 ? '#F6B58F' : '#C2410C'; };
     var colores = {};
-    Object.keys(REG).forEach(function (r) { colores[r] = regionesCadena.indexOf(r) >= 0 ? div(REG[r].dv[m]) : (oscuro ? '#1C2940' : '#E5EAF0'); });
+    Object.keys(REG).forEach(function (r) { colores[r] = regionesCadena.indexOf(r) >= 0 ? div(REG[r].dv[m]) : (oscuro ? '#2C2C2E' : '#E8E8ED'); });
 
     var C = 2 * Math.PI * 46, tot = Math.max(1, n);
     var lS = res.sube / tot * C, lI = res.igual / tot * C, lB = res.baja / tot * C;
@@ -391,12 +392,12 @@ class Component extends DCLogic {
       meses: MES_C.map(function (c, i) {
         var on = i === m;
         return { corto: c + ' ' + MES_L[i].slice(-2), ini: c, pressed: on ? 'true' : 'false', pick: function () { self.setState({ mes: i }); },
-          estilo: 'flex: none; min-height: 44px; min-width: 64px; padding: 0 12px; border-radius: 10px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; border: 1px solid ' + (on ? 'var(--accent)' : 'var(--line)') + '; background: ' + (on ? 'var(--accent)' : 'var(--card)') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+          estilo: 'flex: none; min-height: 44px; min-width: 64px; padding: 0 12px; border-radius: 0; cursor: pointer; font: ' + (on ? '600' : '600') + ' 14px Public Sans, system-ui, sans-serif; border: 1px solid ' + (on ? 'var(--ink)' : 'var(--line)') + '; background: ' + (on ? 'var(--ink)' : 'var(--card)') + '; color: ' + (on ? 'var(--card)' : 'var(--ink)') };
       }),
       escenarios: ['Optimista', 'Base', 'Pesimista'].map(function (n) {
         var on = n === esc;
         return { nombre: n, pressed: on ? 'true' : 'false', pick: function () { self.setState({ esc: n }); },
-          estilo: 'min-height: 36px; padding: 0 14px; border: 0; border-radius: 9px; cursor: pointer; font: ' + (on ? '800' : '600') + ' 14px Manrope, sans-serif; background: ' + (on ? 'var(--accent)' : 'transparent') + '; color: ' + (on ? 'var(--on-accent)' : 'var(--ink)') };
+          estilo: 'min-height: 36px; padding: 0 14px; border: 0; border-radius: 0; cursor: pointer; font: ' + (on ? '600' : '600') + ' 14px Public Sans, system-ui, sans-serif; background: ' + (on ? 'var(--ink)' : 'transparent') + '; color: ' + (on ? 'var(--bg)' : 'var(--ink)') };
       }),
       opHoteles: [{ v: 'todos', t: 'Todos los hoteles' }].concat(cad.hoteles.map(function (h) { return { v: h.id, t: h.nombre }; })),
       opRegiones: [{ v: 'todas', t: 'Todas mis regiones' }].concat(regionesCadena.map(function (r) { return { v: r, t: r }; })),
@@ -414,7 +415,7 @@ class Component extends DCLogic {
       errores: regsVista.map(function (r) { return r + ' ± ' + REG[r].err + ' %'; }).join(' · '),
       mapa: {
         colores: colores, sel: fRegion === 'todas' ? null : fRegion, hover: null,
-        borde: oscuro ? '#131D2E' : '#FFFFFF', marca: oscuro ? '#EDF2F8' : '#0E1A2B', tinta: oscuro ? '#EDF2F8' : '#0E1A2B',
+        borde: oscuro ? '#1C1C1E' : '#FFFFFF', marca: oscuro ? '#F5F5F7' : '#1D1D1F', tinta: oscuro ? '#F5F5F7' : '#1D1D1F',
         onPick: function (r) { if (regionesCadena.indexOf(r) >= 0) { self.setState({ region: r, hotel: 'todos' }); try { window.localStorage.setItem('pt_region', r); } catch (x) {} } },
         pines: cad.hoteles.map(function (h, i) { return { num: i + 1, x: h.x, y: h.y, activo: hoteles.indexOf(h) >= 0 }; })
       },

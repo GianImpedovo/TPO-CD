@@ -16,12 +16,12 @@ Es un diseño, no la app: los botones "Recalcular", "Calcular" y "Aplicar" no ll
 | Perfil del turista | `fuentes/Perfil.dc.html` | Probabilidad de alojarse en hotel según el perfil del viaje | `POST /hotel` |
 | Componente mapa | `fuentes/MapaArgentina.dc.html` | Mapa por las 7 regiones de la EOH, reutilizado en Panel y Mi negocio | `GET /regiones` |
 
-`fuentes/` es una copia de los archivos del artifact (versión del 25-10-2026). Solo se ven dentro de Claude Design: para mirar el diseño usar el link de arriba.
+`fuentes/` es una copia de los archivos del artifact (versión del 27-10-2026). Solo se ven dentro de Claude Design: para mirar el diseño usar el link de arriba.
 
 ## Decisiones de diseño
 
 - **Visual primero, pocos números:** 2 o 3 cifras grandes por pantalla y el detalle al pasar el mouse o al expandir.
-- **Una sola paleta** en todas las pantallas: violeta `#6D28D9` y ámbar `#F59E0B`. Los datos van en una escala azul (mapa y calendario) y en azul/naranja (sube/baja, escenarios). Tiene modo oscuro.
+- **Estilo informe de temporada** (elegido el 27-10-2026 entre 3 propuestas para Entrar y aplicado a todas las pantallas): papel blanco roto `#FAFAF8`, tinta `#1D1D1F`, títulos con serifa (Newsreader) y texto en Public Sans, secciones separadas por filetes en vez de tarjetas, cabecera arriba con filete de 2 px, esquinas rectas. Azul `#0A66D8` solo para el dato destacado; los datos van en escala azul (mapa y calendario) y azul/naranja (sube/baja). Tiene modo oscuro.
 - **7 regiones de la EOH** (INDEC, Metodología N.º 34): La Rioja va en Cuyo y La Pampa en Patagonia. Es la misma tabla que `src/regiones.py`.
 - **Ventana de pronóstico:** los 12 meses desde hoy (nov 2026 – oct 2027). Los meses entre el último dato real y hoy se muestran como "puente estimado".
 - **Escenarios económicos:** solo cambian el total país. El modelo regional (basado en el trabajo de Tina) no usa variables macro.

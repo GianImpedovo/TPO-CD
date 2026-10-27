@@ -8,62 +8,68 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600&amp;display=swap">
 <style>
-body{margin:0;background:#F2F5F9;font-family:'Manrope',system-ui,sans-serif}
-.tema{--bg:#F2F5F9;--card:#FFFFFF;--ink:#0E1A2B;--muted:#4B5A6A;--line:#D9E1EA;--chip:#E8EEF5}
-.tema.oscuro{--bg:#0B1220;--card:#131D2E;--ink:#EDF2F8;--muted:#A7B4C4;--line:#26344A;--chip:#1C2940}
-.tema{--accent:#6D28D9;--accent-2:#F59E0B;--accent-soft:#EDE9FE;--on-accent:#FFFFFF;--side:#2E1065;--side-2:#4C1D95;--side-ink:#F5F3FF;--side-muted:#C4B5FD}
-.tema.oscuro{--accent:#A78BFA;--accent-soft:#2A1B4D;--on-accent:#1E0B3F;--side:#170736;--side-2:#2A1259}
-h1,h2{font-family:'Archivo','Arial Narrow',system-ui,sans-serif}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
-input:focus{outline:none}
+body{margin:0;background:#FAFAF8;font-family:'Public Sans',system-ui,sans-serif}
+::selection{background:#1D1D1F;color:#FAFAF8}
+button:focus-visible,a:focus-visible{outline:2px solid #0A66D8;outline-offset:3px}
+a{color:#1D1D1F}a:hover{color:#0A66D8}
 </style>
 </helmet>
-<div class="{{clase}}" style="min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif">
-  <section aria-label="Presentación" style="flex: 1 1 420px; background: var(--side); color: var(--side-ink); padding: clamp(32px, 6vw, 72px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 40px">
-    <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px">Pronóstico Turismo</span>
-    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 520px">
-      <span aria-hidden="true" style="width: 88px; height: 88px; border-radius: 24px; background: var(--accent-2); color: #2A1600; display: flex; align-items: center; justify-content: center">
-        <sc-if value="{{esAndina}}" hint-placeholder-val="{{true}}"><svg width="52" height="52" viewBox="0 0 24 24"><path d="M2 20 9 7l4 7 3-4 6 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="m7.5 10 1.5 1.5 1.5-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
-        <sc-if value="{{esPampa}}" hint-placeholder-val="{{false}}"><svg width="52" height="52" viewBox="0 0 24 24"><circle cx="12" cy="13" r="4.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M2 18h20M12 4v2.5M4.5 7.5l1.8 1.8M19.5 7.5l-1.8 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></sc-if>
-      </span>
-      <h1 style="margin: 0; font-size: clamp(32px, 4vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em">Sabé cuánta gente viene y a qué precio publicar.</h1>
-      <p style="margin: 0; font-size: 17px; line-height: 1.55; color: var(--side-muted)">Pronóstico de viajeros por región para los próximos 12 meses y precios recomendados para cada habitación de tu cadena.</p>
-    </div>
-    <span style="font-size: 13px; color: var(--side-muted)">Datos oficiales: INDEC (EOH), Ministerio de Turismo, BCRA</span>
-  </section>
+<div style="min-height: 900px; display: flex; flex-direction: column; background: #FAFAF8; color: #1D1D1F; font-family: 'Public Sans', system-ui, sans-serif; padding: 0 clamp(20px, 4vw, 64px); box-sizing: border-box">
 
-  <main style="flex: 1 1 420px; padding: clamp(32px, 6vw, 72px); box-sizing: border-box; display: flex; align-items: center; justify-content: center">
-    <form style="width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 22px">
-      <div style="display: flex; flex-direction: column; gap: 6px">
-        <h2 style="margin: 0; font-size: 28px; font-weight: 800">Entrar</h2>
-        <p style="margin: 0; font-size: 15px; color: var(--muted)">Elegí tu cadena para ver tus hoteles.</p>
-      </div>
-      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
-        <legend style="font-size: 14px; font-weight: 700; margin-bottom: 8px">Cadena</legend>
+  <header style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding: 28px 0 14px; border-bottom: 2px solid #1D1D1F">
+    <span style="font-family: 'Newsreader', serif; font-size: 24px; font-weight: 600; letter-spacing: -0.01em">Pronóstico Turismo</span>
+    <span style="font-size: 13px; color: #5C5C61">Temporada nov 2026 – oct 2027 · Datos INDEC (EOH)</span>
+  </header>
+
+  <div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 0">
+    <section aria-labelledby="t-b" style="flex: 8 1 560px; padding: 56px 56px 48px 0; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; border-right: 1px solid #D2D2D7">
+      <h1 id="t-b" style="margin: 0; font-family: 'Newsreader', serif; font-size: clamp(48px, 5.6vw, 84px); line-height: 1; font-weight: 500; letter-spacing: -0.03em; max-width: 14ch; text-wrap: balance">Cuánta gente viaja, mes a mes, y a qué precio publicar.</h1>
+
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px">
+        <figcaption style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px">
+          <span><b style="font-weight: 600">15,0 M viajeros</b> en hoteles del país, escenario Base</span>
+          <span style="color: #5C5C61">Picos en enero y julio</span>
+        </figcaption>
+        <div role="img" aria-label="Viajeros por mes, noviembre 2026 a octubre 2027: picos en enero y julio" style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; align-items: end; height: 200px; border-bottom: 1px solid #1D1D1F">
+          <sc-for list="{{barras}}" as="b" hint-placeholder-count="12">
+            <span style="{{b.estilo}}"></span>
+          </sc-for>
+        </div>
+        <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; font-size: 12px; color: #5C5C61; text-align: center">
+          <sc-for list="{{barras}}" as="b" hint-placeholder-count="12">
+            <span style="{{b.rotulo}}">{{b.mes}}</span>
+          </sc-for>
+        </div>
+      </figure>
+    </section>
+
+    <main style="flex: 4 1 340px; padding: 56px 0 48px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+      <h2 style="margin: 0; font-family: 'Newsreader', serif; font-size: 32px; font-weight: 500; letter-spacing: -0.02em">Entrar</h2>
+      <fieldset style="margin: 0; padding: 0; border: 0">
+        <legend style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #5C5C61; padding-bottom: 10px">Cadena</legend>
         <sc-for list="{{cadenas}}" as="c" hint-placeholder-count="2">
           <button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="{{c.estilo}}">
-            <span style="{{c.badge}}">{{c.ini}}</span>
-            <span style="display: flex; flex-direction: column; gap: 2px; text-align: left; flex: 1 1 auto">
-              <span style="font-size: 16px; font-weight: 800">{{c.nombre}}</span>
-              <span style="font-size: 13px; font-weight: 500; color: var(--muted)">{{c.detalle}}</span>
+            <span style="display: flex; flex-direction: column; gap: 4px; text-align: left; flex: 1 1 auto">
+              <span style="font-family: 'Newsreader', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.01em">{{c.nombre}}</span>
+              <span style="font-size: 14px; color: #5C5C61">{{c.detalle}}</span>
             </span>
-            <span style="{{c.check}}"></span>
+            <span style="{{c.check}}">{{c.marca}}</span>
           </button>
         </sc-for>
       </fieldset>
       <div style="display: flex; flex-direction: column; gap: 6px">
-        <label for="mail" style="font-size: 14px; font-weight: 700">Correo</label>
-        <input id="mail" type="email" value="{{mail}}" readonly="readonly" style="min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); font: 600 15px 'Manrope', sans-serif; box-sizing: border-box">
+        <span style="font-size: 13px; color: #5C5C61">Correo</span>
+        <span style="font-size: 16px; padding-bottom: 8px; border-bottom: 1px solid #D2D2D7">{{act.mail}}</span>
       </div>
-      <a href="MiNegocio.dc.html" onClick="{{entrar}}" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 12px; background: var(--accent); color: var(--on-accent); font-size: 17px; font-weight: 800; text-decoration: none">Entrar como {{nombreCorto}}</a>
-      <p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.5; color: var(--muted)">Demo: las cadenas, hoteles y precios son ficticios y no se pide contraseña.</p>
-    </form>
-  </main>
+      <a href="MiNegocio.dc.html" onClick="{{entrar}}" style="display: flex; align-items: center; justify-content: center; min-height: 52px; background: #1D1D1F; color: #FAFAF8; font-size: 16px; font-weight: 600; text-decoration: none">Entrar como {{act.nombre}}</a>
+      <p style="margin: 0; font-size: 13px; line-height: 1.55; color: #5C5C61">Demo: las cadenas, los hoteles y los precios son ficticios y no se pide contraseña. Las cifras del país salen del modelo con datos de INDEC, Ministerio de Turismo y BCRA.</p>
+    </main>
+  </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"oscuro":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -73,25 +79,28 @@ class Component extends DCLogic {
   }
   renderVals() {
     var self = this, sel = this.state.cadena;
-    var oscuro = this.props.oscuro ?? false;
-    var C = [
-      { id: 'andina', nombre: 'Cadena Andina', ini: 'CA', detalle: '4 hoteles · Patagonia, Cuyo y Norte', mail: 'gerencia@cadenaandina.demo', color: 'var(--accent)' },
-      { id: 'pampa', nombre: 'Grupo Pampa Hoteles', ini: 'GP', detalle: '2 hoteles · Buenos Aires y Córdoba', mail: 'gerencia@grupopampa.demo', color: 'var(--accent)' }
-    ];
-    var act = C[0].id === sel ? C[0] : C[1];
+    // Total país, escenario Base (modelo nacional), nov-2026 a oct-2027
+    var V = [1351876, 1129805, 1554336, 1422709, 1272108, 1102488, 1016887, 995761, 1471711, 1187099, 1195865, 1257208];
+    var M = ['N', 'D', 'E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O'];
+    var max = Math.max.apply(null, V);
+    var C = {
+      andina: { nombre: 'Cadena Andina', detalle: '4 hoteles · Patagonia, Cuyo y Norte', mail: 'gerencia@cadenaandina.demo' },
+      pampa: { nombre: 'Grupo Pampa Hoteles', detalle: '2 hoteles · Buenos Aires y Córdoba', mail: 'gerencia@grupopampa.demo' }
+    };
     return {
-      clase: 'tema ' + sel + (oscuro ? ' oscuro' : ''),
-      esAndina: sel === 'andina', esPampa: sel === 'pampa',
-      mail: act.mail, nombreCorto: act.nombre,
-      cadenas: C.map(function (c) {
-        var on = c.id === sel;
-        return {
-          ini: c.ini, nombre: c.nombre, detalle: c.detalle, pressed: on ? 'true' : 'false',
-          pick: function () { self.setState({ cadena: c.id }); },
-          estilo: 'display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 12px 16px; border-radius: 14px; cursor: pointer; font-family: Manrope, sans-serif; color: var(--ink); background: var(--card); border: 2px solid ' + (on ? c.color : 'var(--line)') + (on ? '; box-shadow: 0 6px 18px rgba(14,26,43,0.10)' : ''),
-          badge: 'flex: none; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font: 800 16px Archivo, sans-serif; color: #FFFFFF; background: ' + c.color,
-          check: 'flex: none; width: 22px; height: 22px; border-radius: 50%; box-sizing: border-box; border: 2px solid ' + (on ? c.color : 'var(--line)') + '; background: ' + (on ? c.color : 'transparent') + (on ? '; box-shadow: inset 0 0 0 4px var(--card)' : '')
-        };
+      act: C[sel],
+      barras: V.map(function (v, i) {
+        var pico = i === 2 || i === 8;
+        return { mes: M[i],
+          estilo: 'display: block; height: ' + (v / max * 100).toFixed(1) + '%; background: ' + (pico ? '#0A66D8' : '#C7C7CC'),
+          rotulo: pico ? 'color: #0A66D8; font-weight: 600' : '' };
+      }),
+      cadenas: ['andina', 'pampa'].map(function (id) {
+        var c = C[id], on = id === sel;
+        return { nombre: c.nombre, detalle: c.detalle, pressed: on ? 'true' : 'false', marca: on ? 'Elegida' : '',
+          pick: function () { self.setState({ cadena: id }); },
+          estilo: 'display: flex; align-items: center; gap: 16px; width: 100%; min-height: 80px; padding: 0; border: 0; border-top: 1px solid ' + (on ? '#1D1D1F' : '#D2D2D7') + '; cursor: pointer; font-family: inherit; color: #1D1D1F; background: transparent; box-shadow: ' + (on ? 'inset 0 2px 0 #1D1D1F' : 'none'),
+          check: 'font-size: 12px; font-weight: 600; color: #0A66D8; min-width: 52px; text-align: right' };
       }),
       entrar: function () { try { window.localStorage.setItem('pt_cadena', sel); } catch (e) {} }
     };

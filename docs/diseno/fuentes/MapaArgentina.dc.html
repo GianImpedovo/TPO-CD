@@ -8,12 +8,13 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
 <style>
 body{margin:0}
+.nav{flex:0 0 100% !important;max-width:none !important;flex-direction:row !important;flex-wrap:wrap !important;align-items:center !important;gap:8px 40px !important;padding:22px clamp(20px,4vw,64px) 0 !important;border-right:0 !important;background:var(--bg) !important}.nav::after{content:'';flex-basis:100%;height:2px;background:var(--ink);margin-top:6px}.nav>div:first-child>span:first-child{display:none !important}.nav>div:first-child>div{flex-direction:row !important;align-items:baseline !important;gap:12px !important}.nav>div:first-child>div>span:first-child{font-family:Newsreader, Georgia, serif !important;font-size:24px !important;font-weight:600 !important}.nav>div:nth-child(2){flex-direction:row !important;flex-wrap:wrap;gap:0 28px !important}.nav>div:last-child{margin-top:0 !important;margin-left:auto;flex-direction:row !important;align-items:center}.nav>div:last-child>span{display:none}.nav svg{display:none}.nav a{padding:0 !important;background:none !important;color:var(--ink) !important;font-weight:400 !important}.nav a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--ink) !important;font-weight:600 !important}h1,h2,h3{font-family:Newsreader, Georgia, serif;font-weight:500 !important}::selection{background:var(--ink);color:var(--bg)}
 </style>
 </helmet>
-<div style="position: relative; width: 100%; font-family: 'Manrope', system-ui, sans-serif; color: #0E1A2B">
+<div style="position: relative; width: 100%; font-family: Public Sans, system-ui, sans-serif; color: #1D1D1F">
   <svg viewBox="0 0 404 826" role="img" aria-label="Mapa de Argentina dividido en las 7 regiones turísticas de la EOH" style="width: 100%; height: auto; display: block">
     <path d="M136.2,257.2L149.3,260.6L150.6,259.0L154.7,260.0L156.6,258.0L163.3,258.2L170.6,262.8L171.2,268.5L176.3,267.8L176.7,268.5L176.9,277.2L175.2,284.8L172.5,289.4L173.2,357.0L144.1,357.1L147.2,336.4L145.6,328.9L141.9,322.5L141.7,318.0L140.8,317.2L141.3,314.4L142.6,313.9L143.6,307.9L139.6,304.8L134.7,295.9L132.8,282.0L134.1,278.9L131.6,273.6L132.0,267.7L130.0,265.7L130.0,257.5Z" fill="{{pv.SanLuis.fill}}" stroke="{{pv.SanLuis.st}}" stroke-width="{{pv.SanLuis.sw}}" opacity="{{pv.SanLuis.op}}" onMouseEnter="{{pv.SanLuis.enter}}" onClick="{{pv.SanLuis.pick}}" style="cursor: pointer"></path>
     <path d="M250.3,164.2L291.4,164.2L290.2,167.5L288.0,167.3L287.1,169.6L288.2,176.1L285.4,189.1L282.6,191.1L281.4,193.7L279.7,194.2L279.3,196.6L277.7,197.9L276.6,208.7L278.4,212.6L277.1,218.2L275.7,219.0L276.5,221.3L275.4,222.3L276.8,224.8L276.3,228.0L277.1,229.6L270.9,239.4L270.1,242.3L268.2,243.5L267.5,247.2L263.9,249.7L263.9,251.2L261.3,253.4L258.0,254.4L257.7,258.5L256.5,259.8L257.7,262.3L257.3,268.3L255.4,272.9L257.3,282.3L260.8,287.9L264.4,289.2L265.4,291.4L262.4,296.0L261.4,300.0L259.6,300.3L254.6,297.8L253.5,298.1L237.5,318.1L215.4,318.2L233.7,287.6L236.2,284.9L236.1,279.3L234.9,277.4L233.2,277.0L234.3,275.4L233.8,272.6L231.5,267.0L228.5,263.4L229.0,260.3L227.6,253.4L229.9,251.1L235.2,230.4L229.7,224.0L237.7,164.2Z" fill="{{pv.SantaFe.fill}}" stroke="{{pv.SantaFe.st}}" stroke-width="{{pv.SantaFe.sw}}" opacity="{{pv.SantaFe.op}}" onMouseEnter="{{pv.SantaFe.enter}}" onClick="{{pv.SantaFe.pick}}" style="cursor: pointer"></path>
@@ -40,7 +41,7 @@ body{margin:0}
     <path d="M29.0,667.9L32.2,665.4L31.2,658.0L33.9,658.6L35.7,655.6L35.1,654.7L37.0,655.0L38.0,654.0L36.3,651.9L36.6,650.1L35.4,648.0L33.8,647.8L34.2,645.5L32.3,644.7L33.4,641.7L32.4,640.0L33.9,640.1L34.3,638.1L36.4,636.4L35.8,633.1L42.3,629.3L41.9,626.9L44.9,627.7L44.9,625.3L43.2,624.0L44.5,622.4L43.1,621.5L43.1,617.7L45.4,617.2L49.1,614.5L46.9,606.4L47.5,604.6L43.9,601.4L47.7,600.2L49.0,598.0L125.9,598.0L125.6,603.6L128.9,611.3L134.9,615.1L141.2,622.1L152.5,624.2L157.4,623.9L161.3,627.0L161.2,634.4L159.3,640.1L156.1,639.8L150.9,643.1L158.5,640.5L158.9,643.2L160.7,645.0L157.7,644.8L156.6,647.5L158.2,648.7L153.9,649.2L153.2,650.8L149.8,652.9L149.7,655.1L147.7,654.7L146.8,656.3L141.9,657.6L139.6,660.5L134.8,662.8L133.1,666.4L126.7,670.7L125.2,673.7L125.6,674.8L123.2,677.0L123.6,678.0L122.1,678.2L122.6,679.5L121.3,679.7L123.9,679.4L124.6,676.5L125.6,676.4L125.8,677.4L123.4,689.0L121.0,693.6L115.6,696.9L111.8,697.4L106.1,689.1L107.4,692.9L100.5,694.4L107.2,693.6L108.9,696.6L111.5,698.1L101.5,702.5L97.8,708.1L96.8,716.1L90.4,721.3L96.1,718.1L100.0,732.3L96.7,733.1L92.7,731.8L87.5,733.6L92.9,732.7L97.0,734.3L100.0,733.6L104.8,742.2L111.6,750.4L110.0,752.2L110.3,750.7L102.3,749.3L95.6,746.3L90.0,746.3L80.4,742.7L43.8,742.6L41.7,741.9L43.6,740.7L43.2,739.5L40.0,736.5L36.6,735.4L36.1,732.7L33.9,732.6L36.1,730.0L36.4,727.4L35.2,726.6L37.4,724.7L34.5,721.1L35.2,719.1L37.2,719.4L37.6,715.5L35.6,712.3L36.8,710.3L33.0,708.9L31.0,710.9L28.4,709.3L22.0,713.5L18.2,714.3L17.9,712.3L20.0,710.7L18.2,710.1L16.4,706.2L15.1,706.1L15.6,705.3L14.2,702.3L12.6,701.0L14.1,695.7L12.5,694.9L13.7,693.6L12.8,692.6L15.0,688.6L13.6,687.3L14.5,685.3L12.9,683.3L15.2,679.8L15.5,678.0L13.9,676.8L14.3,675.2L22.4,676.9L20.8,676.8L20.5,674.9L23.5,670.1L24.8,668.8L27.2,669.6Z" fill="{{pv.SantaCruz.fill}}" stroke="{{pv.SantaCruz.st}}" stroke-width="{{pv.SantaCruz.sw}}" opacity="{{pv.SantaCruz.op}}" onMouseEnter="{{pv.SantaCruz.enter}}" onClick="{{pv.SantaCruz.pick}}" style="cursor: pointer"></path>
     <line x1="303" y1="321" x2="346" y2="296" stroke="{{tinta}}" stroke-width="1"></line>
     <circle cx="300.7" cy="323" r="8" fill="{{pv.CABA.fill}}" stroke="{{pv.CABA.st}}" stroke-width="2" opacity="{{pv.CABA.op}}" onMouseEnter="{{pv.CABA.enter}}" onClick="{{pv.CABA.pick}}" style="cursor: pointer"></circle>
-    <text x="349" y="294" fill="{{tinta}}" font-size="13" font-weight="700" font-family="Manrope, sans-serif">CABA</text>
+    <text x="349" y="294" fill="{{tinta}}" font-size="13" font-weight="700" font-family="Public Sans, system-ui, sans-serif">CABA</text>
   </svg>
   <sc-for list="{{pines}}" as="p" hint-placeholder-count="0">
     <span style="{{p.estilo}}">{{p.num}}</span>
@@ -61,7 +62,7 @@ class Component extends DCLogic {
     var d = this.props.datos || {};
     var colores = d.colores || { 'Buenos Aires': '#93BBFA', 'CABA': '#93BBFA', 'Córdoba': '#2F6FE0', 'Cuyo': '#DCEAFE', 'Litoral': '#5491F0', 'Norte': '#93BBFA', 'Patagonia': '#1A3E9A' };
     var borde = d.borde || '#FFFFFF';
-    var marca = d.marca || '#0E1A2B';
+    var marca = d.marca || '#1D1D1F';
     var pv = {};
     Object.keys(PROV_REGION).forEach(function (p) {
       var reg = PROV_REGION[p];
@@ -78,10 +79,10 @@ class Component extends DCLogic {
     var pines = (d.pines || []).map(function (p) {
       return {
         num: p.num,
-        estilo: 'position: absolute; left: ' + (p.x / 404 * 100).toFixed(2) + '%; top: ' + (p.y / 826 * 100).toFixed(2) + '%; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 800 13px Manrope, sans-serif; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); background: ' + (p.activo ? marca : '#FFFFFF') + '; color: ' + (p.activo ? '#FFFFFF' : '#0E1A2B') + '; border: 2px solid ' + marca
+        estilo: 'position: absolute; left: ' + (p.x / 404 * 100).toFixed(2) + '%; top: ' + (p.y / 826 * 100).toFixed(2) + '%; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 600 13px Public Sans, system-ui, sans-serif; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,0.3); background: ' + (p.activo ? marca : '#FFFFFF') + '; color: ' + (p.activo ? '#FFFFFF' : '#1D1D1F') + '; border: 2px solid ' + marca
       };
     });
-    return { pv: pv, pines: pines, tinta: d.tinta || '#0E1A2B' };
+    return { pv: pv, pines: pines, tinta: d.tinta || '#1D1D1F' };
   }
 }
 </script>
